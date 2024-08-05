@@ -16,6 +16,7 @@ from inception_ve import inception_v3
 import signal
 
 flag_path = "/data/zbw/MIG/MIG/MIG_Schedule/flag"
+result_path = "/data/zbw/inference_system/MIG_MPS/Result/"
 model_list = {
     "resnet50": resnet50,
     "resnet101": resnet101,
@@ -59,221 +60,95 @@ def get_input(model_name, k):
         return torch.randn(k, input[0], input[1], input[2]).cuda(0)
     else:
         return torch.randn(k, input[0], input[1]).cuda(0)
+
+def handle_valid_data(valid_list, jobs, file_name):
+    file_name = result_path + file_name
+    data = np.array(valid_list)
+    percentile_99 = np.percentile(data, 99)
     
-def modify_first_line(filename, new_content):
-    with open(filename, 'r') as f:
-        lines = f.readlines()
-        f.close()
+    with open(file_name, 'a+') as file:
+        file.write(f"Jobs: {jobs}, 99th percentile: {percentile_99}\n")
 
-    # 修改第一行内容
-    lines[0] = new_content + '\n'
-
-    with open(filename, 'w') as f:
-        f.writelines(lines)
-        f.close()
-
-def check_first_line(filename, expected_content):
-    with open(filename, 'r') as f:
-        first_line = f.readline().strip()  # 读取第一行并删除尾部的换行符
-        if first_line == expected_content:
-            f.close()
-            return True
-        else:
-            f.close()
-            return False 
-       
-        
-def Test_MIG_MPS(task, batch, time1, time2):
-    
-    t = time.time()
-   
-    if task == 'bert':  
-        model = get_model(task)
-        model = model().half().cuda(0).eval()
-    else:
-        model = get_model(task)
-        model = model().cuda(0).eval()
-
-    if task == 'bert':
-        input,masks = get_input(task, batch)
-    else:
-        input = get_input(task, batch)
-
-    flag = True
-    result_list = []
-    num = 1
-
-    while flag:
-        start_time = time.time()
-        if task == 'bert':
-            output= model.run(input,masks,0,12).cpu()
-        elif task == 'deeplabv3':
-            output= model(input)['out'].cpu()
-        else:
-            output=model(input).cpu() 
-        end_time = time.time()
-
-        if (time.time() - t >= time1 and time.time() - t <= time2):
-            result_list.append(end_time - start_time)
-        
-        if time.time() - t >= num * 5:
-            if check_first_line(flag_path, 'True'):
-                modify_first_line(flag_path, 'False')
-                Flag = False
-                break
-            else:
-                num = num + 1
-    data = pd.Series(result_list)
-    data = data.sort_values(ascending=True)
-        
-    return data.quantile(.95)
-
-def Test_MIG(task, batch):
-    if task == 'bert':  
-        model = get_model(task)
-        model = model().half().cuda(0).eval()
-    else:
-        model = get_model(task)
-        model = model().cuda(0).eval()
-
-    if task == 'bert':
-        input,masks = get_input(task, batch)
-    else:
-        input = get_input(task, batch)
-
-    result_list = []
-
-    for i in range(0, 1000):
-        start_time = time.time()
-        if task == 'bert':
-            output= model.run(input,masks,0,12).cpu()
-        elif task == 'deeplabv3':
-            output= model(input)['out'].cpu()
-        else:
-            output=model(input).cpu() 
-        end_time = time.time()
-        result_list.append(end_time - start_time)
-    data = pd.Series(result_list)
-    return data.quantile(.95)
 
 def signal_handler(sig, frame):
     pass
 
 if __name__ == "__main__":
-    path = '/data/zbw/MIG/MIG/ATC-MIG/tmp_result.txt'
     parser = argparse.ArgumentParser()
     parser.add_argument("--task", type=str)
     parser.add_argument("--batch", type=int)
+    parser.add_argument("--concurrent_profile", default=False, type=bool)
+    parser.add_argument("--jobs", default='', type=str)
+    parser.add_argument("--file_name", type=str, default='result')
     args = parser.parse_args()
     task = args.task
     batch = args.batch
-    signal.signal(signal.SIGTERM, signal_handler)
-    if task == 'bert':  
-        model = get_model(task)
-        model = model().half().cuda(0).eval()
-    else:
-        model = get_model(task)
-        model = model().cuda(0).eval()
+    concurrent_profile = args.concurrent_profile
+    jobs = args.jobs
+    file_name = args.file_name
+    start_time = time.time()
 
-    if task == 'bert':
-        input,masks = get_input(task, batch)
-    else:
-        input = get_input(task, batch)
+    if concurrent_profile:
+            signal.signal(signal.SIGTERM, signal_handler)
+            if task == 'bert':  
+                model = get_model(task)
+                model = model().half().cuda(0).eval()
+            else:
+                model = get_model(task)
+                model = model().cuda(0).eval()
 
-    while True:
-        start_time = time.time()
-        if task == 'bert':
-            output= model.run(input,masks,0,12).cpu()
-        elif task == 'deeplabv3':
-            output= model(input)['out'].cpu()
+            if task == 'bert':
+                input,masks = get_input(task, batch)
+            else:
+                input = get_input(task, batch)
+            
+
+            valid_list = []
+            while True:
+                execute_start_time = time.time()
+                if task == 'bert':
+                    output= model.run(input,masks,0,12).cpu()
+                elif task == 'deeplabv3':
+                    output= model(input)['out'].cpu()
+                else:
+                    output=model(input).cpu()
+                execute_end_time = time.time()
+                current_time = time.time()
+                if current_time - start_time <= 30:
+                    continue
+                elif current_time - start_time <= 30 + 60 * 1:
+                    valid_list.append((execute_end_time - execute_start_time) * 1000)
+                else:
+                    break
+
+            handle_valid_data(valid_list, jobs, file_name)
+
+
+
+    else:
+        signal.signal(signal.SIGTERM, signal_handler)
+        if task == 'bert':  
+            model = get_model(task)
+            model = model().half().cuda(0).eval()
         else:
-            output=model(input).cpu()
-        end_time = time.time()
-        print((end_time - start_time) * 1000)
-        break
-        
+            model = get_model(task)
+            model = model().cuda(0).eval()
 
-    # start_time = time.time()
-    # if task == 'bert':
-    #     output= model.run(input,masks,0,12).cpu()
-    # elif task == 'deeplabv3':
-    #     output= model(input)['out'].cpu()
-    # else:
-    #     output=model(input).cpu()
-    # end_time = time.time()
+        if task == 'bert':
+            input,masks = get_input(task, batch)
+        else:
+            input = get_input(task, batch)
 
-    
-      
-        # with open(path, 'a+') as file:
-        #     output = str(end_time - start_time) + "\n"
-        #     file.write(output)
-        #     file.close()
-# if __name__ == "__main__":
-#     path = '/data/zbw/MIG/MIG/MIG_Schedule/jobs/profile/online_profile/'
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument("--config", type=str)
-#     parser.add_argument("--task", type=str)
-#     parser.add_argument("--batch", type=int)
-#     args = parser.parse_args()
-#     config = args.config
-#     task = args.task
-#     batch = args.batch
+        while True:
+            start_time = time.time()
+            if task == 'bert':
+                output= model.run(input,masks,0,12).cpu()
+            elif task == 'deeplabv3':
+                output= model(input)['out'].cpu()
+            else:
+                output=model(input).cpu()
+            end_time = time.time()
+            print((end_time - start_time) * 1000)
+            break
+            
 
-#     result = 0
-#     path = path + task
-#     try:
-#         result = Test_MIG(task=task, batch=batch)
-#     except Exception as e:
-#         result = 'error'
-
-#     with open(path, 'a+') as file:
-#         output = config+" " +  task + " " + str(batch) + " " + str(result) +"\n"
-#         file.write(output)
-#     file.close()
-
-    
-# if __name__ == "__main__":
-#     path = "/data/zbw/MIG/MIG/MIG_Schedule/jobs/profile/result/2_copy"
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument("--config", type=str)
-#     parser.add_argument("--percentage1", type=int)
-#     parser.add_argument("--percentage2", type=int)
-#     parser.add_argument("--task", type=str)
-#     parser.add_argument("--task2", type=str)
-#     parser.add_argument("--batch", type=int)
-#     parser.add_argument("--time1", type=int)
-#     parser.add_argument("--time2", type=int)
-
-#     args = parser.parse_args()
-#     config = args.config  
-#     task = args.task
-#     task2 = args.task2
-#     percentage1 = args.percentage1
-#     percentage2 = args.percentage2
-#     batch = args.batch
-#     time1 = args.time1
-#     time2 = args.time2
-
-#     start = time.time()
-#     result = 0
-
-#     try:
-       
-#         result = Test_MIG_MPS(task=task, batch=batch, time1=time1, time2=time2)
-#     except Exception as e:
-#         result = 'error'
-#         num = 1
-#         flag = True
-#         while flag:
-#             if time.time() - start >= num * 2:
-#                 if check_first_line(flag_path, 'True'):
-#                     modify_first_line(flag_path, 'False')
-#                     flag = False
-#                 else:
-#                     num = num + 1
-    
-    
-#     with open(path, 'a+') as file:
-#         output =  "online "+ config+" " +  task + " " + str(batch) + " " + str(percentage1) + " " + task2  +  " "+ str(percentage2) + " " + str(result) +"\n"
-#         file.write(output)
-#         file.close()
