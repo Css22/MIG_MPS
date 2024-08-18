@@ -13,8 +13,11 @@ from Unet import unet
 from vgg_splited import vgg16, vgg19
 from resnet import resnet50,resnet101,resnet152
 from inception_ve import inception_v3
+from transformer import transformer_layer
 import signal
 
+path = "/data/zbw/inference_system/MIG_MPS/jobs/"
+sys.path.append(path)
 flag_path = "/data/zbw/MIG/MIG/MIG_Schedule/flag"
 result_path = "/data/zbw/inference_system/MIG_MPS/Result/"
 model_list = {
@@ -30,6 +33,7 @@ model_list = {
     # 'open_unmix':open_unmix,
     'alexnet': alexnet,
     'bert': BertModel,
+    'transformer': transformer_layer,
 }
 
 input_list = {
@@ -56,6 +60,11 @@ def get_input(model_name, k):
         input = torch.LongTensor(np.random.rand(k, 1024, 768)).half().cuda(0)
         masks =  torch.LongTensor(np.zeros((k, 1, 1, 1024))).half().cuda(0)
         return input,masks
+    if model_name == 'transformer':
+        input = torch.randn(512, k, 768).cuda(0)  # 随机输入数据
+        masks = torch.ones(512, 512).cuda(0)  # 注意力掩码
+
+        return input,masks
     if len(input) == 3:
         return torch.randn(k, input[0], input[1], input[2]).cuda(0)
     else:
@@ -68,6 +77,11 @@ def handle_valid_data(valid_list, jobs, file_name):
     
     with open(file_name, 'a+') as file:
         file.write(f"Jobs: {jobs}, 99th percentile: {percentile_99}\n")
+
+def get_p95(data):
+    data = np.array(data)
+    percentile_95 = np.percentile(data, 95)
+    return percentile_95
 
 
 def signal_handler(sig, frame):
@@ -130,23 +144,34 @@ if __name__ == "__main__":
         if task == 'bert':  
             model = get_model(task)
             model = model().half().cuda(0).eval()
+        
         else:
             model = get_model(task)
             model = model().cuda(0).eval()
 
         if task == 'bert':
             input,masks = get_input(task, batch)
+        elif task == 'transformer':
+            input,masks = get_input(task, batch)
         else:
             input = get_input(task, batch)
 
+
+        data = []
         while True:
             start_time = time.time()
             if task == 'bert':
                 output= model.run(input,masks,0,12).cpu()
+            elif task == 'transformer':
+
+                outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
             elif task == 'deeplabv3':
                 output= model(input)['out'].cpu()
             else:
                 output=model(input).cpu()
             end_time = time.time()
-            print((end_time - start_time) * 1000)            
+            data.append((end_time - start_time) * 1000)
+            if len(data) % 100 == 0:
+                print(get_p95(data))
+                data = []      
 

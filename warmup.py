@@ -1,4 +1,4 @@
-from Jobs.entry import get_input, get_model
+from jobs.entry import get_input, get_model
 
 def warmup(task, batch):
     if task == 'bert':  
