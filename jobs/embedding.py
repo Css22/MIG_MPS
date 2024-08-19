@@ -5,7 +5,8 @@ import numpy as np
 # 模拟大规模嵌入表
 num_users = 10000000
 num_items = 10000000
-embedding_dim = 256
+embedding_dim = 120
+
 
 # 创建用户和物品嵌入表
 user_embedding = nn.Embedding(num_users, embedding_dim).cuda()
@@ -23,20 +24,21 @@ def get_p99(data):
 
 data= []
 while True:
-    start_time = time.time()
+    with torch.no_grad():
+        start_time = time.time()
+                
+        user_vectors = user_embedding(user_ids)
+        item_vectors = item_embedding(item_ids)
+
             
-    user_vectors = user_embedding(user_ids)
-    item_vectors = item_embedding(item_ids)
-
-        
-    scores = torch.sum(user_vectors * item_vectors, dim=1)
+        scores = torch.sum(user_vectors * item_vectors, dim=1)
 
 
-    end_time = time.time()
-    data.append((end_time - start_time) * 1000)
-    if len(data) % 10000 == 0:
-        print(get_p99(data))
-        data = []   
+        end_time = time.time()
+        data.append((end_time - start_time) * 1000)
+        if len(data) % 10000 == 0:
+            print(get_p99(data))
+            data = []   
 while True:
     user_vectors = user_embedding(user_ids)
     item_vectors = item_embedding(item_ids)

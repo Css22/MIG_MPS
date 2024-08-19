@@ -16,7 +16,7 @@ num_encoder_layers = 1
 num_decoder_layers = 1
 
 def transformer_layer():
-    return  nn.Transformer(d_model=d_model, nhead=8, num_encoder_layers=1, num_decoder_layers=1)
+    return  nn.Transformer(d_model=d_model, nhead=8, num_encoder_layers=3, num_decoder_layers=3)
 # 推理
 # while True:
 #     with torch.no_grad():

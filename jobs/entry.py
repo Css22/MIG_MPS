@@ -160,22 +160,25 @@ if __name__ == "__main__":
 
         data = []
         while True:
-            start_time = time.time()
-            
+
+            with torch.no_grad():
+                start_time = time.time()
+                
 
 
-            if task == 'bert':
-                output= model.run(input,masks,0,12).cpu()
-            elif task == 'transformer':
+                if task == 'bert':
+                    output= model.run(input,masks,0,12).cpu()
+                elif task == 'transformer':
 
-                outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
-            elif task == 'deeplabv3':
-                output= model(input)['out'].cpu()
-            else:
-                output=model(input).cpu()
-            end_time = time.time()
-            data.append((end_time - start_time) * 1000)
-            if len(data) % 100 == 0:
-                print(get_p99(data))
-                data = []      
+                    outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                elif task == 'deeplabv3':
+                    output= model(input)['out'].cpu()
+                else:
+                    output=model(input).cpu()
+                end_time = time.time()
+                data.append((end_time - start_time) * 1000)
+                print((end_time - start_time) * 1000)
+                # if len(data) % 100 == 0:
+                #     print(get_p99(data))
+                #     data = []      
 
