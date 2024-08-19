@@ -57,9 +57,10 @@ def get_model(model_name):
 def get_input(model_name, k):
     input = input_list.get(model_name)
     if model_name == 'bert':
-        input = torch.LongTensor(np.random.rand(k, 1024, 768)).half().cuda(0)
-        masks =  torch.LongTensor(np.zeros((k, 1, 1, 1024))).half().cuda(0)
+        input = torch.FloatTensor(np.random.rand(k, 1024, 768)).cuda(0)
+        masks = torch.FloatTensor(np.zeros((k, 1, 1, 1024))).cuda(0)
         return input,masks
+    
     if model_name == 'transformer':
         input = torch.randn(512, k, 768).cuda(0)  # 随机输入数据
         masks = torch.ones(512, 512).cuda(0)  # 注意力掩码
@@ -78,10 +79,10 @@ def handle_valid_data(valid_list, jobs, file_name):
     with open(file_name, 'a+') as file:
         file.write(f"Jobs: {jobs}, 99th percentile: {percentile_99}\n")
 
-def get_p95(data):
+def get_p99(data):
     data = np.array(data)
-    percentile_95 = np.percentile(data, 95)
-    return percentile_95
+    percentile_99 = np.percentile(data, 99)
+    return percentile_99
 
 
 def signal_handler(sig, frame):
@@ -143,12 +144,13 @@ if __name__ == "__main__":
         signal.signal(signal.SIGTERM, signal_handler)
         if task == 'bert':  
             model = get_model(task)
-            model = model().half().cuda(0).eval()
+            model = model().cuda(0).eval()
         
         else:
             model = get_model(task)
             model = model().cuda(0).eval()
 
+      
         if task == 'bert':
             input,masks = get_input(task, batch)
         elif task == 'transformer':
@@ -156,10 +158,12 @@ if __name__ == "__main__":
         else:
             input = get_input(task, batch)
 
-
         data = []
         while True:
             start_time = time.time()
+            
+
+
             if task == 'bert':
                 output= model.run(input,masks,0,12).cpu()
             elif task == 'transformer':
@@ -172,6 +176,6 @@ if __name__ == "__main__":
             end_time = time.time()
             data.append((end_time - start_time) * 1000)
             if len(data) % 100 == 0:
-                print(get_p95(data))
+                print(get_p99(data))
                 data = []      
 
