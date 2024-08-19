@@ -3,23 +3,23 @@ import torch.nn as nn
 import time
 import numpy as np
 # 模拟大规模嵌入表
-num_users = 20000000
-num_items = 20000000
-embedding_dim = 128
+num_users = 10000000
+num_items = 10000000
+embedding_dim = 256
 
 # 创建用户和物品嵌入表
 user_embedding = nn.Embedding(num_users, embedding_dim).cuda()
 item_embedding = nn.Embedding(num_items, embedding_dim).cuda()
 
 # 随机生成用户和物品ID
-user_ids = torch.randint(0, num_users, (32,)).cuda()  # batch size = 32
-item_ids = torch.randint(0, num_items, (32,)).cuda()
+user_ids = torch.randint(0, num_users, (1280,)).cuda()  # batch size = 32
+item_ids = torch.randint(0, num_items, (1280,)).cuda()
 
 def get_p99(data):
     data = np.array(data)
     percentile_99 = np.percentile(data, 99)
     return percentile_99
-# 推理：计算用户和物品的嵌入向量
+
 
 data= []
 while True:
@@ -34,7 +34,7 @@ while True:
 
     end_time = time.time()
     data.append((end_time - start_time) * 1000)
-    if len(data) % 100 == 0:
+    if len(data) % 10000 == 0:
         print(get_p99(data))
         data = []   
 while True:
