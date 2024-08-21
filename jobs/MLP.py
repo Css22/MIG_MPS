@@ -21,7 +21,7 @@ class SimpleMLP(nn.Module):
 
 # 初始化模型
 input_size = 100  # 输入层大小
-hidden_size = 10280  # 隐藏层大小
+hidden_size = 1028000  # 隐藏层大小
 output_size = 2   # 输出层大小
 model = SimpleMLP(input_size, hidden_size, output_size)
 model = model.cuda()

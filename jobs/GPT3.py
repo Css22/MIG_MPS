@@ -23,7 +23,7 @@ while True:
     with torch.no_grad():
 
         start_time = time.time()        
-        outputs = model.generate(input_ids, max_length=50)
+        outputs = model.generate(input_ids, max_length=100)
 
         output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
         end_time = time.time()

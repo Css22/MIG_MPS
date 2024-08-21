@@ -171,6 +171,7 @@ if __name__ == "__main__":
                 elif task == 'transformer':
 
                     outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                    
                 elif task == 'deeplabv3':
                     output= model(input)['out'].cpu()
                 else:
