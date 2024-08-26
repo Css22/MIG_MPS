@@ -57,19 +57,19 @@ def get_model(model_name):
 def get_input(model_name, k):
     input = input_list.get(model_name)
     if model_name == 'bert':
-        input = torch.FloatTensor(np.random.rand(k, 1024, 768)).cuda(0)
-        masks = torch.FloatTensor(np.zeros((k, 1, 1, 1024))).cuda(0)
+        input = torch.FloatTensor(np.random.rand(k, 1024, 768))
+        masks = torch.FloatTensor(np.zeros((k, 1, 1, 1024)))
         return input,masks
     
     if model_name == 'transformer':
-        input = torch.randn(512, k, 768).cuda(0)  # 随机输入数据
-        masks = torch.ones(512, 512).cuda(0)  # 注意力掩码
+        input = torch.randn(512, k, 768)
+        masks = torch.ones(512, 512)
 
         return input,masks
     if len(input) == 3:
-        return torch.randn(k, input[0], input[1], input[2]).cuda(0)
+        return torch.randn(k, input[0], input[1], input[2])
     else:
-        return torch.randn(k, input[0], input[1]).cuda(0)
+        return torch.randn(k, input[0], input[1])
 
 def handle_valid_data(valid_list, jobs, file_name):
     file_name = result_path + file_name
@@ -84,64 +84,76 @@ def get_p99(data):
     percentile_99 = np.percentile(data, 99)
     return percentile_99
 
-
-def signal_handler(sig, frame):
+def record_result(path, config, result):
     pass
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--task", type=str)
     parser.add_argument("--batch", type=int)
     parser.add_argument("--concurrent_profile", default=False, type=bool)
-    parser.add_argument("--jobs", default='', type=str)
+    parser.add_argument("--config", default='', type=str)
     parser.add_argument("--file_name", type=str, default='result')
     args = parser.parse_args()
     task = args.task
     batch = args.batch
     concurrent_profile = args.concurrent_profile
-    jobs = args.jobs
+    config = args.config
     file_name = args.file_name
     start_time = time.time()
 
     if concurrent_profile:
-            signal.signal(signal.SIGTERM, signal_handler)
-            if task == 'bert':  
-                model = get_model(task)
-                model = model().half().cuda(0).eval()
-            else:
-                model = get_model(task)
-                model = model().cuda(0).eval()
+        if task == 'bert':  
+            model = get_model(task)
+            model = model().half().cuda(0).eval()
+        else:
+            model = get_model(task)
+            model = model().cuda(0).eval()
 
-            if task == 'bert':
-                input,masks = get_input(task, batch)
-            else:
-                input = get_input(task, batch)
-            
+        if task == 'bert':
+            input,masks = get_input(task, batch)
+        else:
+            input = get_input(task, batch)
+        
 
-            valid_list = []
-            while True:
-                execute_start_time = time.time()
+        valid_list = []
+        while True:
+            with torch.no_grad():
+                if task == 'bert':
+                    input,masks = get_input(task, batch)
+                elif task == 'transformer':
+                    input,masks = get_input(task, batch)
+                else:
+                    input = get_input(task, batch)
+
+                start_time = time.time()
+
+                if task == 'bert':
+                    input = input.cuda(0)
+                    masks = masks.cuda(0)
+                elif task == 'transformer':
+                    input = input.cuda(0)
+                    masks = masks.cuda(0)
+                else:
+                    input = input.cuda(0)
                 if task == 'bert':
                     output= model.run(input,masks,0,12).cpu()
+                elif task == 'transformer':
+
+                    outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                    
                 elif task == 'deeplabv3':
                     output= model(input)['out'].cpu()
                 else:
                     output=model(input).cpu()
-                execute_end_time = time.time()
-                current_time = time.time()
-                if current_time - start_time <= 30:
-                    continue
-                elif current_time - start_time <= 30 + 60 * 1:
-                    valid_list.append((execute_end_time - execute_start_time) * 1000)
-                else:
-                    break
+                end_time = time.time()
+                valid_list.append((end_time - start_time) * 1000)
 
-            handle_valid_data(valid_list, jobs, file_name)
 
 
 
     else:
-        signal.signal(signal.SIGTERM, signal_handler)
         if task == 'bert':  
             model = get_model(task)
             model = model().cuda(0).eval()
@@ -162,10 +174,24 @@ if __name__ == "__main__":
         while True:
 
             with torch.no_grad():
-                start_time = time.time()
+
                 
+                if task == 'bert':
+                    input,masks = get_input(task, batch)
+                elif task == 'transformer':
+                    input,masks = get_input(task, batch)
+                else:
+                    input = get_input(task, batch)
+                start_time = time.time()
 
-
+                if task == 'bert':
+                    input = input.cuda(0)
+                    masks = masks.cuda(0)
+                elif task == 'transformer':
+                    input = input.cuda(0)
+                    masks = masks.cuda(0)
+                else:
+                    input = input.cuda(0)
                 if task == 'bert':
                     output= model.run(input,masks,0,12).cpu()
                 elif task == 'transformer':
@@ -178,8 +204,7 @@ if __name__ == "__main__":
                     output=model(input).cpu()
                 end_time = time.time()
                 data.append((end_time - start_time) * 1000)
-                print((end_time - start_time) * 1000)
-                # if len(data) % 100 == 0:
-                #     print(get_p99(data))
-                #     data = []      
+                if len(data) % 100 == 0:
+                    print(get_p99(data))
+                    data = []      
 
