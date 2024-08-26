@@ -85,7 +85,7 @@ def get_p95(data):
     return percentile_99
 
 def record_result(path, config, result):
-    filtered_result = result[100:]
+    filtered_result = result[200:]
     p99 = get_p95(filtered_result)
     with open(path, 'a+') as file:
         file.write(f"Config: {config}, P99: {p99}\n")
@@ -106,7 +106,7 @@ if __name__ == "__main__":
     config = args.config
     file_name = args.file_name
 
-    max_epoch = 300
+    max_epoch = 500
     start_time = time.time()
 
     if concurrent_profile:
