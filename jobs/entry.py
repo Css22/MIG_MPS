@@ -79,13 +79,17 @@ def handle_valid_data(valid_list, jobs, file_name):
     with open(file_name, 'a+') as file:
         file.write(f"Jobs: {jobs}, 99th percentile: {percentile_99}\n")
 
-def get_p99(data):
+def get_p95(data):
     data = np.array(data)
-    percentile_99 = np.percentile(data, 99)
+    percentile_99 = np.percentile(data, 95)
     return percentile_99
 
 def record_result(path, config, result):
-    pass
+    filtered_result = result[100:]
+    p99 = get_p95(filtered_result)
+    with open(path, 'a+') as file:
+        file.write(f"Config: {config}, P99: {p99}\n")
+        file.close()
 
 
 if __name__ == "__main__":
@@ -101,6 +105,8 @@ if __name__ == "__main__":
     concurrent_profile = args.concurrent_profile
     config = args.config
     file_name = args.file_name
+
+    max_epoch = 300
     start_time = time.time()
 
     if concurrent_profile:
@@ -118,8 +124,8 @@ if __name__ == "__main__":
         
 
         valid_list = []
-        while True:
-            with torch.no_grad():
+        with torch.no_grad():
+            for i in range(0, max_epoch):
                 if task == 'bert':
                     input,masks = get_input(task, batch)
                 elif task == 'transformer':
@@ -128,7 +134,6 @@ if __name__ == "__main__":
                     input = get_input(task, batch)
 
                 start_time = time.time()
-
                 if task == 'bert':
                     input = input.cuda(0)
                     masks = masks.cuda(0)
@@ -149,9 +154,7 @@ if __name__ == "__main__":
                     output=model(input).cpu()
                 end_time = time.time()
                 valid_list.append((end_time - start_time) * 1000)
-
-
-
+            record_result(path=file_name, config=config, result=valid_list)
 
     else:
         if task == 'bert':  
@@ -169,13 +172,10 @@ if __name__ == "__main__":
             input,masks = get_input(task, batch)
         else:
             input = get_input(task, batch)
-
         data = []
         while True:
 
             with torch.no_grad():
-
-                
                 if task == 'bert':
                     input,masks = get_input(task, batch)
                 elif task == 'transformer':
@@ -205,6 +205,6 @@ if __name__ == "__main__":
                 end_time = time.time()
                 data.append((end_time - start_time) * 1000)
                 if len(data) % 100 == 0:
-                    print(get_p99(data))
+                    print(get_p95(data))
                     data = []      
 
