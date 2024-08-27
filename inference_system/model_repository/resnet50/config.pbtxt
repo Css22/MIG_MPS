@@ -1,0 +1,32 @@
+name: "resnet50"
+platform: "pytorch_libtorch"
+max_batch_size : 200
+
+dynamic_batching {
+  
+  max_queue_delay_microseconds: 0
+
+}
+
+optimization {
+  priority: PRIORITY_MAX  # 最高优先级，确保模型尽可能留在 GPU 内存中
+}
+
+
+
+input [
+  {
+    name: "x.1"
+    data_type: TYPE_FP32
+    format: FORMAT_NCHW
+    dims: [ 3, 224, 224 ]
+
+  }
+]
+output [
+  {
+    name: "50"
+    data_type: TYPE_FP32
+    dims: [ 1000 ]
+  }
+]
