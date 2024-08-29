@@ -15,12 +15,13 @@ from resnet import resnet50,resnet101,resnet152
 from inception_ve import inception_v3
 from transformer import transformer_layer
 import signal
-
+import math
 
 path = "/data/zbw/inference_system/MIG_MPS/jobs/"
 sys.path.append(path)
 flag_path = "/data/zbw/MIG/MIG/MIG_Schedule/flag"
 result_path = "/data/zbw/inference_system/MIG_MPS/Result/"
+
 model_list = {
     "resnet50": resnet50,
     "resnet101": resnet101,
@@ -50,6 +51,26 @@ input_list = {
     # 'open_unmix': [2,100000],
     'alexnet': [3,244,244],
     'bert': [1024,768],
+}
+
+QoS_map = {
+    'resnet50': 108,
+    'resnet101': 108,
+    'resnet152': 108,
+    'vgg16':  142,
+    'vgg19': 142,
+    'mobilenet_v2': 64,
+    'unet': 120,
+    'bert': 400,
+    'deeplabv3': 300,
+    'alexnet': 80,
+}
+
+max_RPS_map = {
+    'resnet50': 2000
+}
+min_RPS_map = {
+    'resnet50': 100
 }
 
 def get_model(model_name):
@@ -85,31 +106,34 @@ def get_p95(data):
     percentile_99 = np.percentile(data, 95)
     return percentile_99
 
-def record_result(path, config, result):
+def record_result(path, config, RPS ,result):
     filtered_result = result[200:]
-    p99 = get_p95(filtered_result)
+    p95 = get_p95(filtered_result)
     with open(path, 'a+') as file:
-        file.write(f"Config: {config}, P99: {p99}\n")
+        file.write(f"Config: {config}, P99: {p95}, RPS: {RPS}\n")
         file.close()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--task", type=str)
-    parser.add_argument("--batch", type=int)
     parser.add_argument("--concurrent_profile", default=False, type=bool)
     parser.add_argument("--config", default='', type=str)
     parser.add_argument("--file_name", type=str, default='result')
     args = parser.parse_args()
     task = args.task
-    batch = args.batch
     concurrent_profile = args.concurrent_profile
     config = args.config
     file_name = args.file_name
 
     max_epoch = 500
-    start_time = time.time()
 
+
+    
+    
+    
+    min_RPS = 100
+    max_RPS = 5000
     if task == 'bert':  
         model = get_model(task)
         model = model().half().cuda(0).eval()
@@ -117,43 +141,52 @@ if __name__ == "__main__":
         model = get_model(task)
         model = model().cuda(0).eval()
 
-    if task == 'bert':
-        input,masks = get_input(task, batch)
-    else:
-        input = get_input(task, batch)
+    for i in range(min_RPS, max_RPS+1, 10):
+        RPS = i
+        QoS = QoS_map.get(task)
+        half_QoS = QoS/2
+        batch = math.floor(RPS/1000 * half_QoS)
+        valid_list = []
+        with torch.no_grad():
+            for j in range(0, max_epoch):
+                if task == 'bert':
+                    input,masks = get_input(task, batch)
+                elif task == 'transformer':
+                    input,masks = get_input(task, batch)
+                else:
+                    input = get_input(task, batch)
 
-    if task == 'bert':
-        input = input.cuda(0)
-        masks = masks.cuda(0)
-    elif task == 'transformer':
-        input = input.cuda(0)
-        masks = masks.cuda(0)
-    else:
-        input = input.cuda(0)
+                start_time = time.time()
+                if task == 'bert':
+                    input = input.cuda(0)
+                    masks = masks.cuda(0)
+                elif task == 'transformer':
+                    input = input.cuda(0)
+                    masks = masks.cuda(0)
+                else:
+                    input = input.cuda(0)
 
+                if task == 'bert':
+                    output= model.run(input,masks,0,12).cpu()
+                elif task == 'transformer':
 
-    if task == 'bert':
-        output= model.run(input,masks,0,12).cpu()
-    elif task == 'transformer':
+                    outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                    
+                elif task == 'deeplabv3':
+                    output= model(input)['out'].cpu()
+                else:
+                    output=model(input).cpu()
+                end_time = time.time()
 
-        outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
-        
-    elif task == 'deeplabv3':
-        output= model(input)['out'].cpu()
-    else:
-        output = model(input).cpu()
-        traced_model = torch.jit.trace(model, input)
-        traced_model.save(f"/data/zbw/inference_system/MIG_MPS/inference_system/model_repository/{task}/1/model.{task}")
-        print(f"input shape: {input.shape}")
-        
-        for i, input in enumerate(traced_model.graph.inputs()):
-            print(f"Input {i+1}: {input.debugName()}")
-
-        for i, output in enumerate(traced_model.graph.outputs()):
-            print(f"Output {i+1}: {output.debugName()}")
-
-        print(f"output shape: {output.shape}")
-
+                valid_list.append((end_time - start_time) * 1000)
+            filtered_result = valid_list[200:]
+            p95 = get_p95(filtered_result)
+            if p95 > half_QoS:
+                record_result(path=file_name, config=config, RPS=RPS, result=valid_list)
+                break
+            else:
+                record_result(path=file_name, config=config, RPS=RPS, result=valid_list)
+    
     # if concurrent_profile:
     #     if task == 'bert':  
     #         model = get_model(task)
@@ -170,37 +203,40 @@ if __name__ == "__main__":
 
     #     valid_list = []
     #     with torch.no_grad():
-    #         for i in range(0, max_epoch):
-    #             if task == 'bert':
-    #                 input,masks = get_input(task, batch)
-    #             elif task == 'transformer':
-    #                 input,masks = get_input(task, batch)
-    #             else:
-    #                 input = get_input(task, batch)
+    #         min_RPS = min_RPS_map.get(task)
+    #         max_RPS = max_RPS_map.get(task)
+    #         for i in range(min_RPS, max_RPS+1, 10):
+    #             for j in range(0, max_epoch):
+    #                 if task == 'bert':
+    #                     input,masks = get_input(task, batch)
+    #                 elif task == 'transformer':
+    #                     input,masks = get_input(task, batch)
+    #                 else:
+    #                     input = get_input(task, batch)
 
-    #             start_time = time.time()
-    #             if task == 'bert':
-    #                 input = input.cuda(0)
-    #                 masks = masks.cuda(0)
-    #             elif task == 'transformer':
-    #                 input = input.cuda(0)
-    #                 masks = masks.cuda(0)
-    #             else:
-    #                 input = input.cuda(0)
+    #                 start_time = time.time()
+    #                 if task == 'bert':
+    #                     input = input.cuda(0)
+    #                     masks = masks.cuda(0)
+    #                 elif task == 'transformer':
+    #                     input = input.cuda(0)
+    #                     masks = masks.cuda(0)
+    #                 else:
+    #                     input = input.cuda(0)
 
-    #             if task == 'bert':
-    #                 output= model.run(input,masks,0,12).cpu()
-    #             elif task == 'transformer':
+    #                 if task == 'bert':
+    #                     output= model.run(input,masks,0,12).cpu()
+    #                 elif task == 'transformer':
 
-    #                 outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
-                    
-    #             elif task == 'deeplabv3':
-    #                 output= model(input)['out'].cpu()
-    #             else:
-    #                 output=model(input).cpu()
-    #             end_time = time.time()
-    #             valid_list.append((end_time - start_time) * 1000)
-    #         record_result(path=file_name, config=config, result=valid_list)
+    #                     outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                        
+    #                 elif task == 'deeplabv3':
+    #                     output= model(input)['out'].cpu()
+    #                 else:
+    #                     output=model(input).cpu()
+    #                 end_time = time.time()
+    #                 valid_list.append((end_time - start_time) * 1000)
+    #             record_result(path=file_name, config=config, result=valid_list)
 
     # else:
     #     if task == 'bert':  

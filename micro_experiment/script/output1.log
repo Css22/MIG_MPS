@@ -1058,3 +1058,35 @@ Traceback (most recent call last):
   File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/gevent/_socketcommon.py", line 725, in send
     return self._sock.send(data, flags)
 BrokenPipeError: [Errno 32] Broken pipe
+Server 2741354 not found
+docker: Error response from daemon: driver failed programming external connectivity on endpoint distracted_ptolemy (94d09b4de17d20973b7135ed7463c6d7a56ace908b0657fc4ff59076cbfe12ac): Bind for 0.0.0.0:8002 failed: port is already allocated.
+
+ERROR: The NVIDIA Driver is present, but CUDA failed to initialize.  GPU functionality will not be available.
+   [[ No CUDA-capable device is detected (error 100) ]]
+
+Failed to detect NVIDIA driver version.
+
+Traceback (most recent call last):
+  File "client.py", line 110, in <module>
+    send_request(model_name=task, SM=config)
+  File "client.py", line 83, in send_request
+    results = triton_client.infer(model_name=MODEL_NAME, inputs=inputs, outputs=outputs)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/tritonclient/http/_client.py", line 1476, in infer
+    response = self._post(
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/tritonclient/http/_client.py", line 296, in _post
+    response = self._client_stub.post(
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/geventhttpclient/client.py", line 272, in post
+    return self.request(METHOD_POST, request_uri, body=body, headers=headers)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/geventhttpclient/client.py", line 250, in request
+    raise e
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/geventhttpclient/client.py", line 231, in request
+    sock.sendall(_request + body)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/gevent/_socketcommon.py", line 702, in sendall
+    return _sendall(self, data_memory, flags)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/gevent/_socketcommon.py", line 391, in _sendall
+    timeleft = __send_chunk(socket, chunk, flags, timeleft, end)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/gevent/_socketcommon.py", line 331, in __send_chunk
+    data_sent += socket.send(chunk, flags, timeout=timeleft)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/gevent/_socketcommon.py", line 725, in send
+    return self._sock.send(data, flags)
+ConnectionResetError: [Errno 104] Connection reset by peer
