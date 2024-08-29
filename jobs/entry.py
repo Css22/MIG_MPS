@@ -113,7 +113,73 @@ def record_result(path, config, RPS ,result):
         file.write(f"Config: {config}, P99: {p95}, RPS: {RPS}\n")
         file.close()
 
+def execute_entry(task, RPS, max_epoch):
+    QoS = QoS_map.get(task)
+    half_QoS = QoS/2
+    batch = math.floor(RPS/1000 * half_QoS)
+    valid_list = []
 
+    if task == 'bert':  
+        model = get_model(task)
+        model = model().half().cuda(0).eval()
+    else:
+        model = get_model(task)
+        model = model().cuda(0).eval()
+
+    with torch.no_grad():
+        for i in range(0, max_epoch):
+            if task == 'bert':
+                input,masks = get_input(task, batch)
+            elif task == 'transformer':
+                input,masks = get_input(task, batch)
+            else:
+                input = get_input(task, batch)
+
+            start_time = time.time()
+            if task == 'bert':
+                input = input.cuda(0)
+                masks = masks.cuda(0)
+            elif task == 'transformer':
+                input = input.cuda(0)
+                masks = masks.cuda(0)
+            else:
+                input = input.cuda(0)
+
+            if task == 'bert':
+                output= model.run(input,masks,0,12).cpu()
+            elif task == 'transformer':
+
+                outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                
+            elif task == 'deeplabv3':
+                output= model(input)['out'].cpu()
+            else:
+                output=model(input).cpu()
+            end_time = time.time()
+
+            valid_list.append((end_time - start_time) * 1000)
+            
+        filtered_result = valid_list[200:]
+        p95 = get_p95(filtered_result)
+        if p95 > half_QoS:
+            print(task, p95, RPS)
+            # record_result(path=file_name, config=config, RPS=RPS, result=valid_list)
+            return False
+        else:
+            record_result(path=file_name, config=config, RPS=RPS, result=valid_list)
+            return True
+def binary_search_max_true(task ,min_RPS, max_RPS, max_epoch):
+    left = min_RPS
+    right = max_RPS
+
+    while left < right:
+        mid = (left + right + 1) // 2
+        if execute_entry(task=task, RPS=mid, max_epoch=max_epoch):
+            left = mid  # mid可能是解，所以保留在left
+        else:
+            right = mid - 1  # mid不是解，所以舍弃
+
+    return left  # 最后返回left就是满足条件的最大值
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--task", type=str)
@@ -127,65 +193,70 @@ if __name__ == "__main__":
     file_name = args.file_name
 
     max_epoch = 500
-
-
-    
-    
-    
     min_RPS = 100
     max_RPS = 5000
-    if task == 'bert':  
-        model = get_model(task)
-        model = model().half().cuda(0).eval()
-    else:
-        model = get_model(task)
-        model = model().cuda(0).eval()
 
-    for i in range(min_RPS, max_RPS+1, 10):
-        RPS = i
-        QoS = QoS_map.get(task)
-        half_QoS = QoS/2
-        batch = math.floor(RPS/1000 * half_QoS)
-        valid_list = []
-        with torch.no_grad():
-            for j in range(0, max_epoch):
-                if task == 'bert':
-                    input,masks = get_input(task, batch)
-                elif task == 'transformer':
-                    input,masks = get_input(task, batch)
-                else:
-                    input = get_input(task, batch)
+    binary_search_max_true(task=task, min_RPS=min_RPS, max_RPS=max_RPS, max_epoch=max_epoch)
+    
+    
+    # min_RPS = 100
+    # max_RPS = 5000
+    # min_RPS = 2000
+    # max_RPS = min_RPS
+    # if task == 'bert':  
+    #     model = get_model(task)
+    #     model = model().half().cuda(0).eval()
+    # else:
+    #     model = get_model(task)
+    #     model = model().cuda(0).eval()
 
-                start_time = time.time()
-                if task == 'bert':
-                    input = input.cuda(0)
-                    masks = masks.cuda(0)
-                elif task == 'transformer':
-                    input = input.cuda(0)
-                    masks = masks.cuda(0)
-                else:
-                    input = input.cuda(0)
+    # for i in range(min_RPS, max_RPS+1, 10):
+    #     RPS = i
+    #     QoS = QoS_map.get(task)
+    #     half_QoS = QoS/2
+    #     batch = math.floor(RPS/1000 * half_QoS)
+    #     valid_list = []
+    #     with torch.no_grad():
+    #         for j in range(0, max_epoch):
+    #             if task == 'bert':
+    #                 input,masks = get_input(task, batch)
+    #             elif task == 'transformer':
+    #                 input,masks = get_input(task, batch)
+    #             else:
+    #                 input = get_input(task, batch)
 
-                if task == 'bert':
-                    output= model.run(input,masks,0,12).cpu()
-                elif task == 'transformer':
+    #             start_time = time.time()
+    #             if task == 'bert':
+    #                 input = input.cuda(0)
+    #                 masks = masks.cuda(0)
+    #             elif task == 'transformer':
+    #                 input = input.cuda(0)
+    #                 masks = masks.cuda(0)
+    #             else:
+    #                 input = input.cuda(0)
 
-                    outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+    #             if task == 'bert':
+    #                 output= model.run(input,masks,0,12).cpu()
+    #             elif task == 'transformer':
+
+    #                 outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
                     
-                elif task == 'deeplabv3':
-                    output= model(input)['out'].cpu()
-                else:
-                    output=model(input).cpu()
-                end_time = time.time()
+    #             elif task == 'deeplabv3':
+    #                 output= model(input)['out'].cpu()
+    #             else:
+    #                 output=model(input).cpu()
+    #             end_time = time.time()
 
-                valid_list.append((end_time - start_time) * 1000)
-            filtered_result = valid_list[200:]
-            p95 = get_p95(filtered_result)
-            if p95 > half_QoS:
-                record_result(path=file_name, config=config, RPS=RPS, result=valid_list)
-                break
-            else:
-                record_result(path=file_name, config=config, RPS=RPS, result=valid_list)
+    #             valid_list.append((end_time - start_time) * 1000)
+    #         filtered_result = valid_list[200:]
+    #         p95 = get_p95(filtered_result)
+    #         if p95 > half_QoS:
+    #             print(task, p95, RPS)
+    #             # record_result(path=file_name, config=config, RPS=RPS, result=valid_list)
+    #             break
+    #         else:
+    #             print(p95, half_QoS)
+    #             record_result(path=file_name, config=config, RPS=RPS, result=valid_list)
     
     # if concurrent_profile:
     #     if task == 'bert':  
