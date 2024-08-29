@@ -39,6 +39,26 @@ dcgmi group -d 6
 sudo dcgmi dmon -i 0/1 -e 1001,1002,1003,1004,1005 -d 1000
 sudo pkill -f "dcgmi dmon"
 dcgmi discovery -c   
-sudo service nvidia-dcgm restart
+sudo service nvidia-dcgm restartl
 /home/zbw/xcore/xray run -c config.json
 (sudo dcgmi dmon -i 0/5 -e 1001,1002,1003,1004,1005,1006,1007,1008 -d 1000 >> /data/zbw/MIG/MIG/MIG_Schedule/jobs/profile/offline_profile/bert_profile) & CUDA_VISIBLE_DEVICES=MIG-32522c13-1a59-5776-9d30-e0ae7b6a4874 proxychains python /data/zbw/MIG/MIG/MIG_Schedule/jobs/offline/entry.py --config test --model bert && sudo pkill -f "dcgmi dmon"
+
+
+docker run  --ipc=host \
+  -e NVIDIA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 \
+  --rm -p8000:8000 -p8001:8001 -p8002:8002 --runtime=nvidia --ipc=host \
+  -v /data/zbw/inference_system/MIG_MPS/inference_system/model_repository:/models \
+  -v /tmp/nvidia-mps:/tmp/nvidia-mps \
+  -e CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps \
+  nvcr.io/nvidia/tritonserver:23.05-py3 tritonserver --model-repository=/models
+
+docker run  --ipc=host \                         
+  --gpus "device=MIG-e806816b-27b9-54dd-87dd-c52b4e695397" \
+  --rm -p8000:8000 -p8001:8001 -p8002:8002 \
+  --cpu-shares=2048 \
+  -v /data/zbw/inference_system/MIG_MPS/inference_system/model_repository:/models \
+  -v /tmp/nvidia-mps:/tmp/nvidia-mps \
+  -e CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps \
+  nvcr.io/nvidia/tritonserver:24.07-py3 tritonserver --model-repository=/models
+
+  sudo CUDA_DEVICE_ORDER=PCI_BUS_ID CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 nvidia-cuda-mps-control -d

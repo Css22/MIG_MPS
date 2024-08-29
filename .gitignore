@@ -1,0 +1,11 @@
+# 忽略 dataset 文件夹下的所有内容
+dataset/
+
+# 忽略 .vscode 文件夹下的所有内容
+.vscode/
+
+# 忽略 log 文件夹下的所有内容
+log/
+
+# 忽略所有 .pt 文件
+*.pt

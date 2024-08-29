@@ -1,1486 +1,1060 @@
 nohup: ignoring input
-percentage: 100
 100.0
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 10
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 11
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 12
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 13
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 14
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 15
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 16
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 17
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 18
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 19
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 20
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 21
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 22
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 23
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 24
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 25
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 26
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 27
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 28
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 29
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 30
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 31
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 32
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 33
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 34
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 35
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 36
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 37
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 38
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 39
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 40
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 41
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 42
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 43
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 44
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 45
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 46
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 47
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 48
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 49
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 50
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 51
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 52
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 53
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 54
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 55
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 56
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 57
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 58
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 59
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 60
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 61
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 62
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 63
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 64
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 65
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 66
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 67
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 68
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 69
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 70
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 71
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 72
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 73
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 74
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 75
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 76
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 77
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 78
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 79
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 80
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 81
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 82
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 83
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 84
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 85
-percentage: 90
-90.0
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 10
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 11
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 12
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 13
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 14
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 15
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 16
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 17
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 18
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 19
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 20
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 21
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 22
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 23
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 24
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 25
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 26
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 27
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 28
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 29
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 30
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 31
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 32
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 33
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 34
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 35
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 36
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 37
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 38
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 39
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 40
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 41
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 42
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 43
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 44
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 45
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 46
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 47
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 48
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 49
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 50
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 51
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 52
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 53
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 54
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 55
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 56
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 57
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 58
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 59
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 60
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 61
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 62
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 63
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 64
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 65
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 66
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 67
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 68
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 69
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 70
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 71
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 72
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 73
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 74
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 75
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 76
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 77
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 78
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 79
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 80
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 81
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 82
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 83
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 84
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 85
-percentage: 80
-80.0
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 10
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 11
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 12
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 13
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 14
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 15
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 16
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 17
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 18
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 19
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 20
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 21
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 22
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 23
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 24
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 25
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 26
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 27
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 28
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 29
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 30
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 31
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 32
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 33
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 34
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 35
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 36
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 37
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 38
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 39
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 40
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 41
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 42
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 43
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 44
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 45
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 46
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 47
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 48
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 49
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 50
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 51
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 52
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 53
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 54
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 55
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 56
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 57
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 58
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 59
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 60
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 61
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 62
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 63
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 64
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 65
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 66
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 67
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 68
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 69
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 70
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 71
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 72
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 73
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 74
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 75
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 76
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 77
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 78
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 79
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 80
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 81
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 82
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 83
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 84
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 85
-percentage: 70
-70.0
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 10
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 11
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 12
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 13
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 14
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 15
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 16
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 17
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 18
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 19
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 20
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 21
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 22
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 23
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 24
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 25
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 26
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 27
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 28
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 29
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 30
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 31
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 32
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 33
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 34
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 35
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 36
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 37
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 38
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 39
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 40
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 41
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 42
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 43
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 44
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 45
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 46
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 47
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 48
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 49
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 50
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 51
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 52
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 53
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 54
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 55
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 56
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 57
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 58
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 59
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 60
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 61
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 62
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 63
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 64
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 65
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 66
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 67
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 68
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 69
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 70
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 71
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 72
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 73
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 74
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 75
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 76
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 77
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 78
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 79
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 80
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 81
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 82
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 83
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 84
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 85
-percentage: 60
-60.0
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 10
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 11
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 12
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 13
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 14
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 15
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 16
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 17
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 18
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 19
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 20
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 21
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 22
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 23
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 24
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 25
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 26
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 27
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 28
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 29
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 30
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 31
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 32
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 33
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 34
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 35
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 36
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 37
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 38
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 39
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 40
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 41
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 42
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 43
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 44
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 45
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 46
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 47
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 48
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 49
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 50
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 51
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 52
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 53
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 54
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 55
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 56
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 57
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 58
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 59
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 60
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 61
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 62
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 63
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 64
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 65
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 66
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 67
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 68
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 69
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 70
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 71
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 72
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 73
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 74
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 75
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 76
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 77
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 78
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 79
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 80
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 81
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 82
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 83
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 84
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 85
-percentage: 50
-50.0
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 10
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 11
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 12
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 13
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 14
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 15
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 16
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 17
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 18
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 19
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 20
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 21
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 22
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 23
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 24
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 25
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 26
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 27
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 28
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 29
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 30
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 31
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 32
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 33
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 34
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 35
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 36
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 37
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 38
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 39
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 40
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 41
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 42
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 43
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 44
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 45
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 46
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 47
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 48
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 49
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 50
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 51
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 52
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 53
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 54
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 55
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 56
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 57
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 58
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 59
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 60
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 61
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 62
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 63
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 64
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 65
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 66
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 67
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 68
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 69
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 70
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 71
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 72
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 73
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 74
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 75
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 76
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 77
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 78
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 79
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 80
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 81
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 82
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 83
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 84
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 85
-percentage: 40
-40.0
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 10
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 11
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 12
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 13
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 14
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 15
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 16
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 17
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 18
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 19
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 20
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 21
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 22
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 23
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 24
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 25
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 26
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 27
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 28
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 29
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 30
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 31
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 32
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 33
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 34
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 35
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 36
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 37
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 38
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 39
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 40
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 41
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 42
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 43
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 44
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 45
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 46
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 47
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 48
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 49
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 50
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 51
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 52
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 53
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 54
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 55
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 56
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 57
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 58
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 59
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 60
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 61
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 62
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 63
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 64
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 65
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 66
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 67
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 68
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 69
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 70
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 71
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 72
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 73
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 74
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 75
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 76
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 77
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 78
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 79
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 80
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 81
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 82
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 83
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 84
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 85
-percentage: 30
-30.0
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 10
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 11
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 12
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 13
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 14
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 15
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 16
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 17
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 18
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 19
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 20
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 21
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 22
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 23
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 24
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 25
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 26
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 27
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 28
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 29
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 30
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 31
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 32
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 33
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 34
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 35
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 36
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 37
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 38
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 39
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 40
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 41
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 42
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 43
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 44
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 45
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 46
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 47
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 48
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 49
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 50
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 51
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 52
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 53
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 54
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 55
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 56
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 57
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 58
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 59
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 60
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 61
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 62
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 63
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 64
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 65
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 66
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 67
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 68
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 69
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 70
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 71
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 72
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 73
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 74
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 75
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 76
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 77
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 78
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 79
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 80
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 81
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 82
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 83
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 84
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 85
-percentage: 20
-20.0
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 10
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 11
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 12
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 13
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 14
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 15
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 16
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 17
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 18
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 19
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 20
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 21
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 22
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 23
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 24
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 25
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 26
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 27
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 28
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 29
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 30
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 31
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 32
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 33
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 34
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 35
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 36
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 37
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 38
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 39
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 40
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 41
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 42
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 43
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 44
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 45
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 46
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 47
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 48
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 49
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 50
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 51
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 52
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 53
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 54
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 55
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 56
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 57
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 58
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 59
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 60
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 61
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 62
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 63
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 64
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 65
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 66
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 67
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 68
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 69
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 70
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 71
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 72
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 73
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 74
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 75
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 76
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 77
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 78
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 79
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 80
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 81
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 82
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 83
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 84
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 85
-percentage: 10
-10.0
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 10
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 11
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 12
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 13
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 14
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 15
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 16
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 17
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 18
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 19
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 20
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 21
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 22
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 23
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 24
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 25
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 26
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 27
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 28
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 29
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 30
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 31
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 32
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 33
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 34
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 35
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 36
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 37
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 38
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 39
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 40
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 41
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 42
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 43
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 44
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 45
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 46
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 47
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 48
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 49
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 50
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 51
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 52
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 53
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 54
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 55
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 56
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
-Iteration: 57
-Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+
+=============================
+== Triton Inference Server ==
+=============================
+
+NVIDIA Release 23.05 (build 61161506)
+Triton Server Version 2.34.0
+
+Copyright (c) 2018-2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+I0827 17:04:41.969963 1 pinned_memory_manager.cc:240] Pinned memory pool is created at '0x7f8272000000' with size 268435456
+I0827 17:04:41.972281 1 cuda_memory_manager.cc:105] CUDA memory pool is created on device 0 with size 67108864
+I0827 17:04:41.976347 1 model_lifecycle.cc:462] loading: resnet50:1
+I0827 17:04:42.543162 1 libtorch.cc:2008] TRITONBACKEND_Initialize: pytorch
+I0827 17:04:42.543201 1 libtorch.cc:2018] Triton TRITONBACKEND API version: 1.12
+I0827 17:04:42.543206 1 libtorch.cc:2024] 'pytorch' TRITONBACKEND API version: 1.12
+I0827 17:04:42.546290 1 libtorch.cc:2057] TRITONBACKEND_ModelInitialize: resnet50 (version 1)
+W0827 17:04:42.547190 1 libtorch.cc:284] skipping model configuration auto-complete for 'resnet50': not supported for pytorch backend
+I0827 17:04:42.547844 1 libtorch.cc:313] Optimized execution is enabled for model instance 'resnet50'
+I0827 17:04:42.547856 1 libtorch.cc:332] Cache Cleaning is disabled for model instance 'resnet50'
+I0827 17:04:42.547860 1 libtorch.cc:349] Inference Mode is disabled for model instance 'resnet50'
+I0827 17:04:42.547866 1 libtorch.cc:443] NvFuser is not specified for model instance 'resnet50'
+I0827 17:04:42.547959 1 libtorch.cc:2101] TRITONBACKEND_ModelInstanceInitialize: resnet50 (GPU device 0)
+I0827 17:04:42.890786 1 model_lifecycle.cc:815] successfully loaded 'resnet50'
+I0827 17:04:42.891030 1 server.cc:582] 
++------------------+------+
+| Repository Agent | Path |
++------------------+------+
++------------------+------+
+
+I0827 17:04:42.891149 1 server.cc:609] 
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Backend | Path                                                    | Config                                                                                                                                                        |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| pytorch | /opt/tritonserver/backends/pytorch/libtriton_pytorch.so | {"cmdline":{"auto-complete-config":"true","backend-directory":"/opt/tritonserver/backends","min-compute-capability":"6.000000","default-max-batch-size":"4"}} |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0827 17:04:42.891177 1 server.cc:652] 
++----------+---------+--------+
+| Model    | Version | Status |
++----------+---------+--------+
+| resnet50 | 1       | READY  |
++----------+---------+--------+
+
+CacheManager Init Failed. Error: -17
+W0827 17:04:42.926196 1 metrics.cc:729] DCGM unable to start: DCGM initialization error
+I0827 17:04:42.926529 1 metrics.cc:701] Collecting CPU metrics
+I0827 17:04:42.926706 1 tritonserver.cc:2385] 
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option                           | Value                                                                                                                                                                                                           |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| server_id                        | triton                                                                                                                                                                                                          |
+| server_version                   | 2.34.0                                                                                                                                                                                                          |
+| server_extensions                | classification sequence model_repository model_repository(unload_dependents) schedule_policy model_configuration system_shared_memory cuda_shared_memory binary_tensor_data parameters statistics trace logging |
+| model_repository_path[0]         | /models                                                                                                                                                                                                         |
+| model_control_mode               | MODE_NONE                                                                                                                                                                                                       |
+| strict_model_config              | 0                                                                                                                                                                                                               |
+| rate_limit                       | OFF                                                                                                                                                                                                             |
+| pinned_memory_pool_byte_size     | 268435456                                                                                                                                                                                                       |
+| cuda_memory_pool_byte_size{0}    | 67108864                                                                                                                                                                                                        |
+| min_supported_compute_capability | 6.0                                                                                                                                                                                                             |
+| strict_readiness                 | 1                                                                                                                                                                                                               |
+| exit_timeout                     | 30                                                                                                                                                                                                              |
+| cache_enabled                    | 0                                                                                                                                                                                                               |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0827 17:04:42.929268 1 grpc_server.cc:2450] Started GRPCInferenceService at 0.0.0.0:8001
+I0827 17:04:42.929538 1 http_server.cc:3555] Started HTTPService at 0.0.0.0:8000
+I0827 17:04:42.970803 1 http_server.cc:185] Started Metrics Service at 0.0.0.0:8002
+15.947139263153074 100 54.0
+16.291773319244385 110 54.0
+16.90579652786255 120 54.0
+18.138432502746582 130 54.0
+18.119239807128906 140 54.0
+19.54106092453003 150 54.0
+19.595086574554443 160 54.0
+21.1026668548584 170 54.0
+21.164381504058838 180 54.0
+22.088980674743652 190 54.0
+22.120583057403564 200 54.0
+23.55344295501709 210 54.0
+23.519861698150635 220 54.0
+24.9670147895813 230 54.0
+25.170791149139404 240 54.0
+26.99815034866333 250 54.0
+28.8519024848938 260 54.0
+28.71878147125244 270 54.0
+29.121220111846924 280 54.0
+29.160678386688232 290 54.0
+30.565595626831055 300 54.0
+30.52072525024414 310 54.0
+32.25274085998535 320 54.0
+31.985855102539062 330 54.0
+33.585941791534424 340 54.0
+33.512115478515625 350 54.0
+34.834229946136475 360 54.0
+34.87548828124999 370 54.0
+35.99773645401001 380 54.0
+37.65755891799927 390 54.0
+37.73338794708252 400 54.0
+39.18675184249878 410 54.0
+38.34596872329711 420 54.0
+39.586496353149414 430 54.0
+39.61461782455444 440 54.0
+40.53405523300171 450 54.0
+40.863192081451416 460 54.0
+42.88291931152344 470 54.0
+42.68972873687744 480 54.0
+43.738412857055664 490 54.0
+49.17380809783935 500 54.0
+45.27983665466307 510 54.0
+72.68778085708618 520 54.0
+I0827 19:25:13.940408 1 server.cc:283] Waiting for in-flight requests to complete.
+I0827 19:25:13.940432 1 server.cc:299] Timeout 30: Found 0 model versions that have in-flight inferences
+I0827 19:25:13.940551 1 server.cc:314] All models are stopped, unloading models
+I0827 19:25:13.940559 1 server.cc:321] Timeout 30: Found 1 live models and 0 in-flight non-inference requests
+Signal (15) received.
+I0827 19:25:13.941461 1 libtorch.cc:2135] TRITONBACKEND_ModelInstanceFinalize: delete instance state
+I0827 19:25:13.964370 1 libtorch.cc:2080] TRITONBACKEND_ModelFinalize: delete model state
+I0827 19:25:13.966167 1 model_lifecycle.cc:608] successfully unloaded 'resnet50' version 1
+I0827 19:25:14.940653 1 server.cc:321] Timeout 29: Found 0 live models and 0 in-flight non-inference requests
+2d2efcf4a24a
+Server 2741354 not found
+
+=============================
+== Triton Inference Server ==
+=============================
+
+NVIDIA Release 23.05 (build 61161506)
+Triton Server Version 2.34.0
+
+Copyright (c) 2018-2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+I0827 19:26:47.463004 1 pinned_memory_manager.cc:240] Pinned memory pool is created at '0x7fcc46000000' with size 268435456
+I0827 19:26:47.466335 1 cuda_memory_manager.cc:105] CUDA memory pool is created on device 0 with size 67108864
+I0827 19:26:47.470465 1 model_lifecycle.cc:462] loading: resnet50:1
+I0827 19:26:48.035230 1 libtorch.cc:2008] TRITONBACKEND_Initialize: pytorch
+I0827 19:26:48.035270 1 libtorch.cc:2018] Triton TRITONBACKEND API version: 1.12
+I0827 19:26:48.035275 1 libtorch.cc:2024] 'pytorch' TRITONBACKEND API version: 1.12
+I0827 19:26:48.037299 1 libtorch.cc:2057] TRITONBACKEND_ModelInitialize: resnet50 (version 1)
+W0827 19:26:48.038176 1 libtorch.cc:284] skipping model configuration auto-complete for 'resnet50': not supported for pytorch backend
+I0827 19:26:48.038831 1 libtorch.cc:313] Optimized execution is enabled for model instance 'resnet50'
+I0827 19:26:48.038840 1 libtorch.cc:332] Cache Cleaning is disabled for model instance 'resnet50'
+I0827 19:26:48.038844 1 libtorch.cc:349] Inference Mode is disabled for model instance 'resnet50'
+I0827 19:26:48.038850 1 libtorch.cc:443] NvFuser is not specified for model instance 'resnet50'
+I0827 19:26:48.038947 1 libtorch.cc:2101] TRITONBACKEND_ModelInstanceInitialize: resnet50 (GPU device 0)
+I0827 19:26:48.497955 1 model_lifecycle.cc:815] successfully loaded 'resnet50'
+I0827 19:26:48.498306 1 server.cc:582] 
++------------------+------+
+| Repository Agent | Path |
++------------------+------+
++------------------+------+
+
+I0827 19:26:48.498495 1 server.cc:609] 
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Backend | Path                                                    | Config                                                                                                                                                        |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| pytorch | /opt/tritonserver/backends/pytorch/libtriton_pytorch.so | {"cmdline":{"auto-complete-config":"true","backend-directory":"/opt/tritonserver/backends","min-compute-capability":"6.000000","default-max-batch-size":"4"}} |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0827 19:26:48.498564 1 server.cc:652] 
++----------+---------+--------+
+| Model    | Version | Status |
++----------+---------+--------+
+| resnet50 | 1       | READY  |
++----------+---------+--------+
+
+CacheManager Init Failed. Error: -17
+W0827 19:26:48.536641 1 metrics.cc:729] DCGM unable to start: DCGM initialization error
+I0827 19:26:48.537045 1 metrics.cc:701] Collecting CPU metrics
+I0827 19:26:48.537258 1 tritonserver.cc:2385] 
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option                           | Value                                                                                                                                                                                                           |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| server_id                        | triton                                                                                                                                                                                                          |
+| server_version                   | 2.34.0                                                                                                                                                                                                          |
+| server_extensions                | classification sequence model_repository model_repository(unload_dependents) schedule_policy model_configuration system_shared_memory cuda_shared_memory binary_tensor_data parameters statistics trace logging |
+| model_repository_path[0]         | /models                                                                                                                                                                                                         |
+| model_control_mode               | MODE_NONE                                                                                                                                                                                                       |
+| strict_model_config              | 0                                                                                                                                                                                                               |
+| rate_limit                       | OFF                                                                                                                                                                                                             |
+| pinned_memory_pool_byte_size     | 268435456                                                                                                                                                                                                       |
+| cuda_memory_pool_byte_size{0}    | 67108864                                                                                                                                                                                                        |
+| min_supported_compute_capability | 6.0                                                                                                                                                                                                             |
+| strict_readiness                 | 1                                                                                                                                                                                                               |
+| exit_timeout                     | 30                                                                                                                                                                                                              |
+| cache_enabled                    | 0                                                                                                                                                                                                               |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0827 19:26:48.540615 1 grpc_server.cc:2450] Started GRPCInferenceService at 0.0.0.0:8001
+I0827 19:26:48.540947 1 http_server.cc:3555] Started HTTPService at 0.0.0.0:8000
+I0827 19:26:48.582765 1 http_server.cc:185] Started Metrics Service at 0.0.0.0:8002
+16.192352771759033 100 54.0
+15.65009355545044 110 54.0
+16.866791248321533 120 54.0
+17.916882038116455 130 54.0
+17.826664447784424 140 54.0
+19.32804584503174 150 54.0
+19.21905279159546 160 54.0
+20.685720443725586 170 54.0
+20.816433429718018 180 54.0
+22.034692764282227 190 54.0
+21.92929983139038 200 54.0
+23.563706874847412 210 54.0
+23.557817935943604 220 54.0
+25.013363361358643 230 54.0
+25.32655000686645 240 54.0
+26.692283153533936 250 54.0
+27.865266799926758 260 54.0
+27.698755264282227 270 54.0
+28.97377014160156 280 54.0
+28.909504413604736 290 54.0
+29.971027374267578 300 54.0
+29.86201047897339 310 54.0
+31.45064115524292 320 54.0
+31.335723400115967 330 54.0
+32.70801305770874 340 54.0
+32.737064361572266 350 54.0
+34.26896333694458 360 54.0
+34.949660301208496 370 54.0
+35.38033962249756 380 54.0
+37.05706596374512 390 54.0
+37.12948560714722 400 54.0
+38.28049898147583 410 54.0
+38.04086446762085 420 54.0
+39.05670642852783 430 54.0
+39.206111431121826 440 54.0
+40.776848793029785 450 54.0
+40.59948921203613 460 54.0
+42.010676860809326 470 54.0
+41.73096418380737 480 54.0
+43.42162609100342 490 54.0
+44.51613426208496 500 54.0
+44.645607471466064 510 54.0
+72.26982116699219 520 54.0
+Signal (15) received.
+I0827 21:46:58.074653 1 server.cc:283] Waiting for in-flight requests to complete.
+I0827 21:46:58.074675 1 server.cc:299] Timeout 30: Found 0 model versions that have in-flight inferences
+I0827 21:46:58.074788 1 server.cc:314] All models are stopped, unloading models
+I0827 21:46:58.074797 1 server.cc:321] Timeout 30: Found 1 live models and 0 in-flight non-inference requests
+I0827 21:46:58.076196 1 libtorch.cc:2135] TRITONBACKEND_ModelInstanceFinalize: delete instance state
+I0827 21:46:58.098222 1 libtorch.cc:2080] TRITONBACKEND_ModelFinalize: delete model state
+I0827 21:46:58.100085 1 model_lifecycle.cc:608] successfully unloaded 'resnet50' version 1
+I0827 21:46:59.074919 1 server.cc:321] Timeout 29: Found 0 live models and 0 in-flight non-inference requests
+d27818c7d05e
+Server 2741354 not found
+
+=============================
+== Triton Inference Server ==
+=============================
+
+NVIDIA Release 23.05 (build 61161506)
+Triton Server Version 2.34.0
+
+Copyright (c) 2018-2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+I0827 21:48:32.188238 1 pinned_memory_manager.cc:240] Pinned memory pool is created at '0x7ff936000000' with size 268435456
+I0827 21:48:32.190443 1 cuda_memory_manager.cc:105] CUDA memory pool is created on device 0 with size 67108864
+I0827 21:48:32.194506 1 model_lifecycle.cc:462] loading: resnet50:1
+I0827 21:48:32.756105 1 libtorch.cc:2008] TRITONBACKEND_Initialize: pytorch
+I0827 21:48:32.756145 1 libtorch.cc:2018] Triton TRITONBACKEND API version: 1.12
+I0827 21:48:32.756150 1 libtorch.cc:2024] 'pytorch' TRITONBACKEND API version: 1.12
+I0827 21:48:32.758191 1 libtorch.cc:2057] TRITONBACKEND_ModelInitialize: resnet50 (version 1)
+W0827 21:48:32.759095 1 libtorch.cc:284] skipping model configuration auto-complete for 'resnet50': not supported for pytorch backend
+I0827 21:48:32.759735 1 libtorch.cc:313] Optimized execution is enabled for model instance 'resnet50'
+I0827 21:48:32.759746 1 libtorch.cc:332] Cache Cleaning is disabled for model instance 'resnet50'
+I0827 21:48:32.759750 1 libtorch.cc:349] Inference Mode is disabled for model instance 'resnet50'
+I0827 21:48:32.759756 1 libtorch.cc:443] NvFuser is not specified for model instance 'resnet50'
+I0827 21:48:32.759853 1 libtorch.cc:2101] TRITONBACKEND_ModelInstanceInitialize: resnet50 (GPU device 0)
+I0827 21:48:33.052834 1 model_lifecycle.cc:815] successfully loaded 'resnet50'
+I0827 21:48:33.053066 1 server.cc:582] 
++------------------+------+
+| Repository Agent | Path |
++------------------+------+
++------------------+------+
+
+I0827 21:48:33.053204 1 server.cc:609] 
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Backend | Path                                                    | Config                                                                                                                                                        |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| pytorch | /opt/tritonserver/backends/pytorch/libtriton_pytorch.so | {"cmdline":{"auto-complete-config":"true","backend-directory":"/opt/tritonserver/backends","min-compute-capability":"6.000000","default-max-batch-size":"4"}} |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0827 21:48:33.053269 1 server.cc:652] 
++----------+---------+--------+
+| Model    | Version | Status |
++----------+---------+--------+
+| resnet50 | 1       | READY  |
++----------+---------+--------+
+
+CacheManager Init Failed. Error: -17
+W0827 21:48:33.090038 1 metrics.cc:729] DCGM unable to start: DCGM initialization error
+I0827 21:48:33.090361 1 metrics.cc:701] Collecting CPU metrics
+I0827 21:48:33.090540 1 tritonserver.cc:2385] 
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option                           | Value                                                                                                                                                                                                           |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| server_id                        | triton                                                                                                                                                                                                          |
+| server_version                   | 2.34.0                                                                                                                                                                                                          |
+| server_extensions                | classification sequence model_repository model_repository(unload_dependents) schedule_policy model_configuration system_shared_memory cuda_shared_memory binary_tensor_data parameters statistics trace logging |
+| model_repository_path[0]         | /models                                                                                                                                                                                                         |
+| model_control_mode               | MODE_NONE                                                                                                                                                                                                       |
+| strict_model_config              | 0                                                                                                                                                                                                               |
+| rate_limit                       | OFF                                                                                                                                                                                                             |
+| pinned_memory_pool_byte_size     | 268435456                                                                                                                                                                                                       |
+| cuda_memory_pool_byte_size{0}    | 67108864                                                                                                                                                                                                        |
+| min_supported_compute_capability | 6.0                                                                                                                                                                                                             |
+| strict_readiness                 | 1                                                                                                                                                                                                               |
+| exit_timeout                     | 30                                                                                                                                                                                                              |
+| cache_enabled                    | 0                                                                                                                                                                                                               |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0827 21:48:33.093169 1 grpc_server.cc:2450] Started GRPCInferenceService at 0.0.0.0:8001
+I0827 21:48:33.093439 1 http_server.cc:3555] Started HTTPService at 0.0.0.0:8000
+I0827 21:48:33.134662 1 http_server.cc:185] Started Metrics Service at 0.0.0.0:8002
+15.986073017120361 100 54.0
+15.575432777404785 110 54.0
+16.87777042388916 120 54.0
+18.098866939544678 130 54.0
+18.038415908813477 140 54.0
+19.53136920928955 150 54.0
+19.257140159606934 160 54.0
+20.874702930450436 170 54.0
+20.83747386932373 180 54.0
+21.948158740997314 190 54.0
+21.98277711868286 200 54.0
+23.1592059135437 210 54.0
+23.23380708694458 220 54.0
+24.581551551818848 230 54.0
+24.645137786865234 240 54.0
+26.684892177581776 250 54.0
+27.66164541244507 260 54.0
+27.606666088104248 270 54.0
+28.573668003082275 280 54.0
+28.63471508026123 290 54.0
+31.048130989074707 300 54.0
+29.84670400619507 310 54.0
+31.07783794403076 320 54.0
+31.25983476638794 330 54.0
+32.88707733154297 340 54.0
+32.890284061431885 350 54.0
+33.708012104034424 360 54.0
+33.757710456848145 370 54.0
+35.340332984924316 380 54.0
+36.41970157623291 390 54.0
+36.84332370758056 400 54.0
+37.6848578453064 410 54.0
+37.70632743835449 420 54.0
+38.988709449768066 430 54.0
+39.04268741607666 440 54.0
+40.416789054870605 450 54.0
+40.280139446258545 460 54.0
+41.45379066467285 470 54.0
+41.64252281188965 480 54.0
+42.80439615249634 490 54.0
+44.17914152145386 500 54.0
+44.15343999862671 510 54.0
+72.31184244155884 520 54.0
+I0828 00:08:35.066201 1 server.cc:283] Waiting for in-flight requests to complete.
+I0828 00:08:35.066242 1 server.cc:299] Timeout 30: Found 0 model versions that have in-flight inferences
+Signal (15) received.
+I0828 00:08:35.066507 1 server.cc:314] All models are stopped, unloading models
+I0828 00:08:35.066527 1 server.cc:321] Timeout 30: Found 1 live models and 0 in-flight non-inference requests
+I0828 00:08:35.067798 1 libtorch.cc:2135] TRITONBACKEND_ModelInstanceFinalize: delete instance state
+I0828 00:08:35.090138 1 libtorch.cc:2080] TRITONBACKEND_ModelFinalize: delete model state
+I0828 00:08:35.096602 1 model_lifecycle.cc:608] successfully unloaded 'resnet50' version 1
+I0828 00:08:36.066651 1 server.cc:321] Timeout 29: Found 0 live models and 0 in-flight non-inference requests
+fc09bcc5695d
+Server 2741354 not found
+
+=============================
+== Triton Inference Server ==
+=============================
+
+NVIDIA Release 23.05 (build 61161506)
+Triton Server Version 2.34.0
+
+Copyright (c) 2018-2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+I0828 00:10:08.645920 1 pinned_memory_manager.cc:240] Pinned memory pool is created at '0x7fad30000000' with size 268435456
+I0828 00:10:08.648124 1 cuda_memory_manager.cc:105] CUDA memory pool is created on device 0 with size 67108864
+I0828 00:10:08.652184 1 model_lifecycle.cc:462] loading: resnet50:1
+I0828 00:10:09.080220 1 libtorch.cc:2008] TRITONBACKEND_Initialize: pytorch
+I0828 00:10:09.080243 1 libtorch.cc:2018] Triton TRITONBACKEND API version: 1.12
+I0828 00:10:09.080246 1 libtorch.cc:2024] 'pytorch' TRITONBACKEND API version: 1.12
+I0828 00:10:09.082205 1 libtorch.cc:2057] TRITONBACKEND_ModelInitialize: resnet50 (version 1)
+W0828 00:10:09.082749 1 libtorch.cc:284] skipping model configuration auto-complete for 'resnet50': not supported for pytorch backend
+I0828 00:10:09.083157 1 libtorch.cc:313] Optimized execution is enabled for model instance 'resnet50'
+I0828 00:10:09.083164 1 libtorch.cc:332] Cache Cleaning is disabled for model instance 'resnet50'
+I0828 00:10:09.083167 1 libtorch.cc:349] Inference Mode is disabled for model instance 'resnet50'
+I0828 00:10:09.083170 1 libtorch.cc:443] NvFuser is not specified for model instance 'resnet50'
+I0828 00:10:09.083226 1 libtorch.cc:2101] TRITONBACKEND_ModelInstanceInitialize: resnet50 (GPU device 0)
+I0828 00:10:09.331595 1 model_lifecycle.cc:815] successfully loaded 'resnet50'
+I0828 00:10:09.331738 1 server.cc:582] 
++------------------+------+
+| Repository Agent | Path |
++------------------+------+
++------------------+------+
+
+I0828 00:10:09.331871 1 server.cc:609] 
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Backend | Path                                                    | Config                                                                                                                                                        |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| pytorch | /opt/tritonserver/backends/pytorch/libtriton_pytorch.so | {"cmdline":{"auto-complete-config":"true","backend-directory":"/opt/tritonserver/backends","min-compute-capability":"6.000000","default-max-batch-size":"4"}} |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0828 00:10:09.331935 1 server.cc:652] 
++----------+---------+--------+
+| Model    | Version | Status |
++----------+---------+--------+
+| resnet50 | 1       | READY  |
++----------+---------+--------+
+
+CacheManager Init Failed. Error: -17
+W0828 00:10:09.366309 1 metrics.cc:729] DCGM unable to start: DCGM initialization error
+I0828 00:10:09.366612 1 metrics.cc:701] Collecting CPU metrics
+I0828 00:10:09.366787 1 tritonserver.cc:2385] 
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option                           | Value                                                                                                                                                                                                           |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| server_id                        | triton                                                                                                                                                                                                          |
+| server_version                   | 2.34.0                                                                                                                                                                                                          |
+| server_extensions                | classification sequence model_repository model_repository(unload_dependents) schedule_policy model_configuration system_shared_memory cuda_shared_memory binary_tensor_data parameters statistics trace logging |
+| model_repository_path[0]         | /models                                                                                                                                                                                                         |
+| model_control_mode               | MODE_NONE                                                                                                                                                                                                       |
+| strict_model_config              | 0                                                                                                                                                                                                               |
+| rate_limit                       | OFF                                                                                                                                                                                                             |
+| pinned_memory_pool_byte_size     | 268435456                                                                                                                                                                                                       |
+| cuda_memory_pool_byte_size{0}    | 67108864                                                                                                                                                                                                        |
+| min_supported_compute_capability | 6.0                                                                                                                                                                                                             |
+| strict_readiness                 | 1                                                                                                                                                                                                               |
+| exit_timeout                     | 30                                                                                                                                                                                                              |
+| cache_enabled                    | 0                                                                                                                                                                                                               |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0828 00:10:09.369096 1 grpc_server.cc:2450] Started GRPCInferenceService at 0.0.0.0:8001
+I0828 00:10:09.369358 1 http_server.cc:3555] Started HTTPService at 0.0.0.0:8000
+I0828 00:10:09.411132 1 http_server.cc:185] Started Metrics Service at 0.0.0.0:8002
+15.525317192077635 100 54.0
+15.262460708618164 110 54.0
+16.472208499908447 120 54.0
+18.18311214447021 130 54.0
+18.027913570404053 140 54.0
+19.223320484161377 150 54.0
+19.217634201049798 160 54.0
+20.775043964385986 170 54.0
+20.830428600311276 180 54.0
+21.392524242401123 190 54.0
+21.668612957000732 200 54.0
+22.98671007156372 210 54.0
+22.9445219039917 220 54.0
+24.218344688415527 230 54.0
+24.147844314575195 240 54.0
+26.257872581481934 250 54.0
+27.55352258682251 260 54.0
+27.235829830169678 270 54.0
+30.828809738159176 280 54.0
+28.311526775360107 290 54.0
+29.337191581726074 300 54.0
+29.438424110412598 310 54.0
+30.77983856201172 320 54.0
+30.940580368041992 330 54.0
+31.99014663696289 340 54.0
+31.91535472869873 350 54.0
+33.34603309631348 360 54.0
+33.175039291381836 370 54.0
+34.520578384399414 380 54.0
+35.61663627624512 390 54.0
+35.61440706253052 400 54.0
+37.16921806335449 410 54.0
+36.91946268081665 420 54.0
+38.161325454711914 430 54.0
+38.090384006500244 440 54.0
+39.5732045173645 450 54.0
+39.430272579193115 460 54.0
+40.838706493377686 470 54.0
+41.04205369949341 480 54.0
+42.16816425323486 490 54.0
+43.623507022857666 500 54.0
+43.14589500427246 510 54.0
+71.61577939987183 520 54.0
+Signal (15) received.
+I0828 02:29:46.322341 1 server.cc:283] Waiting for in-flight requests to complete.
+I0828 02:29:46.322388 1 server.cc:299] Timeout 30: Found 0 model versions that have in-flight inferences
+I0828 02:29:46.322626 1 server.cc:314] All models are stopped, unloading models
+I0828 02:29:46.322644 1 server.cc:321] Timeout 30: Found 1 live models and 0 in-flight non-inference requests
+I0828 02:29:46.323943 1 libtorch.cc:2135] TRITONBACKEND_ModelInstanceFinalize: delete instance state
+I0828 02:29:46.345987 1 libtorch.cc:2080] TRITONBACKEND_ModelFinalize: delete model state
+I0828 02:29:46.347855 1 model_lifecycle.cc:608] successfully unloaded 'resnet50' version 1
+I0828 02:29:47.322772 1 server.cc:321] Timeout 29: Found 0 live models and 0 in-flight non-inference requests
+d3ff6e266651
+Server 2741354 not found
+
+=============================
+== Triton Inference Server ==
+=============================
+
+NVIDIA Release 23.05 (build 61161506)
+Triton Server Version 2.34.0
+
+Copyright (c) 2018-2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+I0828 02:31:19.936847 1 pinned_memory_manager.cc:240] Pinned memory pool is created at '0x7f77c6000000' with size 268435456
+I0828 02:31:19.939087 1 cuda_memory_manager.cc:105] CUDA memory pool is created on device 0 with size 67108864
+I0828 02:31:19.943162 1 model_lifecycle.cc:462] loading: resnet50:1
+I0828 02:31:20.304957 1 libtorch.cc:2008] TRITONBACKEND_Initialize: pytorch
+I0828 02:31:20.304980 1 libtorch.cc:2018] Triton TRITONBACKEND API version: 1.12
+I0828 02:31:20.304983 1 libtorch.cc:2024] 'pytorch' TRITONBACKEND API version: 1.12
+I0828 02:31:20.306947 1 libtorch.cc:2057] TRITONBACKEND_ModelInitialize: resnet50 (version 1)
+W0828 02:31:20.307480 1 libtorch.cc:284] skipping model configuration auto-complete for 'resnet50': not supported for pytorch backend
+I0828 02:31:20.307886 1 libtorch.cc:313] Optimized execution is enabled for model instance 'resnet50'
+I0828 02:31:20.307892 1 libtorch.cc:332] Cache Cleaning is disabled for model instance 'resnet50'
+I0828 02:31:20.307895 1 libtorch.cc:349] Inference Mode is disabled for model instance 'resnet50'
+I0828 02:31:20.307898 1 libtorch.cc:443] NvFuser is not specified for model instance 'resnet50'
+I0828 02:31:20.307954 1 libtorch.cc:2101] TRITONBACKEND_ModelInstanceInitialize: resnet50 (GPU device 0)
+I0828 02:31:20.569579 1 model_lifecycle.cc:815] successfully loaded 'resnet50'
+I0828 02:31:20.569787 1 server.cc:582] 
++------------------+------+
+| Repository Agent | Path |
++------------------+------+
++------------------+------+
+
+I0828 02:31:20.569923 1 server.cc:609] 
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Backend | Path                                                    | Config                                                                                                                                                        |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| pytorch | /opt/tritonserver/backends/pytorch/libtriton_pytorch.so | {"cmdline":{"auto-complete-config":"true","backend-directory":"/opt/tritonserver/backends","min-compute-capability":"6.000000","default-max-batch-size":"4"}} |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0828 02:31:20.569986 1 server.cc:652] 
++----------+---------+--------+
+| Model    | Version | Status |
++----------+---------+--------+
+| resnet50 | 1       | READY  |
++----------+---------+--------+
+
+CacheManager Init Failed. Error: -17
+W0828 02:31:20.606175 1 metrics.cc:729] DCGM unable to start: DCGM initialization error
+I0828 02:31:20.606475 1 metrics.cc:701] Collecting CPU metrics
+I0828 02:31:20.606652 1 tritonserver.cc:2385] 
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option                           | Value                                                                                                                                                                                                           |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| server_id                        | triton                                                                                                                                                                                                          |
+| server_version                   | 2.34.0                                                                                                                                                                                                          |
+| server_extensions                | classification sequence model_repository model_repository(unload_dependents) schedule_policy model_configuration system_shared_memory cuda_shared_memory binary_tensor_data parameters statistics trace logging |
+| model_repository_path[0]         | /models                                                                                                                                                                                                         |
+| model_control_mode               | MODE_NONE                                                                                                                                                                                                       |
+| strict_model_config              | 0                                                                                                                                                                                                               |
+| rate_limit                       | OFF                                                                                                                                                                                                             |
+| pinned_memory_pool_byte_size     | 268435456                                                                                                                                                                                                       |
+| cuda_memory_pool_byte_size{0}    | 67108864                                                                                                                                                                                                        |
+| min_supported_compute_capability | 6.0                                                                                                                                                                                                             |
+| strict_readiness                 | 1                                                                                                                                                                                                               |
+| exit_timeout                     | 30                                                                                                                                                                                                              |
+| cache_enabled                    | 0                                                                                                                                                                                                               |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0828 02:31:20.609157 1 grpc_server.cc:2450] Started GRPCInferenceService at 0.0.0.0:8001
+I0828 02:31:20.609424 1 http_server.cc:3555] Started HTTPService at 0.0.0.0:8000
+I0828 02:31:20.650794 1 http_server.cc:185] Started Metrics Service at 0.0.0.0:8002
+16.101694107055664 100 54.0
+15.606296062469482 110 54.0
+16.90574884414673 120 54.0
+17.918825149536133 130 54.0
+18.195509910583496 140 54.0
+19.30621862411499 150 54.0
+19.567573070526123 160 54.0
+20.795905590057373 170 54.0
+20.932257175445557 180 54.0
+21.97815179824829 190 54.0
+22.053122520446777 200 54.0
+23.416411876678467 210 54.0
+23.530828952789307 220 54.0
+24.84149932861328 230 54.0
+24.72304105758667 240 54.0
+27.014935016632077 250 54.0
+27.666878700256348 260 54.0
+27.63599157333374 270 54.0
+28.663933277130127 280 54.0
+28.80399227142334 290 54.0
+29.930078983306885 300 54.0
+29.83678579330444 310 54.0
+31.608843803405758 320 54.0
+31.74077272415161 330 54.0
+32.79848098754883 340 54.0
+32.634806632995605 350 54.0
+33.69789123535156 360 54.0
+33.91575813293457 370 54.0
+35.65480709075928 380 54.0
+36.54223680496216 390 54.0
+36.31798028945923 400 54.0
+37.8456711769104 410 54.0
+37.71735429763794 420 54.0
+39.12392854690552 430 54.0
+41.30489826202386 440 54.0
+40.586769580841064 450 54.0
+40.73423147201538 460 54.0
+42.06024408340454 470 54.0
+42.461252212524414 480 54.0
+43.68695020675659 490 54.0
+45.84013223648071 500 54.0
+44.86386775970459 510 54.0
+72.57634401321411 520 54.0
+Signal (15) received.
+I0828 04:51:18.685230 1 server.cc:283] Waiting for in-flight requests to complete.
+I0828 04:51:18.685260 1 server.cc:299] Timeout 30: Found 0 model versions that have in-flight inferences
+I0828 04:51:18.685392 1 server.cc:314] All models are stopped, unloading models
+I0828 04:51:18.685401 1 server.cc:321] Timeout 30: Found 1 live models and 0 in-flight non-inference requests
+I0828 04:51:18.686801 1 libtorch.cc:2135] TRITONBACKEND_ModelInstanceFinalize: delete instance state
+I0828 04:51:18.709574 1 libtorch.cc:2080] TRITONBACKEND_ModelFinalize: delete model state
+I0828 04:51:18.711539 1 model_lifecycle.cc:608] successfully unloaded 'resnet50' version 1
+I0828 04:51:19.685523 1 server.cc:321] Timeout 29: Found 0 live models and 0 in-flight non-inference requests
+975c2dc9df84
+Server 2741354 not found
+
+=============================
+== Triton Inference Server ==
+=============================
+
+NVIDIA Release 23.05 (build 61161506)
+Triton Server Version 2.34.0
+
+Copyright (c) 2018-2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+I0828 04:52:52.179455 1 pinned_memory_manager.cc:240] Pinned memory pool is created at '0x7f06a0000000' with size 268435456
+I0828 04:52:52.182960 1 cuda_memory_manager.cc:105] CUDA memory pool is created on device 0 with size 67108864
+I0828 04:52:52.187065 1 model_lifecycle.cc:462] loading: resnet50:1
+I0828 04:52:52.592265 1 libtorch.cc:2008] TRITONBACKEND_Initialize: pytorch
+I0828 04:52:52.592288 1 libtorch.cc:2018] Triton TRITONBACKEND API version: 1.12
+I0828 04:52:52.592291 1 libtorch.cc:2024] 'pytorch' TRITONBACKEND API version: 1.12
+I0828 04:52:52.594248 1 libtorch.cc:2057] TRITONBACKEND_ModelInitialize: resnet50 (version 1)
+W0828 04:52:52.594796 1 libtorch.cc:284] skipping model configuration auto-complete for 'resnet50': not supported for pytorch backend
+I0828 04:52:52.595201 1 libtorch.cc:313] Optimized execution is enabled for model instance 'resnet50'
+I0828 04:52:52.595207 1 libtorch.cc:332] Cache Cleaning is disabled for model instance 'resnet50'
+I0828 04:52:52.595210 1 libtorch.cc:349] Inference Mode is disabled for model instance 'resnet50'
+I0828 04:52:52.595213 1 libtorch.cc:443] NvFuser is not specified for model instance 'resnet50'
+I0828 04:52:52.595270 1 libtorch.cc:2101] TRITONBACKEND_ModelInstanceInitialize: resnet50 (GPU device 0)
+I0828 04:52:52.861231 1 model_lifecycle.cc:815] successfully loaded 'resnet50'
+I0828 04:52:52.861418 1 server.cc:582] 
++------------------+------+
+| Repository Agent | Path |
++------------------+------+
++------------------+------+
+
+I0828 04:52:52.861475 1 server.cc:609] 
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Backend | Path                                                    | Config                                                                                                                                                        |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| pytorch | /opt/tritonserver/backends/pytorch/libtriton_pytorch.so | {"cmdline":{"auto-complete-config":"true","backend-directory":"/opt/tritonserver/backends","min-compute-capability":"6.000000","default-max-batch-size":"4"}} |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0828 04:52:52.861502 1 server.cc:652] 
++----------+---------+--------+
+| Model    | Version | Status |
++----------+---------+--------+
+| resnet50 | 1       | READY  |
++----------+---------+--------+
+
+CacheManager Init Failed. Error: -17
+W0828 04:52:52.897695 1 metrics.cc:729] DCGM unable to start: DCGM initialization error
+I0828 04:52:52.897990 1 metrics.cc:701] Collecting CPU metrics
+I0828 04:52:52.898167 1 tritonserver.cc:2385] 
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option                           | Value                                                                                                                                                                                                           |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| server_id                        | triton                                                                                                                                                                                                          |
+| server_version                   | 2.34.0                                                                                                                                                                                                          |
+| server_extensions                | classification sequence model_repository model_repository(unload_dependents) schedule_policy model_configuration system_shared_memory cuda_shared_memory binary_tensor_data parameters statistics trace logging |
+| model_repository_path[0]         | /models                                                                                                                                                                                                         |
+| model_control_mode               | MODE_NONE                                                                                                                                                                                                       |
+| strict_model_config              | 0                                                                                                                                                                                                               |
+| rate_limit                       | OFF                                                                                                                                                                                                             |
+| pinned_memory_pool_byte_size     | 268435456                                                                                                                                                                                                       |
+| cuda_memory_pool_byte_size{0}    | 67108864                                                                                                                                                                                                        |
+| min_supported_compute_capability | 6.0                                                                                                                                                                                                             |
+| strict_readiness                 | 1                                                                                                                                                                                                               |
+| exit_timeout                     | 30                                                                                                                                                                                                              |
+| cache_enabled                    | 0                                                                                                                                                                                                               |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0828 04:52:52.900782 1 grpc_server.cc:2450] Started GRPCInferenceService at 0.0.0.0:8001
+I0828 04:52:52.901062 1 http_server.cc:3555] Started HTTPService at 0.0.0.0:8000
+I0828 04:52:52.942357 1 http_server.cc:185] Started Metrics Service at 0.0.0.0:8002
+15.396547317504883 100 54.0
+15.517640113830566 110 54.0
+16.623055934906006 120 54.0
+17.587745189666748 130 54.0
+17.5276517868042 140 54.0
+18.90420913696289 150 54.0
+19.04127597808838 160 54.0
+20.37564516067505 170 54.0
+20.374226570129395 180 54.0
+21.409690380096436 190 54.0
+21.750247478485107 200 54.0
+23.02324771881103 210 54.0
+22.811615467071533 220 54.0
+24.059641361236572 230 54.0
+24.36290979385375 240 54.0
+26.07901096343994 250 54.0
+27.003037929534912 260 54.0
+28.367054462432858 270 54.0
+28.08537483215332 280 54.0
+28.0664324760437 290 54.0
+29.329633712768555 300 54.0
+30.038297176361073 310 54.0
+30.685722827911377 320 54.0
+30.96601963043213 330 54.0
+31.62834644317627 340 54.0
+31.71555995941162 350 54.0
+33.35832357406616 360 54.0
+32.815706729888916 370 54.0
+34.2883825302124 380 54.0
+36.62834167480469 390 54.0
+35.46247482299805 400 54.0
+37.13892698287964 410 54.0
+37.150442600250244 420 54.0
+38.32540512084961 430 54.0
+39.60713148117065 440 54.0
+39.80610370635986 450 54.0
+40.11482000350952 460 54.0
+40.68915843963623 470 54.0
+41.67070388793945 480 54.0
+43.06846857070923 490 54.0
+44.330644607543945 500 54.0
+45.79476118087767 510 54.0
+72.59058952331543 520 54.0
+Signal (15) received.
+I0828 07:12:46.687030 1 server.cc:283] Waiting for in-flight requests to complete.
+I0828 07:12:46.687058 1 server.cc:299] Timeout 30: Found 0 model versions that have in-flight inferences
+I0828 07:12:46.687196 1 server.cc:314] All models are stopped, unloading models
+I0828 07:12:46.687206 1 server.cc:321] Timeout 30: Found 1 live models and 0 in-flight non-inference requests
+I0828 07:12:46.688504 1 libtorch.cc:2135] TRITONBACKEND_ModelInstanceFinalize: delete instance state
+I0828 07:12:46.720910 1 libtorch.cc:2080] TRITONBACKEND_ModelFinalize: delete model state
+I0828 07:12:46.730422 1 model_lifecycle.cc:608] successfully unloaded 'resnet50' version 1
+I0828 07:12:47.687324 1 server.cc:321] Timeout 29: Found 0 live models and 0 in-flight non-inference requests
+b8db2bd5425d
+Server 2741354 not found
+
+=============================
+== Triton Inference Server ==
+=============================
+
+NVIDIA Release 23.05 (build 61161506)
+Triton Server Version 2.34.0
+
+Copyright (c) 2018-2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+I0828 07:14:20.419315 1 pinned_memory_manager.cc:240] Pinned memory pool is created at '0x7f97a0000000' with size 268435456
+I0828 07:14:20.421555 1 cuda_memory_manager.cc:105] CUDA memory pool is created on device 0 with size 67108864
+I0828 07:14:20.425596 1 model_lifecycle.cc:462] loading: resnet50:1
+I0828 07:14:20.831783 1 libtorch.cc:2008] TRITONBACKEND_Initialize: pytorch
+I0828 07:14:20.831806 1 libtorch.cc:2018] Triton TRITONBACKEND API version: 1.12
+I0828 07:14:20.831810 1 libtorch.cc:2024] 'pytorch' TRITONBACKEND API version: 1.12
+I0828 07:14:20.833760 1 libtorch.cc:2057] TRITONBACKEND_ModelInitialize: resnet50 (version 1)
+W0828 07:14:20.834333 1 libtorch.cc:284] skipping model configuration auto-complete for 'resnet50': not supported for pytorch backend
+I0828 07:14:20.834739 1 libtorch.cc:313] Optimized execution is enabled for model instance 'resnet50'
+I0828 07:14:20.834746 1 libtorch.cc:332] Cache Cleaning is disabled for model instance 'resnet50'
+I0828 07:14:20.834749 1 libtorch.cc:349] Inference Mode is disabled for model instance 'resnet50'
+I0828 07:14:20.834753 1 libtorch.cc:443] NvFuser is not specified for model instance 'resnet50'
+I0828 07:14:20.834809 1 libtorch.cc:2101] TRITONBACKEND_ModelInstanceInitialize: resnet50 (GPU device 0)
+I0828 07:14:21.098818 1 model_lifecycle.cc:815] successfully loaded 'resnet50'
+I0828 07:14:21.098974 1 server.cc:582] 
++------------------+------+
+| Repository Agent | Path |
++------------------+------+
++------------------+------+
+
+I0828 07:14:21.099029 1 server.cc:609] 
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Backend | Path                                                    | Config                                                                                                                                                        |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| pytorch | /opt/tritonserver/backends/pytorch/libtriton_pytorch.so | {"cmdline":{"auto-complete-config":"true","backend-directory":"/opt/tritonserver/backends","min-compute-capability":"6.000000","default-max-batch-size":"4"}} |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0828 07:14:21.099056 1 server.cc:652] 
++----------+---------+--------+
+| Model    | Version | Status |
++----------+---------+--------+
+| resnet50 | 1       | READY  |
++----------+---------+--------+
+
+CacheManager Init Failed. Error: -17
+W0828 07:14:21.115579 1 metrics.cc:729] DCGM unable to start: DCGM initialization error
+I0828 07:14:21.115876 1 metrics.cc:701] Collecting CPU metrics
+I0828 07:14:21.116048 1 tritonserver.cc:2385] 
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option                           | Value                                                                                                                                                                                                           |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| server_id                        | triton                                                                                                                                                                                                          |
+| server_version                   | 2.34.0                                                                                                                                                                                                          |
+| server_extensions                | classification sequence model_repository model_repository(unload_dependents) schedule_policy model_configuration system_shared_memory cuda_shared_memory binary_tensor_data parameters statistics trace logging |
+| model_repository_path[0]         | /models                                                                                                                                                                                                         |
+| model_control_mode               | MODE_NONE                                                                                                                                                                                                       |
+| strict_model_config              | 0                                                                                                                                                                                                               |
+| rate_limit                       | OFF                                                                                                                                                                                                             |
+| pinned_memory_pool_byte_size     | 268435456                                                                                                                                                                                                       |
+| cuda_memory_pool_byte_size{0}    | 67108864                                                                                                                                                                                                        |
+| min_supported_compute_capability | 6.0                                                                                                                                                                                                             |
+| strict_readiness                 | 1                                                                                                                                                                                                               |
+| exit_timeout                     | 30                                                                                                                                                                                                              |
+| cache_enabled                    | 0                                                                                                                                                                                                               |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0828 07:14:21.118481 1 grpc_server.cc:2450] Started GRPCInferenceService at 0.0.0.0:8001
+I0828 07:14:21.118761 1 http_server.cc:3555] Started HTTPService at 0.0.0.0:8000
+I0828 07:14:21.160255 1 http_server.cc:185] Started Metrics Service at 0.0.0.0:8002
+15.677106380462646 100 54.0
+15.32444953918457 110 54.0
+16.492342948913574 120 54.0
+17.723989486694336 130 54.0
+19.270169734954827 140 54.0
+19.16433572769165 150 54.0
+19.115722179412842 160 54.0
+20.861470699310303 170 54.0
+20.84414958953857 180 54.0
+21.722376346588135 190 54.0
+21.738433837890625 200 54.0
+23.359572887420654 210 54.0
+24.565160274505605 220 54.0
+24.375522136688232 230 54.0
+24.294912815093994 240 54.0
+26.260280609130856 250 54.0
+27.188360691070557 260 54.0
+27.169632911682125 270 54.0
+28.75891923904419 280 54.0
+28.47112417221069 290 54.0
+30.386650562286373 300 54.0
+29.08560037612915 310 54.0
+30.535769462585446 320 54.0
+30.388426780700684 330 54.0
+31.89762830734253 340 54.0
+31.847751140594482 350 54.0
+33.11690092086792 360 54.0
+33.04188251495361 370 54.0
+34.2303991317749 380 54.0
+61.460304260253906 390 54.0
+Signal (15) received.
+I0828 08:41:38.970935 1 server.cc:283] Waiting for in-flight requests to complete.
+I0828 08:41:38.970976 1 server.cc:299] Timeout 30: Found 0 model versions that have in-flight inferences
+I0828 08:41:38.971235 1 server.cc:314] All models are stopped, unloading models
+I0828 08:41:38.971253 1 server.cc:321] Timeout 30: Found 1 live models and 0 in-flight non-inference requests
+I0828 08:41:38.972523 1 libtorch.cc:2135] TRITONBACKEND_ModelInstanceFinalize: delete instance state
+I0828 08:41:38.993305 1 libtorch.cc:2080] TRITONBACKEND_ModelFinalize: delete model state
+I0828 08:41:38.999593 1 model_lifecycle.cc:608] successfully unloaded 'resnet50' version 1
+I0828 08:41:39.971382 1 server.cc:321] Timeout 29: Found 0 live models and 0 in-flight non-inference requests
+669fcd5517b7
+Server 2741354 not found
+
+=============================
+== Triton Inference Server ==
+=============================
+
+NVIDIA Release 23.05 (build 61161506)
+Triton Server Version 2.34.0
+
+Copyright (c) 2018-2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+I0828 08:43:12.349456 1 pinned_memory_manager.cc:240] Pinned memory pool is created at '0x7f91f8000000' with size 268435456
+I0828 08:43:12.351598 1 cuda_memory_manager.cc:105] CUDA memory pool is created on device 0 with size 67108864
+I0828 08:43:12.354863 1 model_lifecycle.cc:462] loading: resnet50:1
+I0828 08:43:12.791263 1 libtorch.cc:2008] TRITONBACKEND_Initialize: pytorch
+I0828 08:43:12.791286 1 libtorch.cc:2018] Triton TRITONBACKEND API version: 1.12
+I0828 08:43:12.791289 1 libtorch.cc:2024] 'pytorch' TRITONBACKEND API version: 1.12
+I0828 08:43:12.793245 1 libtorch.cc:2057] TRITONBACKEND_ModelInitialize: resnet50 (version 1)
+W0828 08:43:12.793780 1 libtorch.cc:284] skipping model configuration auto-complete for 'resnet50': not supported for pytorch backend
+I0828 08:43:12.794186 1 libtorch.cc:313] Optimized execution is enabled for model instance 'resnet50'
+I0828 08:43:12.794192 1 libtorch.cc:332] Cache Cleaning is disabled for model instance 'resnet50'
+I0828 08:43:12.794195 1 libtorch.cc:349] Inference Mode is disabled for model instance 'resnet50'
+I0828 08:43:12.794199 1 libtorch.cc:443] NvFuser is not specified for model instance 'resnet50'
+I0828 08:43:12.794261 1 libtorch.cc:2101] TRITONBACKEND_ModelInstanceInitialize: resnet50 (GPU device 0)
+I0828 08:43:13.064077 1 model_lifecycle.cc:815] successfully loaded 'resnet50'
+I0828 08:43:13.064244 1 server.cc:582] 
++------------------+------+
+| Repository Agent | Path |
++------------------+------+
++------------------+------+
+
+I0828 08:43:13.064289 1 server.cc:609] 
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Backend | Path                                                    | Config                                                                                                                                                        |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| pytorch | /opt/tritonserver/backends/pytorch/libtriton_pytorch.so | {"cmdline":{"auto-complete-config":"true","backend-directory":"/opt/tritonserver/backends","min-compute-capability":"6.000000","default-max-batch-size":"4"}} |
++---------+---------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0828 08:43:13.064308 1 server.cc:652] 
++----------+---------+--------+
+| Model    | Version | Status |
++----------+---------+--------+
+| resnet50 | 1       | READY  |
++----------+---------+--------+
+
+CacheManager Init Failed. Error: -17
+W0828 08:43:13.097067 1 metrics.cc:729] DCGM unable to start: DCGM initialization error
+I0828 08:43:13.097331 1 metrics.cc:701] Collecting CPU metrics
+I0828 08:43:13.097495 1 tritonserver.cc:2385] 
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option                           | Value                                                                                                                                                                                                           |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| server_id                        | triton                                                                                                                                                                                                          |
+| server_version                   | 2.34.0                                                                                                                                                                                                          |
+| server_extensions                | classification sequence model_repository model_repository(unload_dependents) schedule_policy model_configuration system_shared_memory cuda_shared_memory binary_tensor_data parameters statistics trace logging |
+| model_repository_path[0]         | /models                                                                                                                                                                                                         |
+| model_control_mode               | MODE_NONE                                                                                                                                                                                                       |
+| strict_model_config              | 0                                                                                                                                                                                                               |
+| rate_limit                       | OFF                                                                                                                                                                                                             |
+| pinned_memory_pool_byte_size     | 268435456                                                                                                                                                                                                       |
+| cuda_memory_pool_byte_size{0}    | 67108864                                                                                                                                                                                                        |
+| min_supported_compute_capability | 6.0                                                                                                                                                                                                             |
+| strict_readiness                 | 1                                                                                                                                                                                                               |
+| exit_timeout                     | 30                                                                                                                                                                                                              |
+| cache_enabled                    | 0                                                                                                                                                                                                               |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0828 08:43:13.099691 1 grpc_server.cc:2450] Started GRPCInferenceService at 0.0.0.0:8001
+I0828 08:43:13.099936 1 http_server.cc:3555] Started HTTPService at 0.0.0.0:8000
+I0828 08:43:13.141096 1 http_server.cc:185] Started Metrics Service at 0.0.0.0:8002
+16.16123914718628 100 54.0
+15.710830688476562 110 54.0
+16.701459884643555 120 54.0
+18.07647943496704 130 54.0
+18.142259120941162 140 54.0
+19.431400299072266 150 54.0
+19.49225664138794 160 54.0
+20.962047576904297 170 54.0
+20.988965034484863 180 54.0
+22.36093282699585 190 54.0
+22.101283073425293 200 54.0
+23.44726324081421 210 54.0
+23.889970779418938 220 54.0
+25.12717247009277 230 54.0
+25.980901718139616 240 54.0
+27.124452590942383 250 54.0
+28.925025463104248 260 54.0
+28.455770015716542 270 54.0
+28.881239891052246 280 54.0
+29.5175552368164 290 54.0
+31.0896635055542 300 54.0
+30.340230464935303 310 54.0
+31.681251525878906 320 54.0
+31.716430187225342 330 54.0
+33.08194875717163 340 54.0
+33.11645984649658 350 54.0
+37.983155250549316 360 54.0
+34.726452827453606 370 54.0
+36.253786087036126 380 54.0
+36.971092224121094 390 54.0
+36.952269077301025 400 54.0
+38.83570432662963 410 54.0
+38.915550708770745 420 54.0
+39.58309888839722 430 54.0
+39.234960079193115 440 54.0
+40.80733060836792 450 54.0
+40.811192989349365 460 54.0
+42.06647872924805 470 54.0
+42.28748083114624 480 54.0
+43.74955892562866 490 54.0
+45.16119956970215 500 54.0
+45.04307508468628 510 54.0
+72.8685736656189 520 54.0
+Signal (15) received.
+I0828 11:03:37.139684 1 server.cc:283] Waiting for in-flight requests to complete.
+I0828 11:03:37.139728 1 server.cc:299] Timeout 30: Found 0 model versions that have in-flight inferences
+I0828 11:03:37.139972 1 server.cc:314] All models are stopped, unloading models
+I0828 11:03:37.139993 1 server.cc:321] Timeout 30: Found 1 live models and 0 in-flight non-inference requests
+I0828 11:03:37.141403 1 libtorch.cc:2135] TRITONBACKEND_ModelInstanceFinalize: delete instance state
+I0828 11:03:37.164200 1 libtorch.cc:2080] TRITONBACKEND_ModelFinalize: delete model state
+I0828 11:03:37.170670 1 model_lifecycle.cc:608] successfully unloaded 'resnet50' version 1
+I0828 11:03:38.140125 1 server.cc:321] Timeout 29: Found 0 live models and 0 in-flight non-inference requests
+f6d48b03615d
+Server 2741354 not found
+
+=============================
+== Triton Inference Server ==
+=============================
+
+NVIDIA Release 23.05 (build 61161506)
+Triton Server Version 2.34.0
+
+Copyright (c) 2018-2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+Traceback (most recent call last):
+  File "client.py", line 110, in <module>
+    send_request(model_name=task, SM=config)
+  File "client.py", line 83, in send_request
+    results = triton_client.infer(model_name=MODEL_NAME, inputs=inputs, outputs=outputs)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/tritonclient/http/_client.py", line 1476, in infer
+    response = self._post(
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/tritonclient/http/_client.py", line 296, in _post
+    response = self._client_stub.post(
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/geventhttpclient/client.py", line 272, in post
+    return self.request(METHOD_POST, request_uri, body=body, headers=headers)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/geventhttpclient/client.py", line 250, in request
+    raise e
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/geventhttpclient/client.py", line 231, in request
+    sock.sendall(_request + body)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/gevent/_socketcommon.py", line 702, in sendall
+    return _sendall(self, data_memory, flags)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/gevent/_socketcommon.py", line 391, in _sendall
+    timeleft = __send_chunk(socket, chunk, flags, timeleft, end)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/gevent/_socketcommon.py", line 331, in __send_chunk
+    data_sent += socket.send(chunk, flags, timeout=timeleft)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/gevent/_socketcommon.py", line 725, in send
+    return self._sock.send(data, flags)
+BrokenPipeError: [Errno 32] Broken pipe

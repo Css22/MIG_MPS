@@ -45,7 +45,7 @@ def generate_input_data(QoS, RPS):
 
 
 def get_p95(data):
-    data = np.array(data)[200:]
+    data = np.array(data)[600:]
     percentile_95 = np.percentile(data, 95)
     return percentile_95
 
@@ -65,7 +65,7 @@ def send_request(model_name, SM):
       
         
         tail_latecy = []
-        for j in range(0, 500):
+        for j in range(0, 1000):
             RPS = i
             half_QoS = QoS/2
             input_data = generate_input_data(QoS, RPS)
