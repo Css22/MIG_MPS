@@ -1303,3 +1303,160 @@ vgg19 71.90678119659424 706
 70.66601514816284 71.0 704
 71.87949419021606 71.0 705
 vgg19 71.87949419021606 705
+/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/requests/__init__.py:109: RequestsDependencyWarning: urllib3 (2.2.2) or chardet (5.2.0)/charset_normalizer (None) doesn't match a supported version!
+  warnings.warn(
+71.4624285697937 71.0 800
+vgg16 71.4624285697937 800
+38.935256004333496 71.0 450
+55.39880990982056 71.0 625
+64.29916620254517 71.0 712
+66.28177165985107 71.0 756
+70.41665315628052 71.0 778
+71.44327163696289 71.0 789
+vgg16 71.44327163696289 789
+69.76853609085083 71.0 783
+67.95064210891724 71.0 786
+70.4843282699585 71.0 787
+69.51375007629395 71.0 788
+/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/requests/__init__.py:109: RequestsDependencyWarning: urllib3 (2.2.2) or chardet (5.2.0)/charset_normalizer (None) doesn't match a supported version!
+  warnings.warn(
+Using cache found in /home/zbw/.cache/torch/hub/mateuszbuda_brain-segmentation-pytorch_master
+Using cache found in /home/zbw/.cache/torch/hub/mateuszbuda_brain-segmentation-pytorch_master
+Using cache found in /home/zbw/.cache/torch/hub/mateuszbuda_brain-segmentation-pytorch_master
+Using cache found in /home/zbw/.cache/torch/hub/mateuszbuda_brain-segmentation-pytorch_master
+Using cache found in /home/zbw/.cache/torch/hub/mateuszbuda_brain-segmentation-pytorch_master
+Using cache found in /home/zbw/.cache/torch/hub/mateuszbuda_brain-segmentation-pytorch_master
+Using cache found in /home/zbw/.cache/torch/hub/mateuszbuda_brain-segmentation-pytorch_master
+Using cache found in /home/zbw/.cache/torch/hub/mateuszbuda_brain-segmentation-pytorch_master
+Using cache found in /home/zbw/.cache/torch/hub/mateuszbuda_brain-segmentation-pytorch_master
+Using cache found in /home/zbw/.cache/torch/hub/mateuszbuda_brain-segmentation-pytorch_master
+Using cache found in /home/zbw/.cache/torch/hub/mateuszbuda_brain-segmentation-pytorch_master
+67.74487495422363 60.0 800
+unet 67.74487495422363 800
+37.44988441467285 60.0 450
+54.63038682937622 60.0 625
+61.80405616760254 60.0 712
+unet 61.80405616760254 712
+55.117857456207275 60.0 668
+56.381845474243164 60.0 690
+57.69249200820923 60.0 701
+57.684946060180664 60.0 706
+57.63850212097168 60.0 709
+57.56514072418213 60.0 710
+57.62518644332886 60.0 711
+/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/requests/__init__.py:109: RequestsDependencyWarning: urllib3 (2.2.2) or chardet (5.2.0)/charset_normalizer (None) doesn't match a supported version!
+  warnings.warn(
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+628.7577748298645 150.0 800
+deeplabv3 628.7577748298645 800
+348.58511686325073 150.0 450
+deeplabv3 348.58511686325073 450
+214.1817569732666 150.0 275
+deeplabv3 214.1817569732666 275
+150.19090175628662 150.0 187
+deeplabv3 150.19090175628662 187
+113.78843784332275 150.0 143
+127.8174877166748 150.0 165
+139.07175064086914 150.0 176
+143.16412210464478 150.0 181
+143.51032972335815 150.0 184
+143.55229139328003 150.0 185
+143.3724284172058 150.0 186
+/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/requests/__init__.py:109: RequestsDependencyWarning: urllib3 (2.2.2) or chardet (5.2.0)/charset_normalizer (None) doesn't match a supported version!
+  warnings.warn(
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+9.723448753356934 32.0 800
+15.044808387756348 32.0 1150
+17.61476993560791 32.0 1325
+18.88667345046997 32.0 1413
+19.332873821258545 32.0 1457
+20.75788974761963 32.0 1479
+20.71598768234253 32.0 1490
+20.830738544464115 32.0 1495
+20.510053634643562 32.0 1498
+20.67091464996338 32.0 1499
+18.526899814605713 32.0 1500
+/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/requests/__init__.py:109: RequestsDependencyWarning: urllib3 (2.2.2) or chardet (5.2.0)/charset_normalizer (None) doesn't match a supported version!
+  warnings.warn(
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+Using cache found in /home/zbw/.cache/torch/hub/pytorch_vision_v0.10.0
+5.003476142883301 40.0 800
+7.530224323272705 40.0 1150
+9.881424903869629 40.0 1325
+10.37914752960205 40.0 1413
+11.835813522338867 40.0 1457
+12.05374002456665 40.0 1479
+12.02632188796997 40.0 1490
+12.050199508666992 40.0 1495
+12.053024768829346 40.0 1498
+12.04993724822998 40.0 1499
+12.263834476470947 40.0 1500
+/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/requests/__init__.py:109: RequestsDependencyWarning: urllib3 (2.2.2) or chardet (5.2.0)/charset_normalizer (None) doesn't match a supported version!
+  warnings.warn(
+Traceback (most recent call last):
+  File "entry.py", line 200, in <module>
+    binary_search_max_true(task=task, min_RPS=min_RPS, max_RPS=max_RPS, max_epoch=max_epoch)
+  File "entry.py", line 178, in binary_search_max_true
+    if execute_entry(task=task, RPS=mid, max_epoch=max_epoch):
+  File "entry.py", line 149, in execute_entry
+    output= model.run(input,masks,0,12).cpu()
+  File "/data/zbw/inference_system/MIG_MPS/jobs/bert.py", line 979, in run
+    encoder_outputs = self.encoder.run(
+  File "/data/zbw/inference_system/MIG_MPS/jobs/bert.py", line 691, in run
+    layer_outputs = layer_module(
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/zbw/inference_system/MIG_MPS/jobs/bert.py", line 528, in forward
+    self_attention_outputs = self.attention(
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/zbw/inference_system/MIG_MPS/jobs/bert.py", line 453, in forward
+    self_outputs = self.self(
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/zbw/inference_system/MIG_MPS/jobs/bert.py", line 291, in forward
+    mixed_query_layer = self.query(hidden_states)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/zbw/anaconda3/envs/Abacus/lib/python3.8/site-packages/torch/nn/modules/linear.py", line 114, in forward
+    return F.linear(input, self.weight, self.bias)
+RuntimeError: mat1 and mat2 must have the same dtype, but got Float and Half
+percentage: 40
+40.0

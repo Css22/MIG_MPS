@@ -67,10 +67,10 @@ QoS_map = {
 }
 
 max_RPS_map = {
-    'resnet50': 1500
+    'resnet50': 3200
 }
 min_RPS_map = {
-    'resnet50': 100
+    'resnet50': 2000
 }
 
 def get_model(model_name):
@@ -195,7 +195,7 @@ if __name__ == "__main__":
 
     max_epoch = 500
     min_RPS = 100
-    max_RPS = 1500
+    max_RPS = 500
 
     binary_search_max_true(task=task, min_RPS=min_RPS, max_RPS=max_RPS, max_epoch=max_epoch)
     
