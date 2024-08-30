@@ -137,8 +137,8 @@ def execute_entry(task, RPS, max_epoch):
 
             start_time = time.time()
             if task == 'bert':
-                input = input.cuda(0)
-                masks = masks.cuda(0)
+                input = input.half().cuda(0)
+                masks = masks.half().cuda(0)
             elif task == 'transformer':
                 input = input.cuda(0)
                 masks = masks.cuda(0)
@@ -194,9 +194,10 @@ if __name__ == "__main__":
     file_name = args.file_name
 
     max_epoch = 500
+    min_RPS = min_RPS_map.get(task)
+    max_RPS = max_RPS_map.get(task)
     min_RPS = 100
-    max_RPS = 500
-
+    max_RPS = 5000
     binary_search_max_true(task=task, min_RPS=min_RPS, max_RPS=max_RPS, max_epoch=max_epoch)
     
     

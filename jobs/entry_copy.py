@@ -67,10 +67,14 @@ QoS_map = {
 }
 
 max_RPS_map = {
-    'resnet50': 1500
+    'resnet50': 1500,
+    'vgg16': 1400,
+    'bert': 21,
 }
 min_RPS_map = {
-    'resnet50': 100
+    'resnet50': 100,
+    'vgg16': 100,
+    'bert': 12,
 }
 
 def get_model(model_name):
@@ -137,8 +141,8 @@ def execute_entry(task, RPS, max_epoch):
 
             start_time = time.time()
             if task == 'bert':
-                input = input.cuda(0)
-                masks = masks.cuda(0)
+                input = input.half().cuda(0)
+                masks = masks.half().cuda(0)
             elif task == 'transformer':
                 input = input.cuda(0)
                 masks = masks.cuda(0)
@@ -194,8 +198,10 @@ if __name__ == "__main__":
     file_name = args.file_name
 
     max_epoch = 500
-    min_RPS = 800
-    max_RPS = 1300
+    min_RPS = min_RPS_map.get(task)
+    max_RPS = max_RPS_map.get(task)
+    min_RPS = 100
+    max_RPS = 1000
     binary_search_max_true(task=task, min_RPS=min_RPS, max_RPS=max_RPS, max_epoch=max_epoch)
     
     

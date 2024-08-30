@@ -6,7 +6,7 @@ percentage_list=(90 80 70 60 50)
 
 
 declare -A range_dict
-range_dict[90]="42 53"
+range_dict[90]="42 531507836"
 range_dict[80]="42 48"
 range_dict[70]="39 47"
 range_dict[60]="35 42"
