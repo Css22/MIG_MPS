@@ -194,8 +194,8 @@ if __name__ == "__main__":
     file_name = args.file_name
 
     max_epoch = 500
-    min_RPS = 100
-    max_RPS = 1500
+    min_RPS = 4000
+    max_RPS = 6000
 
     binary_search_max_true(task=task, min_RPS=min_RPS, max_RPS=max_RPS, max_epoch=max_epoch)
     

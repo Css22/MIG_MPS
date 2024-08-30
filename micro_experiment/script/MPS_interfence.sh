@@ -1,5 +1,5 @@
 #!/bin/bash
-online_model_list=("resnet50"  "resnet152" "vgg19" "vgg16" "unet" "deeplabv3" "mobilenet_v2" "alexnet" "bert")
+online_model_list=("resnet101"  "resnet152" "vgg19" "vgg16" "unet" "deeplabv3" "mobilenet_v2" "alexnet" "bert")
 workdir=/data/zbw/inference_system/MIG_MPS
 log_path=/data/zbw/inference_system/MIG_MPS/log/unet_MPS_QPS
 percentage_list=(100 90 80 70 60 50 40 30 20 10)
