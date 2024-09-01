@@ -11,3 +11,5 @@ log/
 *.pt
 
 *.log
+
+__pycache__/
