@@ -103,8 +103,15 @@ def handle_valid_data(valid_list, jobs, file_name):
 
 def get_p95(data):
     data = np.array(data)
-    percentile_99 = np.percentile(data, 95)
+    percentile_95 = np.percentile(data, 95)
+    return percentile_95
+
+def get_p99(data):
+    data = np.array(data)
+    percentile_99 = np.percentile(data, 99)
     return percentile_99
+
+
 
 def record_result(path, config, RPS ,result):
     filtered_result = result[200:]
@@ -169,6 +176,7 @@ def execute_entry(task, RPS, max_epoch):
         else:
             record_result(path=file_name, config=config, RPS=RPS, result=valid_list)
             return True
+        
 def binary_search_max_true(task ,min_RPS, max_RPS, max_epoch):
     left = min_RPS
     right = max_RPS
@@ -187,18 +195,76 @@ if __name__ == "__main__":
     parser.add_argument("--concurrent_profile", default=False, type=bool)
     parser.add_argument("--config", default='', type=str)
     parser.add_argument("--file_name", type=str, default='result')
+    parser.add_argument("--test", type=bool, default=True)
+    parser.add_argument("--RPS", type=int)
     args = parser.parse_args()
+
     task = args.task
     concurrent_profile = args.concurrent_profile
     config = args.config
     file_name = args.file_name
+    test = args.test
+    RPS = args.RPS
 
     max_epoch = 500
     min_RPS = min_RPS_map.get(task)
     max_RPS = max_RPS_map.get(task)
     min_RPS = 100
     max_RPS = 400
-    binary_search_max_true(task=task, min_RPS=min_RPS, max_RPS=max_RPS, max_epoch=max_epoch)
+
+    if test:
+
+        QoS = QoS_map.get(task)
+        half_QoS = QoS/2
+        batch = math.floor(RPS/1000 * half_QoS)
+      
+        if task == 'bert':  
+            model = get_model(task)
+            model = model().half().cuda(0).eval()
+        else:
+            model = get_model(task)
+            model = model().cuda(0).eval()
+
+
+        with torch.no_grad():
+            while True:
+                valid_list = []
+                for i in range(0, 200):
+                    if task == 'bert':
+                        input,masks = get_input(task, batch)
+                    elif task == 'transformer':
+                        input,masks = get_input(task, batch)
+                    else:
+                        input = get_input(task, batch)
+
+                    start_time = time.time()
+                    if task == 'bert':
+                        input = input.half().cuda(0)
+                        masks = masks.half().cuda(0)
+                    elif task == 'transformer':
+                        input = input.cuda(0)
+                        masks = masks.cuda(0)
+                    else:
+                        input = input.cuda(0)
+
+                    if task == 'bert':
+                        output= model.run(input,masks,0,12).cpu()
+                    elif task == 'transformer':
+
+                        outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                        
+                    elif task == 'deeplabv3':
+                        output= model(input)['out'].cpu()
+                    else:
+                        output=model(input).cpu()
+                    end_time = time.time()
+
+                valid_list.append((end_time - start_time) * 1000)
+                print(get_p99(valid_list))  
+    elif concurrent_profile:
+        pass
+    else:
+        binary_search_max_true(task=task, min_RPS=min_RPS, max_RPS=max_RPS, max_epoch=max_epoch)
     
     
     # min_RPS = 100

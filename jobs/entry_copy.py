@@ -173,6 +173,7 @@ def execute_entry(task, RPS, max_epoch):
         else:
             record_result(path=file_name, config=config, RPS=RPS, result=valid_list)
             return True
+        
 def binary_search_max_true(task ,min_RPS, max_RPS, max_epoch):
     left = min_RPS
     right = max_RPS
@@ -185,6 +186,7 @@ def binary_search_max_true(task ,min_RPS, max_RPS, max_epoch):
             right = mid - 1  # mid不是解，所以舍弃
 
     return left  # 最后返回left就是满足条件的最大值
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--task", type=str)
