@@ -4,15 +4,6 @@ workdir=/data/zbw/inference_system/MIG_MPS
 log_path=/data/zbw/inference_system/MIG_MPS/log/
 percentage_list=(90 80 70 60 50)
 
-output=$(cd /data/zbw/inference_system/MIG_MPS/util && python util.py --task resnet50 --SM 90)
-min_RPS=$(echo $output | awk '{print $1}')
-max_RPS=$(echo $output | awk '{print $2}')
-echo $min_RPS 
-echo $max_RPS
-
-
-
-
 
 
 for model in "${online_model_list[@]}"; do
@@ -26,7 +17,6 @@ for model in "${online_model_list[@]}"; do
         max_batch_1=$(echo $output | awk '{print $2}')
 
 
-        echo $remain_range
         output=$(cd /data/zbw/inference_system/MIG_MPS/util && python util.py --task $model --SM $remain)
         min_batch_2=$(echo $output | awk '{print $1}')
         max_batch_2=$(echo $output | awk '{print $2}')
@@ -42,8 +32,9 @@ for model in "${online_model_list[@]}"; do
                 && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 && python entry.py --task $model --config $percentage --batch $i --concurrent_profile --test  ) \
                 &  (sleep 5 && cd /data/zbw/inference_system/MIG_MPS/jobs &&  export export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps  &&  export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log \
                 && echo set_active_thread_percentage 75743 $remain | nvidia-cuda-mps-control \
-                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 && python entry.py --task $model --config $remain --batch $j --concurrent_profile --test ) 
+                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 && python entry.py --task $model --config $remain --batch $j --concurrent_profile --test) 
 
+                wait
             done
 
         done
