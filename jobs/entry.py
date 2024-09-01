@@ -197,7 +197,7 @@ if __name__ == "__main__":
     min_RPS = min_RPS_map.get(task)
     max_RPS = max_RPS_map.get(task)
     min_RPS = 100
-    max_RPS = 5000
+    max_RPS = 400
     binary_search_max_true(task=task, min_RPS=min_RPS, max_RPS=max_RPS, max_epoch=max_epoch)
     
     
