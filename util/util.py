@@ -79,7 +79,6 @@ def check_potential_RPS(model, SM):
     index = SM_list.index(SM)
 
     if index == 0:
-
         half_QoS = half_QoS_map.get(model)
         min_batch = math.floor(QPS_list[0]/1000 * half_QoS)
         max_batch = min_batch
@@ -87,13 +86,15 @@ def check_potential_RPS(model, SM):
             min_batch = max_batch - 10
         else:
             min_batch = 0
-        print(min_batch, min_batch)
+
+        print(min_batch, max_batch)
 
     elif index == 1:
         half_QoS = half_QoS_map.get(model)
         min_batch = math.floor(QPS_list[index-1]/1000 * half_QoS)
         max_batch = math.floor(QPS_list[index]/1000 * half_QoS)
-        
+        print(min_batch, max_batch)
+
     else:
         half_QoS = half_QoS_map.get(model)
         min_batch = math.floor(QPS_list[index-2]/1000 * half_QoS)

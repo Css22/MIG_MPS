@@ -1,5 +1,5 @@
 #!/bin/bash
-online_model_list=("resnet50" "resnet101" "resnet152" "vgg19" "vgg16" "unet" "deeplabv3" "mobilenet_v2" "alexnet" "bert")
+online_model_list=("bert")
 workdir=/data/zbw/inference_system/MIG_MPS
 log_path=/data/zbw/inference_system/MIG_MPS/log/
 percentage_list=(90 80 70 60 50)
@@ -21,6 +21,8 @@ for model in "${online_model_list[@]}"; do
         min_batch_2=$(echo $output | awk '{print $1}')
         max_batch_2=$(echo $output | awk '{print $2}')
 
+        min_batch_1=1
+        min_batch_2=1
 
         for (( i=$min_batch_1; i<=$max_batch_1; i++ )); do
 
@@ -28,11 +30,11 @@ for model in "${online_model_list[@]}"; do
                 
                 echo $model $percentage $i $j
                 (cd /data/zbw/inference_system/MIG_MPS/jobs &&  export export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps  &&  export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log \
-                && echo set_active_thread_percentage 75743 $percentage | nvidia-cuda-mps-control \
-                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 && python entry.py --task $model --config $percentage --batch $i --concurrent_profile --test  ) \
-                &  (sleep 5 && cd /data/zbw/inference_system/MIG_MPS/jobs &&  export export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps  &&  export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log \
                 && echo set_active_thread_percentage 75743 $remain | nvidia-cuda-mps-control \
-                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 && python entry.py --task $model --config $remain --batch $j --concurrent_profile --test) 
+                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 && python entry.py --task $model --config $remain --batch $j --concurrent_profile --test) \
+                &  (sleep 10 && cd /data/zbw/inference_system/MIG_MPS/jobs &&  export export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps  &&  export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log \
+                && echo set_active_thread_percentage 75743 $percentage | nvidia-cuda-mps-control \
+                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 && python entry.py --task $model --config $percentage --batch $i --concurrent_profile --test) 
 
                 wait
             done

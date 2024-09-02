@@ -98,10 +98,10 @@ def handle_concurrent_valid_data(valid_list, task, config, batch):
     file_name = result_path + f"{task}_Pairs_MPS_RPS"
 
     data = np.array(valid_list)
-    percentile_99 = np.percentile(data, 99)
+    percentile_95 = np.percentile(data, 95)
     
     with open(file_name, 'a+') as file:
-        file.write(f"task: {task}, SM: {config}, batch: {batch}, 99th percentile: {percentile_99}\n")
+        file.write(f"task: {task}, SM: {config}, batch: {batch}, 99th percentile: {percentile_95}\n")
 
 def get_p95(data):
     data = np.array(data)
@@ -217,10 +217,13 @@ if __name__ == "__main__":
     max_RPS = 400
 
     if test:
-        print(test)
         QoS = QoS_map.get(task)
         half_QoS = QoS/2
-        batch = math.floor(RPS/1000 * half_QoS)
+        if batch:
+            pass
+        else:
+
+            batch = math.floor(RPS/1000 * half_QoS)
       
         if task == 'bert':  
             model = get_model(task)
@@ -275,10 +278,10 @@ if __name__ == "__main__":
             model = get_model(task)
             model = model().cuda(0).eval()
 
-
+        print("finish memory")
         with torch.no_grad():
             valid_list = []
-            for i in range(0, 2000):
+            for i in range(0, 500):
                 if task == 'bert':
                     input,masks = get_input(task, batch)
                 elif task == 'transformer':
@@ -307,11 +310,12 @@ if __name__ == "__main__":
                     output= model(input)['out'].cpu()
                 else:
                     output=model(input).cpu()
+
                 end_time = time.time()
 
                 valid_list.append((end_time - start_time) * 1000)
 
-            handle_concurrent_valid_data(valid_list[1000:], task, config, batch)
+            handle_concurrent_valid_data(valid_list[200:], task, config, batch)
 
     else:
         binary_search_max_true(task=task, min_RPS=min_RPS, max_RPS=max_RPS, max_epoch=max_epoch)
