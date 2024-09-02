@@ -22,6 +22,11 @@ sys.path.append(path)
 flag_path = "/data/zbw/MIG/MIG/MIG_Schedule/flag"
 result_path = "/data/zbw/inference_system/MIG_MPS/log/"
 
+seed = 42
+np.random.seed(seed)
+torch.manual_seed(seed)
+
+
 model_list = {
     "resnet50": resnet50,
     "resnet101": resnet101,
@@ -217,6 +222,7 @@ if __name__ == "__main__":
     max_RPS = 400
 
     if test:
+        print("start")
         QoS = QoS_map.get(task)
         half_QoS = QoS/2
         if batch:
@@ -236,7 +242,7 @@ if __name__ == "__main__":
         with torch.no_grad():
             while True:
                 valid_list = []
-                for i in range(0, 200):
+                for i in range(0, 100):
                     if task == 'bert':
                         input,masks = get_input(task, batch)
                     elif task == 'transformer':
@@ -266,9 +272,9 @@ if __name__ == "__main__":
                     else:
                         output=model(input).cpu()
                     end_time = time.time()
-
-                valid_list.append((end_time - start_time) * 1000)
-                print(get_p99(valid_list))  
+                    print((end_time - start_time) * 1000)
+                    valid_list.append((end_time - start_time) * 1000)
+                print("P99: ", get_p99(valid_list))  
 
     elif concurrent_profile:
         if task == 'bert':  
