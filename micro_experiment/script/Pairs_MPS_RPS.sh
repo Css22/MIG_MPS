@@ -34,8 +34,7 @@ for model in "${online_model_list[@]}"; do
                 && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 && python entry.py --task $model --config $remain --batch $j --concurrent_profile --test) \
                 &  (sleep 10 && cd /data/zbw/inference_system/MIG_MPS/jobs &&  export export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps  &&  export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log \
                 && echo set_active_thread_percentage 75743 $percentage | nvidia-cuda-mps-control \
-                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 && python entry.py --task $model --config $percentage --batch $i --concurrent_profile --test) 
-
+                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 && python entry.py --task $model --config $percentage --batch $i --concurrent_profile --test) \
                 wait
             done
 
