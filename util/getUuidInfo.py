@@ -16,6 +16,7 @@ profile_id = {
 def transform_ch():
     if args.ch is None or ('-' in args.ch):
         return
+    print(profile_id)
     args.ch = profile_id[args.ch]
 
 parser = argparse.ArgumentParser(description='Get uuid of desired currently available MIG GPU partition')
@@ -117,23 +118,23 @@ def read_MIG_partitions(MIG):
     info_file.close()
 
 
-def get_partition(MIG, charac, pick):
+def get_partition(MIG, charac, pick, MIG_id):
     core_num, sm_num, mem = charac
     core_num = int(core_num[0 : len(core_num) - 1])
     sm_num = int(sm_num[0 : len(sm_num) - 1])
     mem = int(mem[0 : len(mem) - 2])
 
-    for gpu in MIG:
-        for partition in gpu:
-            # print(partition['uuid'], pick, partition['used'])
-            if( (not pick or partition['used'] == 0) and 
-                partition['core_num'] == core_num and 
-                partition['sm_num'] == sm_num and 
-                partition['mem'] == mem
-            ):
-                if(pick):
-                    partition['used'] = 1
-                return partition['uuid']
+
+    for partition in MIG[MIG_id]:
+        # print(partition['uuid'], pick, partition['used'])
+        if( (not pick or partition['used'] == 0) and 
+            partition['core_num'] == core_num and 
+            partition['sm_num'] == sm_num and 
+            partition['mem'] == mem
+        ):
+            if(pick):
+                partition['used'] = 1
+            return partition['uuid']
 
 def write_pick(MIG, uuid):
     out_file = open(args.output, "w")
@@ -160,9 +161,10 @@ def main():
         read_MIG_partitions_raw(GPU, MIG)
     else:
         read_MIG_partitions(MIG)
+
     if(args.ch is not None):
         charac = args.ch.split('-')
-        uuid = get_partition(MIG, charac, args.pick)
+        uuid = get_partition(MIG, charac, args.pick, MIG_id=1)
         if(args.pick):
            write_pick(MIG, uuid)
         print(uuid)

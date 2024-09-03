@@ -139,10 +139,10 @@ def get_p99(data):
 
 
 def record_result(path, config, RPS ,result):
-    filtered_result = result[200:]
-    p95 = get_p95(filtered_result)
+    filtered_result = result[300:]
+    p99 = get_p99(filtered_result)
     with open(path, 'a+') as file:
-        file.write(f"Config: {config}, P99: {p95}, RPS: {RPS}\n")
+        file.write(f"Config: {config}, P99: {p99}, RPS: {RPS}\n")
         file.close()
 
 def execute_entry(task, RPS, max_epoch):
@@ -192,10 +192,10 @@ def execute_entry(task, RPS, max_epoch):
             valid_list.append((end_time - start_time) * 1000)
 
         filtered_result = valid_list[200:]
-        p95 = get_p95(filtered_result)
-        print(p95, half_QoS, RPS)
-        if p95 > half_QoS:
-            print(task, p95, RPS)
+        p99 = get_p99(filtered_result)
+        print(p99, half_QoS, RPS)
+        if p99 > half_QoS:
+            print(task, p99, RPS)
             # record_result(path=file_name, config=config, RPS=RPS, result=valid_list)
             return False
         else:
@@ -233,7 +233,7 @@ if __name__ == "__main__":
     RPS = args.RPS
     batch = args.batch
 
-    max_epoch = 500
+    max_epoch = 1000
     min_RPS = min_RPS_map.get(task)
     max_RPS = max_RPS_map.get(task)
 

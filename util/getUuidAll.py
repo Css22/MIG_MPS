@@ -43,8 +43,8 @@ def read_MIG_partitions_raw(GPU, MIG):
     cur_id = 0
     cur_mig_id = 0
     tot_gpus = 0
+  
     for line in lines:
-        # print(line)
         line = line.strip(' ')
         if (line.startswith('GPU')):
             infos = line.strip('\n').split()
@@ -155,7 +155,9 @@ def main():
     GPU = {}
     MIG = [[] for _ in range(MAX_GPU_NUM)]
     if(args.raw == True):
+      
         read_MIG_partitions_raw(GPU, MIG)
+
     else:
         read_MIG_partitions(MIG)
     if(args.ch is not None):
