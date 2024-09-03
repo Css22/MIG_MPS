@@ -72,10 +72,28 @@ QoS_map = {
 }
 
 max_RPS_map = {
-    'resnet50': 3200
+    'resnet50': 2000,
+    'resnet101': 1500,
+    'resnet152': 1000,
+    'vgg16': 1500,
+    'vgg19': 1300,
+    'mobilenet_v2': 4000,
+    'unet': 1300,
+    'bert': 250, 
+    'deeplabv3': 300,
+    'alexnet' : 7000,
 }
 min_RPS_map = {
-    'resnet50': 2000
+    'resnet50': 1,
+    'resnet101': 1,
+    'resnet152': 1,
+    'vgg16': 1,
+    'vgg19': 1,
+    'mobilenet_v2': 200,
+    'unet': 1,
+    'bert': 1,
+    'deeplabv3': 1,
+    'alexnet' : 500,
 }
 
 def get_model(model_name):
@@ -218,8 +236,6 @@ if __name__ == "__main__":
     max_epoch = 500
     min_RPS = min_RPS_map.get(task)
     max_RPS = max_RPS_map.get(task)
-    min_RPS = 100
-    max_RPS = 400
 
     if test:
         print("start")
