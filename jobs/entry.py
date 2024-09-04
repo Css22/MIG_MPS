@@ -100,6 +100,10 @@ min_RPS_map = {
     'alexnet' : 500,
 }
 
+def handle_terminate(signum, frame):
+    pass
+
+
 def get_model(model_name):
     return  model_list.get(model_name)
 
@@ -218,6 +222,9 @@ def binary_search_max_true(task ,min_RPS, max_RPS, max_epoch):
             right = mid - 1  # mid不是解，所以舍弃
 
     return left  # 最后返回left就是满足条件的最大值
+
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--task", type=str)
@@ -228,6 +235,7 @@ if __name__ == "__main__":
     parser.add_argument("--test", action='store_false')
     parser.add_argument("--concurrent_profile", action='store_true')
     parser.add_argument("--gpulet", action='store_true')
+    parser.add_argument("--worker_id", type=int)
     args = parser.parse_args()
 
     task = args.task
@@ -356,7 +364,7 @@ if __name__ == "__main__":
             pass
         else:
 
-            batch = math.floor(RPS/1000 * half_QoS) + 1
+            batch = math.floor(RPS/1000 * half_QoS) 
       
         if task == 'bert':  
             model = get_model(task)
@@ -401,7 +409,7 @@ if __name__ == "__main__":
                     end_time = time.time()
                     valid_list.append((end_time - start_time) * 1000)
 
-                p99 = get_p95(valid_list[10:])
+                p99 = get_p99(valid_list[10:])
                 if p99 > half_QoS:
                     print(f"{task} {RPS} QoS violate", flush=True)
                     # logging.info(f"{task} {RPS} QoS violate")

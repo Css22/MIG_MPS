@@ -3,6 +3,10 @@ import numpy as np
 import argparse
 import logging
 
+LOG_FILE = "/data/zbw/inference_system/MIG_MPS/baseline/PARIS_ELSA/PARIS.log"
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filemode='a', filename=LOG_FILE)
+
+
 
 class ConfigData:
     def __init__(self, MIG_config, rps, p99):

@@ -101,14 +101,31 @@ for i in model_list:
 process_list = []
 
 RPS_tolerate = {
-    'bert': 10
+    'bert': 10,
+    'resnet50': 50,
+    'resnet101': 40,
+    'resnet152': 30,
+    'vgg19': 20,
+    'vgg16': 20,
+    'unet': 20,
+    'deeplabv3':5,
+    'mobilenet_v2': 20,
+    'alexnet': 30,
 
 }
 
 
 knee_point = {
-    'bert': 40
-
+    'bert': 40,
+    'resnet50': 30,
+    'resnet101': 30,
+    'resnet152': 50,
+    'vgg19': 40,
+    'vgg16': 40,
+    'unet': 40,
+    'deeplabv3':30,
+    'mobilenet_v2': 70,
+    'alexnet': 100,
 }
 
 
@@ -148,11 +165,15 @@ def stream_output(process, worker_id, RPS):
                 if worker_id + 1 > len(process_list) or (not process_list[worker_id + 1]['state']):
                    
                     adjust_RPS = process_list[worker_id]['RPS'] - RPS_tolerate.get(process_list[worker_id]['task']) 
-                    logging.info(f"update worker {worker_id} due to QoS violate, change {worker_id} and {process_list[worker_id]['task']} RPS from {process_list[worker_id]['RPS']} to {adjust_RPS}")
-                    
-                    process_list[worker_id]['process'].terminate()
-                    run_command(process_list[worker_id]['task'], adjust_RPS, process_list[worker_id]['SM'], worker_id)
-                    
+                    if adjust_RPS > 0:
+                        logging.info(f"update worker {worker_id} due to QoS violate, change {worker_id} and {process_list[worker_id]['task']} RPS from {process_list[worker_id]['RPS']} to {adjust_RPS}")
+                        
+                        process_list[worker_id]['process'].terminate()
+                        run_command(process_list[worker_id]['task'], adjust_RPS, process_list[worker_id]['SM'], worker_id)
+                    else:
+                        logging.info(f"due to interfence, close worker {worker_id}")
+                        process_list[worker_id]['process'].terminate()
+                        
                 else:
                     last_worker = 0
                     for i in range(0, len(process_list)):
@@ -160,9 +181,13 @@ def stream_output(process, worker_id, RPS):
                             last_worker = i
 
                     adjust_RPS = process_list[last_worker]['RPS'] - RPS_tolerate.get(process_list[last_worker]['task']) 
-                    logging.info(f"update worker {last_worker} due to QoS violate, change {last_worker} and {process_list[last_worker]['task']} RPS from {process_list[last_worker]['RPS']} to {adjust_RPS}")
-                    process_list[last_worker]['process'].terminate()
-                    run_command(process_list[last_worker]['task'], adjust_RPS, process_list[last_worker]['SM'], last_worker)
+                    if adjust_RPS > 0 :
+                        logging.info(f"update worker {last_worker} due to QoS violate, change {last_worker} and {process_list[last_worker]['task']} RPS from {process_list[last_worker]['RPS']} to {adjust_RPS}")
+                        process_list[last_worker]['process'].terminate()
+                        run_command(process_list[last_worker]['task'], adjust_RPS, process_list[last_worker]['SM'], last_worker)
+                    else:
+                        logging.info(f"due to interfence, close worker {worker_id}")
+                        process_list[worker_id]['process'].terminate()
 
 
 
@@ -262,7 +287,11 @@ if __name__ == "__main__":
         for i in range(0, instance_count+1):
             total_RPS = process_list[i]['RPS'] + total_RPS
         
-        logging.info(f"finish gpulet scheduling and the total RPS is {total_RPS}")
+        logging.info(f"finish gpulet scheduling {task} and the total RPS is {total_RPS}")
+
         for i in range(0, instance_count+1):
             logging.info(f"worker {i} with RPS {process_list[i]['RPS']}")
 
+        for i in range(0, len(process_list)):
+            logging.info(f"close the worker {i}")
+            process_list[i]['process'].terminate()
