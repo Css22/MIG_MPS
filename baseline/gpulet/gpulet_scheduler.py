@@ -5,6 +5,8 @@ import argparse
 import logging
 import time
 import os
+import threading
+lock = threading.Lock()
 
 
 env = os.environ.copy()  # 复制当前环境变量
@@ -158,36 +160,37 @@ def stream_output(process, worker_id, RPS):
             break
 
         if output:     
-            logging.info(f"Worker {worker_id} : {output.strip()}") 
-            if "QoS violate" in output:
-                logging.info(f"worker {worker_id} with {RPS} QoS violate")
+            with lock:
+                logging.info(f"Worker {worker_id} : {output.strip()}") 
+                if "QoS violate" in output:
+                    logging.info(f"worker {worker_id} with {RPS} QoS violate")
 
-                if worker_id + 1 > len(process_list) or (not process_list[worker_id + 1]['state']):
-                   
-                    adjust_RPS = process_list[worker_id]['RPS'] - RPS_tolerate.get(process_list[worker_id]['task']) 
-                    if adjust_RPS > 0:
-                        logging.info(f"update worker {worker_id} due to QoS violate, change {worker_id} and {process_list[worker_id]['task']} RPS from {process_list[worker_id]['RPS']} to {adjust_RPS}")
-                        
-                        process_list[worker_id]['process'].terminate()
-                        run_command(process_list[worker_id]['task'], adjust_RPS, process_list[worker_id]['SM'], worker_id)
+                    if worker_id + 1 > len(process_list) or (not process_list[worker_id + 1]['state']):
+                    
+                        adjust_RPS = process_list[worker_id]['RPS'] - RPS_tolerate.get(process_list[worker_id]['task']) 
+                        if adjust_RPS > 0:
+                            logging.info(f"update worker {worker_id} due to QoS violate, change {worker_id} and {process_list[worker_id]['task']} RPS from {process_list[worker_id]['RPS']} to {adjust_RPS}")
+                            
+                            process_list[worker_id]['process'].terminate()
+                            run_command(process_list[worker_id]['task'], adjust_RPS, process_list[worker_id]['SM'], worker_id)
+                        else:
+                            logging.info(f"due to interfence, close worker {worker_id}")
+                            process_list[worker_id]['process'].terminate()
+                            
                     else:
-                        logging.info(f"due to interfence, close worker {worker_id}")
-                        process_list[worker_id]['process'].terminate()
-                        
-                else:
-                    last_worker = 0
-                    for i in range(0, len(process_list)):
-                        if process_list[i]['state']:
-                            last_worker = i
+                        last_worker = 0
+                        for i in range(0, len(process_list)):
+                            if process_list[i]['state']:
+                                last_worker = i
 
-                    adjust_RPS = process_list[last_worker]['RPS'] - RPS_tolerate.get(process_list[last_worker]['task']) 
-                    if adjust_RPS > 0 :
-                        logging.info(f"update worker {last_worker} due to QoS violate, change {last_worker} and {process_list[last_worker]['task']} RPS from {process_list[last_worker]['RPS']} to {adjust_RPS}")
-                        process_list[last_worker]['process'].terminate()
-                        run_command(process_list[last_worker]['task'], adjust_RPS, process_list[last_worker]['SM'], last_worker)
-                    else:
-                        logging.info(f"due to interfence, close worker {worker_id}")
-                        process_list[worker_id]['process'].terminate()
+                        adjust_RPS = process_list[last_worker]['RPS'] - RPS_tolerate.get(process_list[last_worker]['task']) 
+                        if adjust_RPS > 0 :
+                            logging.info(f"update worker {last_worker} due to QoS violate, change {last_worker} and {process_list[last_worker]['task']} RPS from {process_list[last_worker]['RPS']} to {adjust_RPS}")
+                            process_list[last_worker]['process'].terminate()
+                            run_command(process_list[last_worker]['task'], adjust_RPS, process_list[last_worker]['SM'], last_worker)
+                        else:
+                            logging.info(f"due to interfence, close worker {worker_id}")
+                            process_list[worker_id]['process'].terminate()
 
 
 
@@ -227,8 +230,10 @@ def run_command(task, RPS , SM, worker_id):
     # MPS_output_thread.start()
 
     output_thread = threading.Thread(target=stream_output, args=(process, worker_id, RPS))
+    output_thread.daemon = True
     output_thread.start()
     logging.info("sleep for stable QoS")
+
     time.sleep(360)
 
             
@@ -295,3 +300,5 @@ if __name__ == "__main__":
         for i in range(0, len(process_list)):
             logging.info(f"close the worker {i}")
             process_list[i]['process'].terminate()
+        
+        
