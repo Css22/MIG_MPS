@@ -16,7 +16,11 @@ from inception_ve import inception_v3
 from transformer import transformer_layer
 import signal
 import math
+import logging
 
+
+
+# logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 path = "/data/zbw/inference_system/MIG_MPS/jobs/"
 sys.path.append(path)
 flag_path = "/data/zbw/MIG/MIG/MIG_Schedule/flag"
@@ -218,11 +222,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--task", type=str)
     parser.add_argument("--batch", type=int)
-    parser.add_argument("--concurrent_profile", action='store_true')
     parser.add_argument("--config", default='', type=str)
     parser.add_argument("--file_name", type=str, default='result')
-    parser.add_argument("--test", action='store_false')
     parser.add_argument("--RPS", type=int)
+    parser.add_argument("--test", action='store_false')
+    parser.add_argument("--concurrent_profile", action='store_true')
+    parser.add_argument("--gpulet", action='store_true')
     args = parser.parse_args()
 
     task = args.task
@@ -232,6 +237,8 @@ if __name__ == "__main__":
     test = args.test
     RPS = args.RPS
     batch = args.batch
+    gpulet = args.gpulet
+
 
     max_epoch = 1000
     min_RPS = min_RPS_map.get(task)
@@ -338,6 +345,73 @@ if __name__ == "__main__":
                 valid_list.append((end_time - start_time) * 1000)
 
             handle_concurrent_valid_data(valid_list[200:], task, config, batch)
+
+    elif gpulet:
+
+        QoS = QoS_map.get(task)
+        half_QoS = QoS/2
+        # logging.info(f"start gpulet for {task} {RPS}")
+        print(f"start gpulet worker for {task} {RPS}", flush=True)
+        if batch:
+            pass
+        else:
+
+            batch = math.floor(RPS/1000 * half_QoS) + 1
+      
+        if task == 'bert':  
+            model = get_model(task)
+            model = model().half().cuda(0).eval()
+        else:
+            model = get_model(task)
+            model = model().cuda(0).eval()
+
+
+        with torch.no_grad():
+            while True:
+                valid_list = []
+                for i in range(0, 200):
+                    if task == 'bert':
+                        input,masks = get_input(task, batch)
+                    elif task == 'transformer':
+                        input,masks = get_input(task, batch)
+                    else:
+                        input = get_input(task, batch)
+
+                    start_time = time.time()
+
+                    if task == 'bert':
+                        input = input.half().cuda(0)
+                        masks = masks.half().cuda(0)
+                    elif task == 'transformer':
+                        input = input.cuda(0)
+                        masks = masks.cuda(0)
+                    else:
+                        input = input.cuda(0)
+
+                    if task == 'bert':
+                        output= model.run(input,masks,0,12).cpu()
+                    elif task == 'transformer':
+
+                        outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                        
+                    elif task == 'deeplabv3':
+                        output= model(input)['out'].cpu()
+                    else:
+                        output=model(input).cpu()
+                    end_time = time.time()
+                    valid_list.append((end_time - start_time) * 1000)
+
+                p99 = get_p95(valid_list[10:])
+                if p99 > half_QoS:
+                    print(f"{task} {RPS} QoS violate", flush=True)
+                    # logging.info(f"{task} {RPS} QoS violate")
+            
+                else:
+                    print(f"{task} {RPS} {p99} {half_QoS}", flush=True)
+                    # logging.info(f"{task} {RPS} {p99} {half_QoS}")
+
+       
+
 
     else:
         binary_search_max_true(task=task, min_RPS=min_RPS, max_RPS=max_RPS, max_epoch=max_epoch)
