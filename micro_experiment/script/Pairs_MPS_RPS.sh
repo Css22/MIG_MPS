@@ -2,7 +2,7 @@
 online_model_list=("bert")
 workdir=/data/zbw/inference_system/MIG_MPS
 log_path=/data/zbw/inference_system/MIG_MPS/log/
-percentage_list=(90 80 70 60 50)
+percentage_list=(70 60 50)
 
 
 
@@ -29,12 +29,18 @@ for model in "${online_model_list[@]}"; do
             for (( j=$min_batch_2; j<=$max_batch_2; j++ )); do
                 
                 echo $model $percentage $i $j
+                
+                if [[ $i -lt 28 || ( $i -eq 28 && $j -le 8 ) ]]; then
+                    echo $model $percentage $i $j "continue"
+                    continue
+                fi
                 (cd /data/zbw/inference_system/MIG_MPS/jobs &&  export export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps  &&  export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log \
-                && echo set_active_thread_percentage 75743 $remain | nvidia-cuda-mps-control \
-                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 && python entry.py --task $model --config $remain --batch $j --concurrent_profile --test) \
-                &  (sleep 10 && cd /data/zbw/inference_system/MIG_MPS/jobs &&  export export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps  &&  export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log \
-                && echo set_active_thread_percentage 75743 $percentage | nvidia-cuda-mps-control \
-                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 && python entry.py --task $model --config $percentage --batch $i --concurrent_profile --test) \
+                && echo set_active_thread_percentage 894650 $remain | nvidia-cuda-mps-control \
+                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 &&  /home/zbw/anaconda3/envs/Abacus/bin/python entry.py --task $model --config $remain --batch $j --concurrent_profile --test) \
+                &  (sleep 5 && cd /data/zbw/inference_system/MIG_MPS/jobs &&  export export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps  &&  export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log \
+                && echo set_active_thread_percentage 894650 $percentage | nvidia-cuda-mps-control \
+                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 &&  /home/zbw/anaconda3/envs/Abacus/bin/python entry.py --task $model --config $percentage --batch $i --concurrent_profile --test) 
+
                 wait
             done
 

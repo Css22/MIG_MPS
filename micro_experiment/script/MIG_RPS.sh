@@ -13,7 +13,7 @@ dev0='GPU-906931c6-0f94-edc4-3f18-17fc4e477e53'
 GPU_ID=1
 workdir=/data/zbw/inference_system/MIG_MPS
 
-online_model_list=("mobilenet_v2" "alexnet" "bert" "resnet50" "resnet101" "resnet152" "vgg19" "vgg16" "unet" "deeplabv3")
+online_model_list=("mobilenet_v2" "alexnet" "resnet50" "resnet101" "resnet152" "vgg19" "vgg16" "unet" "deeplabv3" "bert")
 # online_model_list=("bert")
 GPU_list=$workdir/tmp/MIG_partitions.txt
 InstanceID_list=$workdir/tmp/ID.txt
@@ -51,7 +51,13 @@ function test {
     echo $uuid
 
     for model_name in "${online_model_list[@]}"; do
-        cd /data/zbw/inference_system/MIG_MPS/jobs && export CUDA_VISIBLE_DEVICES=$uuid && /home/zbw/anaconda3/envs/Abacus/bin/python entry.py --task $model_name --file_name /data/zbw/inference_system/MIG_MPS/log/${model_name}_MIG_RPS --config $info --test
+        echo $model_name 
+        cd /data/zbw/inference_system/MIG_MPS/jobs && \
+        export CUDA_VISIBLE_DEVICES=$uuid && \
+        export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-$uuid && \
+        export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-$uuid && \
+        /home/zbw/anaconda3/envs/Abacus/bin/python entry.py --task $model_name --file_name /data/zbw/inference_system/MIG_MPS/log/${model_name}_MIG_RPS --config $info --test
+
     done
     
 
@@ -69,10 +75,10 @@ echo 'start script'
 
 # sudo nvidia-smi -i 0 -mig 1
 
-test 0 1c-7g-80gb 
-test 5 1c-4g-40gb 
-test 9 1c-3g-40gb 
-test 14 1c-2g-20gb
+# test 0 1c-7g-80gb 
+# test 5 1c-4g-40gb 
+# test 9 1c-3g-40gb 
+# test 14 1c-2g-20gb
 test 19 1c-1g-10gb
 
 echo 'end script'
