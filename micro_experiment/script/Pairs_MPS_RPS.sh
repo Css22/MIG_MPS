@@ -1,8 +1,8 @@
 #!/bin/bash
-online_model_list=("bert")
+online_model_list=("resnet152")
 workdir=/data/zbw/inference_system/MIG_MPS
 log_path=/data/zbw/inference_system/MIG_MPS/log/
-percentage_list=(60 50)
+percentage_list=(50)
 
 
 
@@ -34,12 +34,15 @@ for model in "${online_model_list[@]}"; do
                 #     echo $model $percentage $i $j "continue"
                 #     continue
                 # fi
-                (cd /data/zbw/inference_system/MIG_MPS/jobs &&  export export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps  &&  export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log \
-                && echo set_active_thread_percentage 1993244 $remain | nvidia-cuda-mps-control \
-                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 &&  /home/zbw/anaconda3/envs/Abacus/bin/python entry.py --task $model --config $remain --batch $j --concurrent_profile --test) \
-                &  (sleep 5 && cd /data/zbw/inference_system/MIG_MPS/jobs &&  export export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps  &&  export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log \
-                && echo set_active_thread_percentage 1993244 $percentage | nvidia-cuda-mps-control \
-                && export CUDA_VISIBLE_DEVICES=MIG-e806816b-27b9-54dd-87dd-c52b4e695397 &&  /home/zbw/anaconda3/envs/Abacus/bin/python entry.py --task $model --config $percentage --batch $i --concurrent_profile --test) 
+                device=MIG-d82118da-7798-5081-959f-c8bbf24989b3
+
+
+                (cd /data/zbw/inference_system/MIG_MPS/jobs &&  export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-$device  &&  export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-$device \
+                && echo set_active_thread_percentage 1688702 $remain | nvidia-cuda-mps-control \
+                && export CUDA_VISIBLE_DEVICES=$device &&  /home/zbw/anaconda3/envs/Abacus/bin/python entry.py --task $model --config $remain --batch $j --concurrent_profile --test) \
+                &  (sleep 5 && cd /data/zbw/inference_system/MIG_MPS/jobs &&  export export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-$device  &&  export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-$device \
+                && echo set_active_thread_percentage 1688702 $percentage | nvidia-cuda-mps-control \
+                && export CUDA_VISIBLE_DEVICES=$device &&  /home/zbw/anaconda3/envs/Abacus/bin/python entry.py --task $model --config $percentage --batch $i --concurrent_profile --test) 
 
                 wait
             done

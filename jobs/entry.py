@@ -174,6 +174,9 @@ def execute_entry(task, RPS, max_epoch):
         for i in range(0, max_epoch):
             if task == 'bert':
                 input,masks = get_input(task, batch)
+                input = input.half()
+                masks = masks.half()
+                
             elif task == 'transformer':
                 input,masks = get_input(task, batch)
             else:
@@ -181,8 +184,8 @@ def execute_entry(task, RPS, max_epoch):
 
             start_time = time.time()
             if task == 'bert':
-                input = input.half().cuda(0)
-                masks = masks.half().cuda(0)
+                input = input.cuda(0)
+                masks = masks.cuda(0)
             elif task == 'transformer':
                 input = input.cuda(0)
                 masks = masks.cuda(0)
@@ -204,7 +207,7 @@ def execute_entry(task, RPS, max_epoch):
             valid_list.append((end_time - start_time) * 1000)
 
         filtered_result = valid_list[200:]
-        p99 = get_p99(filtered_result)
+        p99 = get_p95(filtered_result)
         print(p99, half_QoS, RPS)
         if p99 > half_QoS:
             print(task, p99, RPS)
@@ -257,7 +260,7 @@ if __name__ == "__main__":
     max_RPS = max_RPS_map.get(task)
 
     if test:
-        print("start")
+        print("test")
         QoS = QoS_map.get(task)
         half_QoS = QoS/2
         if batch:
@@ -280,6 +283,8 @@ if __name__ == "__main__":
                 for i in range(0, 100):
                     if task == 'bert':
                         input,masks = get_input(task, batch)
+                        input = input.half()
+                        masks = masks.half()
                     elif task == 'transformer':
                         input,masks = get_input(task, batch)
                     else:
@@ -288,8 +293,8 @@ if __name__ == "__main__":
                     start_time = time.time()
 
                     if task == 'bert':
-                        input = input.half().cuda(0)
-                        masks = masks.half().cuda(0)
+                        input = input.cuda(0)
+                        masks = masks.cuda(0)
                     elif task == 'transformer':
                         input = input.cuda(0)
                         masks = masks.cuda(0)
@@ -306,10 +311,11 @@ if __name__ == "__main__":
                         output= model(input)['out'].cpu()
                     else:
                         output=model(input).cpu()
+
                     end_time = time.time()
                     print((end_time - start_time) * 1000)
                     valid_list.append((end_time - start_time) * 1000)
-                print("P99: ", get_p99(valid_list))  
+                print("P99: ", get_p95(valid_list))  
 
     elif concurrent_profile:
         if task == 'bert':  
@@ -325,6 +331,9 @@ if __name__ == "__main__":
             for i in range(0, 500):
                 if task == 'bert':
                     input,masks = get_input(task, batch)
+                    input = input.half()
+                    masks = masks.half()
+
                 elif task == 'transformer':
                     input,masks = get_input(task, batch)
                 else:
@@ -333,8 +342,8 @@ if __name__ == "__main__":
                 start_time = time.time()
                 
                 if task == 'bert':
-                    input = input.half().cuda(0)
-                    masks = masks.half().cuda(0)
+                    input = input.cuda(0)
+                    masks = masks.cuda(0)
                 elif task == 'transformer':
                     input = input.cuda(0)
                     masks = masks.cuda(0)

@@ -75,10 +75,10 @@ echo 'start script'
 
 # sudo nvidia-smi -i 0 -mig 1
 
-# test 0 1c-7g-80gb 
-# test 5 1c-4g-40gb 
-# test 9 1c-3g-40gb 
-# test 14 1c-2g-20gb
+test 0 1c-7g-80gb 
+test 5 1c-4g-40gb 
+test 9 1c-3g-40gb 
+test 14 1c-2g-20gb
 test 19 1c-1g-10gb
 
 echo 'end script'

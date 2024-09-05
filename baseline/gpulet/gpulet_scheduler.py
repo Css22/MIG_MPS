@@ -16,7 +16,7 @@ env["CUDA_VISIBLE_DEVICES"] = "MIG-d82118da-7798-5081-959f-c8bbf24989b3"
 
 working_directory = "/data/zbw/inference_system/MIG_MPS/jobs"
 
-LOG_FILE = "/data/zbw/inference_system/MIG_MPS/baseline/gpulet/gptlet.log"
+LOG_FILE = "/data/zbw/inference_system/MIG_MPS/baseline/gpulet/gpulet.log"
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filemode='a', filename=LOG_FILE)
 
@@ -315,7 +315,7 @@ if __name__ == "__main__":
             instance_count = instance_count
         else:
             instance_count = instance_count - 1
-            
+
         for i in range(0, instance_count+1):
             total_RPS = process_list[i]['RPS'] + total_RPS
         
