@@ -205,6 +205,7 @@ def stream_output(process, worker_id, RPS):
                     else:
                         logging.info(f"due to interfence, close worker {last_worker}")
                         process_list[last_worker]['RPS'] = 0
+                        process_list[last_worker]['state'] = False
                         process_list[last_worker]['process'].terminate()
 
                 logging.info(f"Worker {worker_id} release lock")
@@ -269,6 +270,8 @@ def deploy(task, knee, instance_count, remain_sm):
         RPS = model_QPS_list.get(task)[index]
         run_command(task, RPS, remain_sm , i+1)
         time.sleep(600)
+    else:
+        time.sleep(240)
 
 def generate_solution(knee):
 
@@ -292,6 +295,7 @@ if __name__ == "__main__":
         logging.info(f"start gpulets for {task} to find max_RPS") 
 
         knee = knee_point.get(task)
+
         instance_count, remain_sm = generate_solution(knee)
 
         logging.info(f"get the solution from gpulets with {knee} * {instance_count} and one instance with {remain_sm}")
@@ -307,6 +311,11 @@ if __name__ == "__main__":
 
         total_RPS = 0
 
+        if remain_sm != 0:
+            instance_count = instance_count
+        else:
+            instance_count = instance_count - 1
+            
         for i in range(0, instance_count+1):
             total_RPS = process_list[i]['RPS'] + total_RPS
         
