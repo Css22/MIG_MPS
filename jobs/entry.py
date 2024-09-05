@@ -144,6 +144,10 @@ def get_p99(data):
     percentile_99 = np.percentile(data, 99)
     return percentile_99
 
+def get_p98(data):
+    data = np.array(data)
+    percentile_98 = np.percentile(data, 98)
+    return percentile_98
 
 
 def record_result(path, config, RPS ,result):

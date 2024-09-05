@@ -1,3 +1,4 @@
+#!/bin/bash
 online_model_list=("mobilenet_v2" "alexnet" "resnet50" "resnet101" "resnet152" "vgg19" "vgg16" "unet" "deeplabv3" "bert")
 
 

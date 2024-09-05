@@ -1,4 +1,5 @@
-online_model_list=("mobilenet_v2" "alexnet" "resnet50" "resnet101" "resnet152" "vgg19" "vgg16" "unet" "deeplabv3" "bert")
+#!/bin/bash
+online_model_list=("mobilenet_v2" "alexnet" "resnet50" "resnet101" "resnet152" "vgg19" "vgg16" "unet" "deeplabv3")
 
 uuid=MIG-d82118da-7798-5081-959f-c8bbf24989b3
 for model_name in "${online_model_list[@]}"; do

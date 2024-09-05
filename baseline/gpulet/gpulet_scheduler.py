@@ -111,8 +111,8 @@ RPS_tolerate = {
     'vgg16': 20,
     'unet': 20,
     'deeplabv3':5,
-    'mobilenet_v2': 20,
-    'alexnet': 30,
+    'mobilenet_v2': 70,
+    'alexnet': 100,
 
 }
 
@@ -126,8 +126,8 @@ knee_point = {
     'vgg16': 40,
     'unet': 40,
     'deeplabv3':30,
-    'mobilenet_v2': 70,
-    'alexnet': 100,
+    'mobilenet_v2': 20,
+    'alexnet': 30,
 }
 
 
@@ -166,45 +166,46 @@ def stream_output(process, worker_id, RPS):
                 if "QoS violate" in output:
                     logging.info(f"worker {worker_id} with {RPS} QoS violate")
 
-                    if worker_id + 1 > len(process_list) :
+                    # if worker_id + 1 > len(process_list) :
                     
-                        adjust_RPS = process_list[worker_id]['RPS'] - RPS_tolerate.get(process_list[worker_id]['task']) 
+                    #     adjust_RPS = process_list[worker_id]['RPS'] - RPS_tolerate.get(process_list[worker_id]['task']) 
                         
-                        if adjust_RPS > 0:
-                            logging.info(f"update worker {worker_id} due to QoS violate, change {worker_id} and {process_list[worker_id]['task']} RPS from {process_list[worker_id]['RPS']} to {adjust_RPS}")
+                    #     if adjust_RPS > 0:
+                    #         logging.info(f"update worker {worker_id} due to QoS violate, change {worker_id} and {process_list[worker_id]['task']} RPS from {process_list[worker_id]['RPS']} to {adjust_RPS}")
                             
-                            process_list[worker_id]['process'].terminate()
-                            run_command(process_list[worker_id]['task'], adjust_RPS, process_list[worker_id]['SM'], worker_id)
-                        else:
-                            logging.info(f"due to interfence, close worker {worker_id}")
-                            process_list[worker_id]['process'].terminate()
+                    #         process_list[worker_id]['process'].terminate()
+                    #         run_command(process_list[worker_id]['task'], adjust_RPS, process_list[worker_id]['SM'], worker_id)
+                    #     else:
+                    #         logging.info(f"due to interfence, close worker {worker_id}")
+                    #         process_list[worker_id]['process'].terminate()
                             
-                    elif not process_list[worker_id + 1]['state'] :
+                    # elif not process_list[worker_id + 1]['state'] :
 
-                        adjust_RPS = process_list[worker_id]['RPS'] - RPS_tolerate.get(process_list[worker_id]['task']) 
-                        if adjust_RPS > 0:
-                            logging.info(f"update worker {worker_id} due to QoS violate, change {worker_id} and {process_list[worker_id]['task']} RPS from {process_list[worker_id]['RPS']} to {adjust_RPS}")
+                    #     adjust_RPS = process_list[worker_id]['RPS'] - RPS_tolerate.get(process_list[worker_id]['task']) 
+                    #     if adjust_RPS > 0:
+                    #         logging.info(f"update worker {worker_id} due to QoS violate, change {worker_id} and {process_list[worker_id]['task']} RPS from {process_list[worker_id]['RPS']} to {adjust_RPS}")
                             
-                            process_list[worker_id]['process'].terminate()
-                            run_command(process_list[worker_id]['task'], adjust_RPS, process_list[worker_id]['SM'], worker_id)
-                        else:
-                            logging.info(f"due to interfence, close worker {worker_id}")
-                            process_list[worker_id]['process'].terminate()
+                    #         process_list[worker_id]['process'].terminate()
+                    #         run_command(process_list[worker_id]['task'], adjust_RPS, process_list[worker_id]['SM'], worker_id)
+                    #     else:
+                    #         logging.info(f"due to interfence, close worker {worker_id}")
+                    #         process_list[worker_id]['process'].terminate()
 
+                    # else:
+                    last_worker = 0
+                    for i in range(0, len(process_list)):
+                        if process_list[i]['state']:
+                            last_worker = i
+
+                    adjust_RPS = process_list[last_worker]['RPS'] - RPS_tolerate.get(process_list[last_worker]['task']) 
+                    if adjust_RPS > 0 :
+                        logging.info(f"update worker {last_worker} due to QoS violate, change {last_worker} and {process_list[last_worker]['task']} RPS from {process_list[last_worker]['RPS']} to {adjust_RPS}")
+                        process_list[last_worker]['process'].terminate()
+                        run_command(process_list[last_worker]['task'], adjust_RPS, process_list[last_worker]['SM'], last_worker)
                     else:
-                        last_worker = 0
-                        for i in range(0, len(process_list)):
-                            if process_list[i]['state']:
-                                last_worker = i
-
-                        adjust_RPS = process_list[last_worker]['RPS'] - RPS_tolerate.get(process_list[last_worker]['task']) 
-                        if adjust_RPS > 0 :
-                            logging.info(f"update worker {last_worker} due to QoS violate, change {last_worker} and {process_list[last_worker]['task']} RPS from {process_list[last_worker]['RPS']} to {adjust_RPS}")
-                            process_list[last_worker]['process'].terminate()
-                            run_command(process_list[last_worker]['task'], adjust_RPS, process_list[last_worker]['SM'], last_worker)
-                        else:
-                            logging.info(f"due to interfence, close worker {last_worker}")
-                            process_list[worker_id]['process'].terminate()
+                        logging.info(f"due to interfence, close worker {last_worker}")
+                        process_list[last_worker]['RPS'] = 0
+                        process_list[last_worker]['process'].terminate()
 
                 logging.info(f"Worker {worker_id} release lock")
 
@@ -263,10 +264,11 @@ def deploy(task, knee, instance_count, remain_sm):
         time.sleep(360)
 
 
-    index = SM_list.index(remain_sm)
-    RPS = model_QPS_list.get(task)[index]
-    run_command(task, RPS, remain_sm , i+1)
-    time.sleep(600)
+    if remain_sm != 0:
+        index = SM_list.index(remain_sm)
+        RPS = model_QPS_list.get(task)[index]
+        run_command(task, RPS, remain_sm , i+1)
+        time.sleep(600)
 
 def generate_solution(knee):
 
