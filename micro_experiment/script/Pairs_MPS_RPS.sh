@@ -2,7 +2,7 @@
 online_model_list=("resnet152")
 workdir=/data/zbw/inference_system/MIG_MPS
 log_path=/data/zbw/inference_system/MIG_MPS/log/
-percentage_list=(50)
+percentage_list=(90 80 70 60)
 
 
 
