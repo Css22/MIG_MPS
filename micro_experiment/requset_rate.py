@@ -1,11 +1,3 @@
-# 如何计算request_rate: 分别计算SM从10到100以10进行递增，可以在QoS范围内处理的最大_batch_size?
-
-# 1. 重新定义端口
-# 2. 外置一个脚本, request_rate会启动函数
-#     request_rate接受参数：
-#     1.model Name
-#     2.batch size
-#     3.SM比例
 import argparse
 import json
 import numpy as np

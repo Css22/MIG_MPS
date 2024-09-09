@@ -283,7 +283,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--task", type=str)
     parser.add_argument("--RPS", type=int)
-
     args = parser.parse_args()
 
     task = args.task
