@@ -289,7 +289,11 @@ if __name__ == "__main__":
     RPS = args.RPS
 
     if RPS:
+        
         logging.info(f"start gpulets for {task} and {RPS}") 
+
+        knee = knee_point.get(task)
+
     else:
         logging.info(f"start gpulets for {task} to find max_RPS") 
 

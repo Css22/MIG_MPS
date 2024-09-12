@@ -80,6 +80,7 @@ def get_configuration_result(configuration_list):
 def objective(configuration_list):
     result = 0
     latency1, latency2 = get_configuration_result(configuration_list)
+
     RPS1 = configuration_list[0]['RPS']
     RPS2 = configuration_list[1]['RPS']
 
