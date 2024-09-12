@@ -48,6 +48,7 @@ def read_data(file_path):
                 data.append({"task": task, "SM": sm, "batch": batch, "percentile": percentile})
     return data
 
+
 def get_configuration_result(configuration_list):
     file_path = '/data/zbw/inference_system/MIG_MPS/log/resnet152_Pairs_MPS_RPS'
     data_list = read_data(file_path)
@@ -79,8 +80,10 @@ def get_configuration_result(configuration_list):
 def objective(configuration_list):
     result = 0
     latency1, latency2 = get_configuration_result(configuration_list)
-    
+    RPS1 = configuration_list[0]['RPS']
+    RPS2 = configuration_list[1]['RPS']
 
+    
     return result
 
 
