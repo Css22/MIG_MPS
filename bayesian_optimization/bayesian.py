@@ -5,6 +5,7 @@ import argparse
 import logging
 import re
 import math
+from collections import defaultdict
 
 QoS_map = {
     'resnet50': 108,
@@ -48,28 +49,26 @@ def read_data(file_path):
                 data.append({"task": task, "SM": sm, "batch": batch, "percentile": percentile})
     return data
 
-
-def get_configuration_result(configuration_list):
-    file_path = '/data/zbw/inference_system/MIG_MPS/log/resnet152_Pairs_MPS_RPS'
+def get_configuration_result(configuration_list, serve):
+    file_path = '/data/zbw/inference_system/MIG_MPS/log/'+serve+'_Pairs_MPS_RPS'
     data_list = read_data(file_path)
-
-
-
     for i in range(0, len(data_list)-1, 2):  
         if i + 1 < len(data_list):
 
             item1 = data_list[i]
             item2 = data_list[i + 1]
 
+            if serve_num == 1:
+                QoS = QoS_map.get(task[0])
+                half_QoS = [QoS/2,QoS/2]
+            else:
+                QoS1 = QoS_map.get(task[0])
+                QoS2 = QoS_map.get(task[1])
+                half_QoS = [QoS1/2,QoS2/2]
 
-           
-            QoS = QoS_map.get(task)
-            half_QoS = QoS/2
-
-            batch1 = math.floor(float(configuration_list[0]['RPS'])/1000 * half_QoS)
-            batch2 = math.floor(float(configuration_list[1]['RPS'])/1000 * half_QoS)
-
-       
+            batch1 = math.floor(float(configuration_list[0]['RPS'])/1000 * half_QoS[0])
+            batch2 = math.floor(float(configuration_list[1]['RPS'])/1000 * half_QoS[1])
+    
             if int(item1['SM']) == int(configuration_list[0]['SM']) and int(item2['SM']) == int(configuration_list[1]['SM']) \
             and int(batch1) == int(item1['batch']) and int(batch2) == int(item2['batch']):
                 latency1 = item1['percentile']
@@ -77,14 +76,69 @@ def get_configuration_result(configuration_list):
                 return latency1, latency2
 
 
+def read_RPS(file_path):
+    data = []
+    with open(file_path, 'r') as file:
+        for line in file:
+            match = re.match(r'Config: (\w+), P99: ([\d.]+), RPS: (\d+)', line)
+            if match:
+                config = int(match.group(1))
+                percentile = float(match.group(2))
+                RPS = int(match.group(3))
+                data.append({"config": config, "RPS": RPS, "percentile": percentile})
+    return data
+
+
+def get_maxRPSInCurSM(serve, sm, QoS):
+    file_path = '/data/zbw/inference_system/MIG_MPS/log/'+serve+'_MPS_RPS'
+    data_list = read_RPS(file_path)
+    filtered_data = [item for item in data_list if item['config'] == sm]
+    # Sort the filtered items by 'percentile' in ascending order
+    sorted_items = sorted(filtered_data, key=lambda x: x['percentile'])
+    # Find the item with the largest 'percentile' <= QoS
+    max_item = None
+    for item in sorted_items:
+        if item['percentile'] <= QoS:
+            max_item = item
+        else:
+            break
+
+    maxRPS = max_item['RPS']
+    return maxRPS
+
+
+
+
 def objective(configuration_list):
     result = 0
-    latency1, latency2 = get_configuration_result(configuration_list)
 
     RPS1 = configuration_list[0]['RPS']
     RPS2 = configuration_list[1]['RPS']
+    SM1 = configuration_list[0]['RPS']
+    SM2 = configuration_list[1]['RPS']
 
-    
+    latency1, latency2 = get_configuration_result(configuration_list, args.task)
+    print("latency1:{}".format(latency1))
+    print("latency2:{}".format(latency2))
+
+    if serve_num ==1 :
+        QoS = QoS_map[task[0]]
+        if latency1 > QoS_map[task[0]] or latency2 > QoS_map[task[0]]:
+            result = 0.5 * math.sqrt(min(1,QoS/latency1)*min(1,QoS/latency2))
+        else:
+            RPS100 = get_maxRPSInCurSM(task[0], 100, QoS)
+            print("RPS100:{}".format(RPS100))
+            result = 0.5 + 0.5 * (RPS1+RPS2) / RPS100 
+    else:
+        QoS1 = QoS_map[task[0]]
+        QoS2 = QoS_map[task[1]]
+        if latency1 > QoS1 or latency2 > QoS2:
+            result = 0.5 * math.sqrt(min(1,QoS1/latency1)*min(1,QoS2/latency2))
+        else:
+            RPS1_alone = get_maxRPSInCurSM(task[0], SM1, QoS1)
+            RPS2_alone = get_maxRPSInCurSM(task[1], SM2, QoS2)
+            result = 0.5 + 0.5 * math.sqrt(RPS1/RPS1_alone*RPS2/RPS2_alone)
+    print(result)
     return result
 
 
@@ -152,7 +206,9 @@ if __name__ == "__main__":
     parser.add_argument("--task", type=str)
     args = parser.parse_args()
 
+    #args.task形如resnet50,resnet101的字符串
     task = args.task
     serve_num = get_task_num(task)
+    task = [s.strip() for s in task.split(',')]
 
     wrapped_objective(SM1=50, RPS1=300, SM2=50, RPS2=300)
