@@ -50,6 +50,27 @@ def read_data(file_path):
     return data
 
 def get_configuration_result(configuration_list, serve):
+    print("cur SM and RPS are")
+    print(configuration_list[0]['SM'])
+    print(configuration_list[0]['RPS'])
+    print(configuration_list[1]['SM'])
+    print(configuration_list[1]['RPS'])
+
+    if serve_num == 1:
+        QoS = QoS_map.get(task[0])
+        half_QoS = [QoS/2,QoS/2]
+    else:
+        QoS1 = QoS_map.get(task[0])
+        QoS2 = QoS_map.get(task[1])
+        half_QoS = [QoS1/2,QoS2/2]
+
+    batch1 = math.floor(float(configuration_list[0]['RPS'])/1000 * half_QoS[0])
+    batch2 = math.floor(float(configuration_list[1]['RPS'])/1000 * half_QoS[1])
+
+    print("cur batch is")
+    print(batch1)
+    print(batch2)
+
     file_path = '/data/zbw/inference_system/MIG_MPS/log/'+serve+'_Pairs_MPS_RPS'
     data_list = read_data(file_path)
     for i in range(0, len(data_list)-1, 2):  
@@ -58,21 +79,15 @@ def get_configuration_result(configuration_list, serve):
             item1 = data_list[i]
             item2 = data_list[i + 1]
 
-            if serve_num == 1:
-                QoS = QoS_map.get(task[0])
-                half_QoS = [QoS/2,QoS/2]
-            else:
-                QoS1 = QoS_map.get(task[0])
-                QoS2 = QoS_map.get(task[1])
-                half_QoS = [QoS1/2,QoS2/2]
-
-            batch1 = math.floor(float(configuration_list[0]['RPS'])/1000 * half_QoS[0])
-            batch2 = math.floor(float(configuration_list[1]['RPS'])/1000 * half_QoS[1])
-    
             if int(item1['SM']) == int(configuration_list[0]['SM']) and int(item2['SM']) == int(configuration_list[1]['SM']) \
             and int(batch1) == int(item1['batch']) and int(batch2) == int(item2['batch']):
                 latency1 = item1['percentile']
                 latency2 = item2['percentile']
+                return latency1, latency2
+            elif int(item2['SM']) == int(configuration_list[0]['SM']) and int(item1['SM']) == int(configuration_list[1]['SM']) \
+            and int(batch2) == int(item1['batch']) and int(batch1) == int(item2['batch']):
+                latency1 = item2['percentile']
+                latency2 = item1['percentile']
                 return latency1, latency2
 
 
@@ -89,7 +104,7 @@ def read_RPS(file_path):
     return data
 
 
-def get_maxRPSInCurSM(serve, sm, QoS):
+def get_maxRPSInCurSM(serve, sm, halfQoS):
     file_path = '/data/zbw/inference_system/MIG_MPS/log/'+serve+'_MPS_RPS'
     data_list = read_RPS(file_path)
     filtered_data = [item for item in data_list if item['config'] == sm]
@@ -98,7 +113,7 @@ def get_maxRPSInCurSM(serve, sm, QoS):
     # Find the item with the largest 'percentile' <= QoS
     max_item = None
     for item in sorted_items:
-        if item['percentile'] <= QoS:
+        if item['percentile'] <= halfQoS:
             max_item = item
         else:
             break
@@ -116,22 +131,24 @@ def objective(configuration_list):
     RPS2 = configuration_list[1]['RPS']
     SM1 = configuration_list[0]['RPS']
     SM2 = configuration_list[1]['RPS']
-
-    latency1, latency2 = get_configuration_result(configuration_list, args.task)
+    tmp = get_configuration_result(configuration_list, args.task)
+    if tmp is None:
+        return 0.5
+    latency1, latency2 = tmp
     print("latency1:{}".format(latency1))
     print("latency2:{}".format(latency2))
 
     if serve_num ==1 :
-        QoS = QoS_map[task[0]]
-        if latency1 > QoS_map[task[0]] or latency2 > QoS_map[task[0]]:
+        QoS = QoS_map[task[0]]/2
+        if latency1 > QoS or latency2 > QoS:
             result = 0.5 * math.sqrt(min(1,QoS/latency1)*min(1,QoS/latency2))
         else:
             RPS100 = get_maxRPSInCurSM(task[0], 100, QoS)
-            print("RPS100:{}".format(RPS100))
-            result = 0.5 + 0.5 * (RPS1+RPS2) / RPS100 
+            result = 0.5 + 0.5/ 2 * (RPS1+RPS2) / RPS100
+            print("RPS1+RPS2={}".format(RPS1+RPS2))
     else:
-        QoS1 = QoS_map[task[0]]
-        QoS2 = QoS_map[task[1]]
+        QoS1 = QoS_map[task[0]]/2
+        QoS2 = QoS_map[task[1]]/2
         if latency1 > QoS1 or latency2 > QoS2:
             result = 0.5 * math.sqrt(min(1,QoS1/latency1)*min(1,QoS2/latency2))
         else:
@@ -148,18 +165,19 @@ def get_task_num(task):
     return 1
 
 
-def wrapped_objective(**kwargs):
+def wrapped_objective(SM1, RPS1, RPS2):
     configuration_list = []
-    num_maps = len(kwargs) // 2 
+    # num_maps = len(kwargs) // 2 
 
-    for i in range(1, num_maps + 1):
-        map_data = {
-            'SM': kwargs[f'SM{i}'],
-            'RPS': kwargs[f'RPS{i}'],
-            # 'parallelism': kwargs[f'parallelism{i}']
-        }
+    # for i in range(1, num_maps + 1):
+    #     map_data = {
+    #         'SM': kwargs[f'SM{i}'],
+    #         'RPS': kwargs[f'RPS{i}'],
+    #         # 'parallelism': kwargs[f'parallelism{i}']
+    #     }
 
-        configuration_list.append(map_data)
+        # configuration_list.append(map_data)
+    configuration_list = [{'SM':int(SM1)*10, 'RPS':int(RPS1)},{'SM':100-int(SM1)*10, 'RPS':int(RPS2)}]
 
     return objective(configuration_list)
 
@@ -173,11 +191,12 @@ def init_optimizer(num_task):
 
     pbounds = get_pbounds(num_task)
 
-    # optimizer =BayesianOptimization(
-    #     f=objective,
-    #     pbounds=pbounds,
-    #     random_state=1,
-    # )
+    optimizer =BayesianOptimization(
+        wrapped_objective,{'SM1':(1,9),
+            'RPS1':(300,600),
+            'RPS2':(300,600)
+        }
+    )
     
     return optimizer
 
@@ -186,18 +205,6 @@ def init_optimizer(num_task):
 # 定义参数的边界
 
 # 初始化贝叶斯优化对象
-
-
-# 执行优化
-# optimizer.maximize(
-#     init_points=2,  # 初始化步数
-#     n_iter=25,      # 迭代步数
-# )
-
-
-# 输出结果
-# for i, res in enumerate(optimizer.res):
-#     print(f"Iteration {i+1}: x={res['params']['x']}, target={res['target']}")
 
 
 # 这个版本由于现在数据库的限制，其仅仅能搜索 bert 在model_parrlism为2的情况下的，两个相同的bert模型的rps只和。
@@ -211,4 +218,17 @@ if __name__ == "__main__":
     serve_num = get_task_num(task)
     task = [s.strip() for s in task.split(',')]
 
-    wrapped_objective(SM1=50, RPS1=300, SM2=50, RPS2=300)
+    #wrapped_objective(SM1=50, RPS1=300, SM2=50, RPS2=300)
+
+    optimizer = init_optimizer(1)
+    # 执行优化
+    optimizer.maximize(
+        init_points=5,  # 初始化步数
+        n_iter=100,      # 迭代步数
+    )
+
+
+    # #输出结果
+    # for i, res in enumerate(optimizer.res):
+    #     print(f"Iteration {i+1}: x={res['params']['x']}, target={res['target']}")
+
