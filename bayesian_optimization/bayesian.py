@@ -1,6 +1,7 @@
 from skopt import gp_minimize
 import numpy as np
 from bayes_opt import BayesianOptimization
+from bayes_opt.util import UtilityFunction
 import argparse
 import logging
 import re
@@ -67,10 +68,6 @@ def get_configuration_result(configuration_list, serve):
     batch1 = math.floor(float(configuration_list[0]['RPS'])/1000 * half_QoS[0])
     batch2 = math.floor(float(configuration_list[1]['RPS'])/1000 * half_QoS[1])
 
-    print("cur batch is")
-    print(batch1)
-    print(batch2)
-
     file_path = '/data/zbw/inference_system/MIG_MPS/log/'+serve+'_Pairs_MPS_RPS'
     data_list = read_data(file_path)
     for i in range(0, len(data_list)-1, 2):  
@@ -129,14 +126,13 @@ def objective(configuration_list):
 
     RPS1 = configuration_list[0]['RPS']
     RPS2 = configuration_list[1]['RPS']
-    SM1 = configuration_list[0]['RPS']
-    SM2 = configuration_list[1]['RPS']
+    SM1 = configuration_list[0]['SM']
+    SM2 = configuration_list[1]['SM']
     tmp = get_configuration_result(configuration_list, args.task)
     if tmp is None:
-        return 0.5
+        print("illegal RPS and SM!")
+        return 0
     latency1, latency2 = tmp
-    print("latency1:{}".format(latency1))
-    print("latency2:{}".format(latency2))
 
     if serve_num ==1 :
         QoS = QoS_map[task[0]]/2
@@ -195,7 +191,8 @@ def init_optimizer(num_task):
         wrapped_objective,{'SM1':(1,9),
             'RPS1':(300,600),
             'RPS2':(300,600)
-        }
+        },
+        random_state =1
     )
     
     return optimizer
@@ -221,13 +218,17 @@ if __name__ == "__main__":
     #wrapped_objective(SM1=50, RPS1=300, SM2=50, RPS2=300)
 
     optimizer = init_optimizer(1)
+
+    # 创建采集函数实例，例如 Expected Improvement (EI)
+    utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
+
     # 执行优化
     optimizer.maximize(
         init_points=5,  # 初始化步数
-        n_iter=100,      # 迭代步数
+        n_iter=20,      # 迭代步数
+        acquisition_function=utility  # 传递采集函数
     )
-
-
+    print(optimizer.max)
     # #输出结果
     # for i, res in enumerate(optimizer.res):
     #     print(f"Iteration {i+1}: x={res['params']['x']}, target={res['target']}")
