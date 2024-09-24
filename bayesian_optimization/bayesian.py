@@ -51,6 +51,7 @@ def read_data(file_path):
     return data
 
 def get_configuration_result(configuration_list, serve):
+    
     print("cur SM and RPS are")
     print(configuration_list[0]['SM'])
     print(configuration_list[0]['RPS'])
@@ -129,6 +130,10 @@ def objective(configuration_list):
     SM1 = configuration_list[0]['SM']
     SM2 = configuration_list[1]['SM']
     tmp = get_configuration_result(configuration_list, args.task)
+
+    print(tmp)
+
+
     if tmp is None:
         print("illegal RPS and SM!")
         return 0
@@ -219,17 +224,15 @@ if __name__ == "__main__":
 
     optimizer = init_optimizer(1)
 
-    # 创建采集函数实例，例如 Expected Improvement (EI)
     utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
 
     # 执行优化
     optimizer.maximize(
-        init_points=5,  # 初始化步数
-        n_iter=20,      # 迭代步数
+        init_points=10,  # 初始化步数
+        n_iter=10,      # 迭代步数
         acquisition_function=utility  # 传递采集函数
     )
+
     print(optimizer.max)
-    # #输出结果
-    # for i, res in enumerate(optimizer.res):
-    #     print(f"Iteration {i+1}: x={res['params']['x']}, target={res['target']}")
+
 
