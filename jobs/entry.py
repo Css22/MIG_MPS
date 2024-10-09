@@ -244,6 +244,7 @@ if __name__ == "__main__":
     parser.add_argument("--concurrent_profile", action='store_true')
     parser.add_argument("--gpulet", action='store_true')
     parser.add_argument("--worker_id", type=int)
+    parser.add_argument("--bayes", action='store_true')
     args = parser.parse_args()
 
     task = args.task
@@ -254,6 +255,7 @@ if __name__ == "__main__":
     RPS = args.RPS
     batch = args.batch
     gpulet = args.gpulet
+    bayes = args.bayes
 
 
     max_epoch = 1000
@@ -261,7 +263,6 @@ if __name__ == "__main__":
     max_RPS = max_RPS_map.get(task)
 
     if test:
-        print("test")
         QoS = QoS_map.get(task)
         half_QoS = QoS/2
         if batch:
@@ -276,7 +277,7 @@ if __name__ == "__main__":
         else:
             model = get_model(task)
             model = model().cuda(0).eval()
-
+    
 
         with torch.no_grad():
             while True:
@@ -316,18 +317,10 @@ if __name__ == "__main__":
                     end_time = time.time()
                     print((end_time - start_time) * 1000)
                     valid_list.append((end_time - start_time) * 1000)
+
                 print("P99: ", get_p95(valid_list))
 
-                file_path = '/data/wyh/MIG_MPS/tmp/bayesian_tmp.txt'
-                lock_path = file_path + '.lock'  # 锁文件的路径
-
-                # 使用 FileLock 确保文件锁定
-                lock = FileLock(lock_path)
-                # 尝试获取锁并写入文件
-                with lock:
-                    with open(file_path, 'a+') as file:
-                        file.write("{}\n".format(get_p95(valid_list)))
-
+              
 
     elif concurrent_profile:
         if task == 'bert':  
@@ -376,9 +369,21 @@ if __name__ == "__main__":
                 end_time = time.time()
 
                 valid_list.append((end_time - start_time) * 1000)
+            
+            if not bayes:
+                handle_concurrent_valid_data(valid_list[200:], task, config, batch)
+            else:
+                data = np.array(valid_list[200:])
+                percentile_95 = np.percentile(data, 95)
+                file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
+                lock_path = file_path + '.lock'  
 
-            handle_concurrent_valid_data(valid_list[200:], task, config, batch)
+            
+                lock = FileLock(lock_path)
 
+                with lock:
+                    with open(file_path, 'a+') as file:
+                        file.write(f"{task} {batch} {config} {percentile_95}\n")
     elif gpulet:
 
         QoS = QoS_map.get(task)

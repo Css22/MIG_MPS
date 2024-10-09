@@ -135,7 +135,8 @@ def objective(configuration_list):
     tmp = get_configuration_result(configuration_list, args.task)
 
     print(tmp)
-
+    
+    print(RPS1, RPS2, SM1, SM2)
 
     if tmp is None:
         print("illegal RPS and SM!")
@@ -148,22 +149,53 @@ def objective(configuration_list):
             QoS1 = QoS_map.get(task[0])
             QoS2 = QoS_map.get(task[1])
             half_QoS = [QoS1/2,QoS2/2]
+
         batch1 = math.floor(float(RPS1)/1000 * half_QoS[0])
         batch2 = math.floor(float(RPS2)/1000 * half_QoS[1])
         if serve_num == 2:
             m2 = task[1]
+        
+        server_id = 4076752
+        script_path = '/data/zbw/inference_system/MIG_MPS/micro_experiment/script/padding.sh'
 
-        script_path = '/data/wyh/MIG_MPS/micro_experiment/script/padding.sh'
-        BO_args= [m1,m2,SM1,SM2,batch1,batch2]
-        BO_args = [str(item) for item in BO_args]
+        if SM1 < SM2:
 
-        # 调用 subprocess.run 并传递脚本路径和参数
-        result = subprocess.run([script_path] + BO_args, capture_output=True, text=True)
+            BO_args= [m1,m2,SM1,SM2,batch1,batch2, server_id]
+            BO_args = [str(item) for item in BO_args]
+            result = subprocess.run([script_path] + BO_args, capture_output=True, text=True)
+
+        else:
+
+            BO_args= [m2,m1,SM2,SM1,batch2,batch1, server_id]
+            BO_args = [str(item) for item in BO_args]
+            result = subprocess.run([script_path] + BO_args, capture_output=True, text=True)
         print(result.stdout)
+
         print(result.stderr)
-        return 0
+
+
+        file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
+        lock_path = file_path + '.lock' 
+
+
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+
+
+        for line in lines:
+            context = line.strip().split(" ")
+            if m1 == context[0] and int(batch1) == int(context[1]) and int(SM1) == int(context[2]):
+                latency1 = float(context[3])
+            else:
+                latency2 = float(context[3])
+
+        with open(file_path, 'w') as file:
+            file.write('')
+            
+    else:
+        latency1, latency2 = tmp
     
-    latency1, latency2 = tmp
+   
 
     if serve_num ==1 :
         QoS = QoS_map[task[0]]/2
@@ -186,7 +218,6 @@ def objective(configuration_list):
             RPS2_alone = get_maxRPSInCurSM(task[1], SM2, QoS2)
             result = 0.5 + 0.5 * math.sqrt(RPS1/RPS1_alone*RPS2/RPS2_alone)
 
-    print(result)
 
     return result
 
