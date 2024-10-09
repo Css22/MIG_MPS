@@ -6,6 +6,7 @@ import argparse
 import logging
 import re
 import math
+import subprocess
 from collections import defaultdict
 
 QoS_map = {
@@ -138,6 +139,28 @@ def objective(configuration_list):
 
     if tmp is None:
         print("illegal RPS and SM!")
+        m1 = task[0]
+        m2 = task[0]
+        if serve_num == 1:
+            QoS = QoS_map.get(task[0])
+            half_QoS = [QoS/2,QoS/2]
+        else:
+            QoS1 = QoS_map.get(task[0])
+            QoS2 = QoS_map.get(task[1])
+            half_QoS = [QoS1/2,QoS2/2]
+        batch1 = math.floor(float(RPS1)/1000 * half_QoS[0])
+        batch2 = math.floor(float(RPS2)/1000 * half_QoS[1])
+        if serve_num == 2:
+            m2 = task[1]
+
+        script_path = '/data/wyh/MIG_MPS/micro_experiment/script/padding.sh'
+        BO_args= [m1,m2,SM1,SM2,batch1,batch2]
+        BO_args = [str(item) for item in BO_args]
+
+        # 调用 subprocess.run 并传递脚本路径和参数
+        result = subprocess.run([script_path] + BO_args, capture_output=True, text=True)
+        print(result.stdout)
+        print(result.stderr)
         return 0
     
     latency1, latency2 = tmp

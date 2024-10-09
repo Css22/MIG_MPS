@@ -17,6 +17,7 @@ from transformer import transformer_layer
 import signal
 import math
 import logging
+from filelock import FileLock
 
 
 
@@ -315,7 +316,18 @@ if __name__ == "__main__":
                     end_time = time.time()
                     print((end_time - start_time) * 1000)
                     valid_list.append((end_time - start_time) * 1000)
-                print("P99: ", get_p95(valid_list))  
+                print("P99: ", get_p95(valid_list))
+
+                file_path = '/data/wyh/MIG_MPS/tmp/bayesian_tmp.txt'
+                lock_path = file_path + '.lock'  # 锁文件的路径
+
+                # 使用 FileLock 确保文件锁定
+                lock = FileLock(lock_path)
+                # 尝试获取锁并写入文件
+                with lock:
+                    with open(file_path, 'a+') as file:
+                        file.write("{}\n".format(get_p95(valid_list)))
+
 
     elif concurrent_profile:
         if task == 'bert':  
