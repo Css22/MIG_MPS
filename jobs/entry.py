@@ -225,11 +225,11 @@ def binary_search_max_true(task ,min_RPS, max_RPS, max_epoch):
     while left < right:
         mid = (left + right + 1) // 2
         if execute_entry(task=task, RPS=mid, max_epoch=max_epoch):
-            left = mid  # mid可能是解，所以保留在left
+            left = mid  
         else:
-            right = mid - 1  # mid不是解，所以舍弃
+            right = mid - 1  
 
-    return left  # 最后返回left就是满足条件的最大值
+    return left  
 
 
 
@@ -245,6 +245,7 @@ if __name__ == "__main__":
     parser.add_argument("--gpulet", action='store_true')
     parser.add_argument("--worker_id", type=int)
     parser.add_argument("--bayes", action='store_true')
+    parser.add_argument("--feedback", action='store_true')
     args = parser.parse_args()
 
     task = args.task
@@ -256,6 +257,7 @@ if __name__ == "__main__":
     batch = args.batch
     gpulet = args.gpulet
     bayes = args.bayes
+    feedback =args.feedback
 
 
     max_epoch = 1000
@@ -372,7 +374,9 @@ if __name__ == "__main__":
             
             if not bayes:
                 handle_concurrent_valid_data(valid_list[200:], task, config, batch)
-            else:
+
+            elif not feedback:
+                
                 data = np.array(valid_list[200:])
                 percentile_95 = np.percentile(data, 95)
                 file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
@@ -384,6 +388,10 @@ if __name__ == "__main__":
                 with lock:
                     with open(file_path, 'a+') as file:
                         file.write(f"{task} {batch} {config} {percentile_95}\n")
+            else:
+
+                pass
+
     elif gpulet:
 
         QoS = QoS_map.get(task)
