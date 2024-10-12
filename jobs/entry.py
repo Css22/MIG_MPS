@@ -389,8 +389,8 @@ if __name__ == "__main__":
                     with open(file_path, 'a+') as file:
                         file.write(f"{task} {batch} {config} {percentile_95}\n")
             else:
-
-                pass
+                file_path = '/data/zbw/inference_system/MIG_MPS/tmp/feedback_tmp'
+                
 
     elif gpulet:
 
