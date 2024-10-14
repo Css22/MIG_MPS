@@ -197,7 +197,7 @@ def objective(configuration_list):
     
    
 
-    if serve_num ==1 :
+    if serve_num ==1 :                               
         QoS = QoS_map[task[0]]/2
         if latency1 > QoS or latency2 > QoS:
             result = 0.5 * math.sqrt(min(1,QoS/latency1)*min(1,QoS/latency2))
