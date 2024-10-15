@@ -132,14 +132,13 @@ def objective(configuration_list):
     RPS2 = configuration_list[1]['RPS']
     SM1 = configuration_list[0]['SM']
     SM2 = configuration_list[1]['SM']
-    tmp = get_configuration_result(configuration_list, args.task)
 
-    print(tmp)
-    
-    print(RPS1, RPS2, SM1, SM2)
+    # open history log
+    # tmp = get_configuration_result(configuration_list, args.task)
+    tmp = None
 
     if tmp is None:
-        print("illegal RPS and SM!")
+        
         m1 = task[0]
         m2 = task[0]
         if serve_num == 1:
@@ -155,6 +154,7 @@ def objective(configuration_list):
         if serve_num == 2:
             m2 = task[1]
         
+        print(f"start executor, the task {m1} {SM1} {batch1} {m2} {SM2} {batch2}")
         server_id = 4076752
         script_path = '/data/zbw/inference_system/MIG_MPS/micro_experiment/script/padding.sh'
 
@@ -169,9 +169,10 @@ def objective(configuration_list):
             BO_args= [m2,m1,SM2,SM1,batch2,batch1, server_id]
             BO_args = [str(item) for item in BO_args]
             result = subprocess.run([script_path] + BO_args, capture_output=True, text=True)
-        print(result.stdout)
 
-        print(result.stderr)
+        # print(result.stdout)
+
+        # print(result.stderr)
 
 
         file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
@@ -201,6 +202,7 @@ def objective(configuration_list):
         QoS = QoS_map[task[0]]/2
         if latency1 > QoS or latency2 > QoS:
             result = 0.5 * math.sqrt(min(1,QoS/latency1)*min(1,QoS/latency2))
+            print(f"QoS Violation latency1: {latency1} latency2: {latency2}")
 
         else:
             RPS100 = get_maxRPSInCurSM(task[0], 100, QoS)
@@ -213,12 +215,12 @@ def objective(configuration_list):
         
         if latency1 > QoS1 or latency2 > QoS2:
             result = 0.5 * math.sqrt(min(1,QoS1/latency1)*min(1,QoS2/latency2))
+
         else:
             RPS1_alone = get_maxRPSInCurSM(task[0], SM1, QoS1)
             RPS2_alone = get_maxRPSInCurSM(task[1], SM2, QoS2)
             result = 0.5 + 0.5 * math.sqrt(RPS1/RPS1_alone*RPS2/RPS2_alone)
-
-
+        
     return result
 
 
@@ -231,7 +233,7 @@ def get_task_num(task):
 def wrapped_objective(SM1, RPS1, RPS2):
     configuration_list = []
 
-    configuration_list = [{'SM':int(SM1)*10, 'RPS':int(RPS1)},{'SM':100-int(SM1)*10, 'RPS':int(RPS2)}]
+    configuration_list = [{'SM':int(SM1), 'RPS':int(RPS1)},{'SM':100-int(SM1), 'RPS':int(RPS2)}]
 
     return objective(configuration_list)
 
@@ -246,7 +248,7 @@ def init_optimizer(num_task):
     pbounds = get_pbounds(num_task)
 
     optimizer =BayesianOptimization(
-        wrapped_objective,{'SM1':(1,9),
+        wrapped_objective,{'SM1':(10,90),
             'RPS1':(300,600),
             'RPS2':(300,600)
         },
