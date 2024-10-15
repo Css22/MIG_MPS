@@ -246,7 +246,7 @@ def feedback_execute_entry(task, RPS):
                     
     with torch.no_grad():
         valid_list = []
-        for i in range(0, 200):
+        for i in range(0, 300):
             if task == 'bert':
                 input,masks = get_input(task, batch)
                 input = input.half()
@@ -290,7 +290,7 @@ def feedback_execute_entry(task, RPS):
 
         send_tcp_message(running_tcp_ip, running_tcp_port, 'finish')
 
-        data = np.array(valid_list)
+        data = np.array(valid_list[20:])
         percentile_95 = np.percentile(data, 95)
         time.sleep(1)
 
@@ -298,6 +298,7 @@ def feedback_execute_entry(task, RPS):
             print(f"batch is {batch} latency: {percentile_95}, remote_latency: {float(tcp_control.get_latency())}" )
             return False
         else:
+            print(f"batch is {batch} latency: {percentile_95}, remote_latency: {float(tcp_control.get_latency())}" )
             return True
 
 def feedback_search_max_true(task, RPS):
@@ -354,10 +355,18 @@ def tcp_server(host, port, control):
         message = client_socket.recv(1024).decode().strip()
         if message in ['start', 'finish']:
             control.set_state(message)
+
+        elif message == 'succeed':
+            print("Received 'succeed', shutting down server.")
+            control.set_state(message)
+            client_socket.close() 
+            break
         else:
             control.set_latency(message)
         client_socket.close()
 
+    server_socket.close()
+    print("Server socket has been closed.")
 
 tcp_control = TCPControl()
 
@@ -584,22 +593,29 @@ if __name__ == "__main__":
                     end_time = time.time()
                     
                     tmp_list.append((end_time - start_time) * 1000)
-                    print((end_time - start_time) * 1000)
 
                     if tcp_control.get_state() == 'start':
                         valid_list.append((end_time - start_time) * 1000)
 
                     if tcp_control.get_state() == 'finish':
-                        data = np.array(valid_list)
+                        data = np.array(valid_list[20:])
                         percentile_95 = np.percentile(data, 95)
                         send_tcp_message(host=binary_tcp_ip, port=binary_tcp_port, message=str(percentile_95))
                         valid_list = []
                         tcp_control.reset_state()  
 
+                    if tcp_control.get_state() == 'succeed':
+                        
+                        send_tcp_message(host=binary_tcp_ip, port=binary_tcp_port, message='succeed')
+
+                        break
+
                     
         else:
             start_server(host=binary_tcp_ip, port=binary_tcp_port)
             vaild_RPS = feedback_search_max_true(task=task, RPS=RPS)
+
+            send_tcp_message(host=running_tcp_ip, port=running_tcp_port, message='succeed')
 
             print(f"find largest valid RPS: {vaild_RPS}" )
 
