@@ -10,9 +10,9 @@ lock = threading.Lock()
 
 
 env = os.environ.copy()  # 复制当前环境变量
-env["CUDA_MPS_PIPE_DIRECTORY"] = "/tmp/nvidia-mps-MIG-d82118da-7798-5081-959f-c8bbf24989b3"
-env["CUDA_MPS_LOG_DIRECTORY"] = "/tmp/nvidia-log-MIG-d82118da-7798-5081-959f-c8bbf24989b3"
-env["CUDA_VISIBLE_DEVICES"] = "MIG-d82118da-7798-5081-959f-c8bbf24989b3"
+env["CUDA_MPS_PIPE_DIRECTORY"] = "/tmp/nvidia-mps-GPU-906931c6-0f94-edc4-3f18-17fc4e477e53"
+env["CUDA_MPS_LOG_DIRECTORY"] = "/tmp/nvidia-log-GPU-906931c6-0f94-edc4-3f18-17fc4e477e53"
+env["CUDA_VISIBLE_DEVICES"] = "GPU-906931c6-0f94-edc4-3f18-17fc4e477e53"
 
 working_directory = "/data/zbw/inference_system/MIG_MPS/jobs"
 
@@ -222,14 +222,13 @@ def run_command(task, RPS , SM, worker_id):
     #     && echo set_active_thread_percentage 1677256 {SM}| sudo -E nvidia-cuda-mps-control && python entry.py  --task {task} --RPS {RPS} --gpulet --test"
 
 
- 
-    SetPercentage( "MIG-d82118da-7798-5081-959f-c8bbf24989b3", SM)
+    SetPercentage( "GPU-906931c6-0f94-edc4-3f18-17fc4e477e53", SM)
     # MPS_command = f"echo set_active_thread_percentage 1677256 {SM}| sudo -E nvidia-cuda-mps-control"
     # logging.info(f"start MPS_command {MPS_command}")
     # MPS_processs =  subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, env=env)
 
 
-    command = ["/home/zbw/anaconda3/envs/Abacus/bin/python", "entry.py", "--task", task, "--RPS", str(RPS), "--gpulet", "--test"]
+    command = ["/data/zbw/anaconda3/envs/Abacus/bin/python", "entry.py", "--task", task, "--RPS", str(RPS), "--gpulet", "--test"]
     logging.info(f"start command {command}")
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, env=env, cwd=working_directory)
 
