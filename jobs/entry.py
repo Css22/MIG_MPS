@@ -31,7 +31,7 @@ result_path = "/data/zbw/inference_system/MIG_MPS/log/"
 seed = 42
 np.random.seed(seed)
 torch.manual_seed(seed)
-
+torch.cuda.manual_seed_all(42)  
 
 running_tcp_ip = '127.0.0.1'
 running_tcp_port = 12345
@@ -216,9 +216,9 @@ def execute_entry(task, RPS, max_epoch):
 
         filtered_result = valid_list[200:]
         p99 = get_p95(filtered_result)
-        print(p99, half_QoS, RPS)
+        # print(p99, half_QoS, RPS)
         if p99 > half_QoS:
-            print(task, p99, RPS)
+            # print(task, p99, RPS)
             # record_result(path=file_name, config=config, RPS=RPS, result=valid_list)
             return False
         else:
@@ -243,10 +243,19 @@ def feedback_execute_entry(task, RPS):
     QoS = QoS_map.get(task)
     half_QoS = QoS/2
     batch = math.floor(RPS/1000 * half_QoS)
-                    
+    
+    valid_list = []
+
+    if task == 'bert':  
+        model = get_model(task)
+        model = model().half().cuda(0).eval()
+    else:
+        model = get_model(task)
+        model = model().cuda(0).eval()
+
+
     with torch.no_grad():
-        valid_list = []
-        for i in range(0, 300):
+        for i in range(0, 50):
             if task == 'bert':
                 input,masks = get_input(task, batch)
                 input = input.half()
@@ -290,15 +299,15 @@ def feedback_execute_entry(task, RPS):
 
         send_tcp_message(running_tcp_ip, running_tcp_port, 'finish')
 
-        data = np.array(valid_list[20:])
+        data = np.array(valid_list[5:])
         percentile_95 = np.percentile(data, 95)
         time.sleep(1)
 
         if percentile_95 > half_QoS or float(tcp_control.get_latency()) > half_QoS:
-            print(f"batch is {batch} latency: {percentile_95}, remote_latency: {float(tcp_control.get_latency())}" )
+            # print(f"batch is {batch} latency: {percentile_95}, remote_latency: {float(tcp_control.get_latency())}" )
             return False
         else:
-            print(f"batch is {batch} latency: {percentile_95}, remote_latency: {float(tcp_control.get_latency())}" )
+            # print(f"batch is {batch} latency: {percentile_95}, remote_latency: {float(tcp_control.get_latency())}" )
             return True
 
 def feedback_search_max_true(task, RPS):
@@ -326,11 +335,11 @@ class TCPControl:
 
     def set_state(self, state):
         self.state = state
-        print(f"set state {state}")
+        # print(f"set state {state}")
 
     def set_latency(self, latency):
         self.latency = float(latency)
-        print(f"set latency {latency}")
+        # print(f"set latency {latency}")
 
     def get_state(self):
         return self.state
@@ -348,7 +357,7 @@ def tcp_server(host, port, control):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind((host, port))
     server_socket.listen(1)
-    print(f"Server is listening on {host}:{port}")
+    # print(f"Server is listening on {host}:{port}")
 
     while True:
         client_socket, addr = server_socket.accept()
@@ -357,7 +366,7 @@ def tcp_server(host, port, control):
             control.set_state(message)
 
         elif message == 'succeed':
-            print("Received 'succeed', shutting down server.")
+            # print("Received 'succeed', shutting down server.")
             control.set_state(message)
             client_socket.close() 
             break
@@ -366,7 +375,7 @@ def tcp_server(host, port, control):
         client_socket.close()
 
     server_socket.close()
-    print("Server socket has been closed.")
+    # print("Server socket has been closed.")
 
 tcp_control = TCPControl()
 
@@ -380,7 +389,7 @@ def send_tcp_message(host, port, message):
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.connect((host, port))
-            print(f"send message to {host} {port} {message}")
+            # print(f"send message to {host} {port} {message}")
             sock.sendall(message.encode())
     except Exception as e:
         print(f"Error sending TCP message: {e}")
@@ -391,6 +400,7 @@ def send_tcp_message(host, port, message):
 
 
 if __name__ == "__main__":
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--task", type=str)
     parser.add_argument("--batch", type=int)
@@ -498,16 +508,9 @@ if __name__ == "__main__":
           
             with torch.no_grad():
                 valid_list = []
+                
                 for i in range(0, 500):
-                    if task == 'bert':
-                        input,masks = get_input(task, batch)
-                        input = input.half()
-                        masks = masks.half()
-
-                    elif task == 'transformer':
-                        input,masks = get_input(task, batch)
-                    else:
-                        input = get_input(task, batch)
+                    
 
                     start_time = time.time()
                     
@@ -552,80 +555,173 @@ if __name__ == "__main__":
                                 file.write(f"{task} {batch} {config} {percentile_95}\n")
             
         elif running:
+            QoS = QoS_map.get(task)
+            half_QoS = QoS/2
+            if task == 'bert':  
+                model = get_model(task)
+                model = model().half().cuda(0).eval()
+            else:
+                model = get_model(task)
+                model = model().cuda(0).eval()
+            
             start_server(host=running_tcp_ip, port=running_tcp_port)
-            with torch.no_grad():
-                valid_list = []
-                while True:
-                    
-                    if task == 'bert':
-                        input,masks = get_input(task, batch)
-                        input = input.half()
-                        masks = masks.half()
 
-                    elif task == 'transformer':
-                        input,masks = get_input(task, batch)
-                    else:
-                        input = get_input(task, batch)
-                    
-                    tmp_list = []
-                    start_time = time.time()
-                    
-                    if task == 'bert':
-                        input = input.cuda(0)
-                        masks = masks.cuda(0)
-                    elif task == 'transformer':
-                        input = input.cuda(0)
-                        masks = masks.cuda(0)
-                    else:
-                        input = input.cuda(0)
+            tmp_list = []
 
-                    if task == 'bert':
-                        output= model.run(input,masks,0,12).cpu()
-                    elif task == 'transformer':
+            for i in range(0, 50):
+                if task == 'bert':
+                    input,masks = get_input(task, batch)
+                    input = input.half()
+                    masks = masks.half()
 
-                        outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                elif task == 'transformer':
+                    input,masks = get_input(task, batch)
+                else:
+                    input = get_input(task, batch)
+
+                
+            
+                start_time = time.time()
+                
+                if task == 'bert':
+                    input = input.cuda(0)
+                    masks = masks.cuda(0)
+                elif task == 'transformer':
+                    input = input.cuda(0)
+                    masks = masks.cuda(0)
+                else:
+                    input = input.cuda(0)
+
+                if task == 'bert':
+                    output= model.run(input,masks,0,12).cpu()
+
+                elif task == 'transformer':
+
+                    outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                    
+                elif task == 'deeplabv3':
+                    output= model(input)['out'].cpu()
+                else:
+                    output=model(input).cpu()
+
+                end_time = time.time()
+                tmp_list.append((end_time - start_time) * 1000)
+
+            
+            data = np.array(tmp_list[5:])
+            percentile_95 = np.percentile(data, 95)
+            file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
+
+            lock_path = file_path + '.lock'  
+            lock = FileLock(lock_path)
+
+            with lock:
+                with open(file_path, 'a+') as file:
+                    file.write(f"latency: {percentile_95}\n")
+                    
+            if percentile_95 <= half_QoS:
+                with torch.no_grad():
+                    valid_list = []
+                    while True:
+                        if task == 'bert':
+                            input,masks = get_input(task, batch)
+                            input = input.half()
+                            masks = masks.half()
+
+                        elif task == 'transformer':
+                            input,masks = get_input(task, batch)
+                        else:
+                            input = get_input(task, batch)
                         
-                    elif task == 'deeplabv3':
-                        output= model(input)['out'].cpu()
-                    else:
-                        output=model(input).cpu()
 
-                    end_time = time.time()
-                    
-                    tmp_list.append((end_time - start_time) * 1000)
-
-                    if tcp_control.get_state() == 'start':
-                        valid_list.append((end_time - start_time) * 1000)
-
-                    if tcp_control.get_state() == 'finish':
-                        data = np.array(valid_list[20:])
-                        percentile_95 = np.percentile(data, 95)
-                        send_tcp_message(host=binary_tcp_ip, port=binary_tcp_port, message=str(percentile_95))
-                        valid_list = []
-                        tcp_control.reset_state()  
-
-                    if tcp_control.get_state() == 'succeed':
+                        start_time = time.time()
                         
-                        send_tcp_message(host=binary_tcp_ip, port=binary_tcp_port, message='succeed')
+                        if task == 'bert':
+                            input = input.cuda(0)
+                            masks = masks.cuda(0)
+                        elif task == 'transformer':
+                            input = input.cuda(0)
+                            masks = masks.cuda(0)
+                        else:
+                            input = input.cuda(0)
 
-                        break
+                        if task == 'bert':
+                            output= model.run(input,masks,0,12).cpu()
+                        elif task == 'transformer':
 
+                            outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                            
+                        elif task == 'deeplabv3':
+                            output= model(input)['out'].cpu()
+                        else:
+                            output=model(input).cpu()
+
+                        end_time = time.time()
+                        
+
+                        if tcp_control.get_state() == 'start':
+                            valid_list.append((end_time - start_time) * 1000)
+
+
+
+                        if tcp_control.get_state() == 'finish':
+                            data = np.array(valid_list[5:])
+                            if len(data) == 0:
+                                percentile_95 = half_QoS + 1
+                            else:
+                                percentile_95 = np.percentile(data, 95)
+                            send_tcp_message(host=binary_tcp_ip, port=binary_tcp_port, message=str(percentile_95))
+                            valid_list = []
+                            tcp_control.reset_state()  
+
+                        if tcp_control.get_state() == 'succeed':
+                            
+                            send_tcp_message(host=binary_tcp_ip, port=binary_tcp_port, message='succeed')
+
+                            break
+            else:
+                send_tcp_message(host=running_tcp_ip, port=running_tcp_port, message='succeed')
                     
         else:
+
             start_server(host=binary_tcp_ip, port=binary_tcp_port)
-            vaild_RPS = feedback_search_max_true(task=task, RPS=RPS)
+            file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
+            latency = None
 
-            send_tcp_message(host=running_tcp_ip, port=running_tcp_port, message='succeed')
+            with open(file_path, 'r') as file:
+                line = file.readline().strip()
 
-            print(f"find largest valid RPS: {vaild_RPS}" )
+                if line.startswith('latency:'):
+                    value = float(line.split(':')[1].strip())  # 提取 latency 的值
+                    latency = float(value)
 
-                    # with lock:
-                    #     with open(file_path, 'a+') as file:
-                    #         file.write(f"{task} {batch} {config} {percentile_95}\n")
+                else:
+                    print("error!")
+
+            QoS = QoS_map.get(task)
+            half_QoS = QoS/2
+
+            if float(latency) < half_QoS:
+                vaild_RPS = feedback_search_max_true(task=task, RPS=RPS)
+
+                send_tcp_message(host=running_tcp_ip, port=running_tcp_port, message='succeed')
+
+                print(f"find largest valid RPS: {vaild_RPS}" )
+                file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
+                lock_path = file_path + '.lock'  
+
+
+                lock = FileLock(lock_path)
+
+                with lock:
+                    with open(file_path, 'w') as file:
+                        file.write(f"valid_RPS: {vaild_RPS}\n")
+            else:
+                send_tcp_message(host=binary_tcp_ip, port=binary_tcp_port, message='succeed')
+            
 
 
                 
-
     elif gpulet:
 
         QoS = QoS_map.get(task)

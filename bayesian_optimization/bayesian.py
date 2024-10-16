@@ -7,6 +7,7 @@ import logging
 import re
 import math
 import subprocess
+import time
 from collections import defaultdict
 
 QoS_map = {
@@ -23,20 +24,7 @@ QoS_map = {
 }
 
 optimizer =  None
-
-
-# 定义目标函数
-# 这里需要解决的问题：
-# 1. 如何获取该配置下，在线任务返回的结果
-#   1.1 ：先利用系统数据库中的结果直接获取
-# 2. 如何利用1中所获得的结果，定义objective的值
-#   2.1: 对于相同serve而言：
-        # 2.1.1: 需要平滑化整个曲线（这里的意思是对于违反QoS的任务，我们需要对其给一个正确的值，类似之前的映射方式）
-        # 2.1.2: 需要限制搜索空间，以减少开销 （这里指的SM, RPS, Model并行。SM, RPS都有资源的上限）
-        # 2.1.3: 需要定义一个良好的初始解
-#   2.2: 对于不同的serve而言：
-        # 2.1.1: 我们需要根据各种需求定义联合优化目标（即评估各种解决方案）
-task = 'resnet152'
+task =None
 
 def read_data(file_path):
     data = []
@@ -170,9 +158,9 @@ def objective(configuration_list):
             BO_args = [str(item) for item in BO_args]
             result = subprocess.run([script_path] + BO_args, capture_output=True, text=True)
 
-        # print(result.stdout)
+        print(result.stdout)
 
-        # print(result.stderr)
+        print(result.stderr)
 
 
         file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
@@ -225,12 +213,92 @@ def objective(configuration_list):
 
 
 
+def objective_feedback(configuration_list):
+    result = 0
+
+    SM = configuration_list[0]['SM']
+    RPS = configuration_list[0]['RPS']
+
+    remain_SM = 100  - SM
+
+    half_QoS = QoS_map[task]/2
+    
+    search_SM = (int(remain_SM/10) + 1) * 10
+    max_RPS = get_maxRPSInCurSM(task, search_SM, half_QoS)
+
+    batch = math.floor(float(RPS)/1000 * half_QoS)
+
+
+    server_id = 1032554
+
+    script_path = '/data/zbw/inference_system/MIG_MPS/micro_experiment/script/padding_feedback.sh'
+ 
+    BO_args= [task, SM, remain_SM, batch, max_RPS, server_id]
+    BO_args = [str(item) for item in BO_args]
+    process = subprocess.Popen([script_path] + BO_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+    for line in process.stdout:
+        print(line, end='')  
+
+    for line in process.stderr:
+        print(line, end='') 
+
+    process.wait()
+
+    file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
+
+    latency = None
+    valid_RPS = None
+
+    with open(file_path, 'r') as file:
+        line = file.readline().strip()
+
+        if line.startswith('latency:'):
+            value = float(line.split(':')[1].strip())  # 提取 latency 的值
+            latency = float(value)
+        
+        elif line.startswith('valid_RPS:'):
+            value = float(line.split(':')[1].strip()) 
+            valid_RPS = int(value)
+
+        else:
+            print("no result!")
+
+
+
+
+    with open(file_path, 'w') as file:
+        file.write('')
+
+
+    # 计算优化函数的值
+    if latency:
+        result = 0.5 * min(1, half_QoS/ latency)
+        print(f"result is {result}")
+        return result
+        
+    elif valid_RPS:
+
+        RPS100 = get_maxRPSInCurSM(task, 100, half_QoS)
+        result = 0.5 + 0.5/ 2 * (valid_RPS + RPS) / RPS100
+        print(f"RPS IS {valid_RPS + RPS} and result is {result}")
+        return result
+
+
 def get_task_num(task):
-    # 解析字符串，判断需要服务的个数，因为现在只有bert_2，我们将服务直接指定为1
     return 1
 
 
+
+
+def wrapped_objective_feedback(SM, RPS):
+    print(task)
+    configuration_list = []
+    configuration_list = [{'SM': int(SM), 'RPS': int(RPS)}] 
+    return objective_feedback(configuration_list)
+
 def wrapped_objective(SM1, RPS1, RPS2):
+
     configuration_list = []
 
     configuration_list = [{'SM':int(SM1), 'RPS':int(RPS1)},{'SM':100-int(SM1), 'RPS':int(RPS2)}]
@@ -238,14 +306,8 @@ def wrapped_objective(SM1, RPS1, RPS2):
     return objective(configuration_list)
 
 
-def get_pbounds(num_task):
-    pbounds = {'x': (-10, 10)}
-
-    pass
 
 def init_optimizer(num_task):
-
-    pbounds = get_pbounds(num_task)
 
     optimizer =BayesianOptimization(
         wrapped_objective,{'SM1':(10,90),
@@ -258,27 +320,56 @@ def init_optimizer(num_task):
     return optimizer
 
 
+def init_optimizer_feedback():
+    optimizer =BayesianOptimization(
+        wrapped_objective_feedback,{'SM':(1,99),
+            'RPS':(10,203)
+        },
+        random_state = 1
+    )
+    
+    return optimizer
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--task", type=str)
+    parser.add_argument("--feedback", action='store_true')
     args = parser.parse_args()
 
-    #args.task形如resnet50,resnet101的字符串
     task = args.task
+    feedback = args.feedback
     serve_num = get_task_num(task)
+
     task = [s.strip() for s in task.split(',')]
+    task = task[0]
 
+    if not feedback:
 
-    optimizer = init_optimizer(1)
+        optimizer = init_optimizer(1)
 
-    utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
+        utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
 
-    optimizer.maximize(
-        init_points=30,  
-        n_iter=50,      
-        acquisition_function=utility  
-    )
+        optimizer.maximize(
+            init_points=30,  
+            n_iter=50,      
+            acquisition_function=utility  
+        )
 
-    print(optimizer.max)
+        print(optimizer.max)
+    
+    else:
+        start = time.time()
+        optimizer = init_optimizer_feedback()
+        utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
+
+        optimizer.maximize(
+            init_points=5,  
+            n_iter=10,      
+            acquisition_function=utility  
+        )
+
+        print(optimizer.max)
+        end = time.time()
+        print(end - start)
 
 
