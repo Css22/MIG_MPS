@@ -323,7 +323,7 @@ def init_optimizer(num_task):
 def init_optimizer_feedback():
     optimizer =BayesianOptimization(
         wrapped_objective_feedback,{'SM':(1,99),
-            'RPS':(10,203)
+            'RPS':(200,1134)
         },
         random_state = 1
     )

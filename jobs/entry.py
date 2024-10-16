@@ -18,7 +18,7 @@ import signal
 import math
 import logging
 from filelock import FileLock
-
+import os
 import socket
 import threading
 
@@ -352,9 +352,10 @@ class TCPControl:
         self.latency = None
 
 
-
 def tcp_server(host, port, control):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_socket.bind((host, port))
     server_socket.listen(1)
     # print(f"Server is listening on {host}:{port}")
@@ -568,7 +569,7 @@ if __name__ == "__main__":
 
             tmp_list = []
 
-            for i in range(0, 50):
+            for i in range(0, 20):
                 if task == 'bert':
                     input,masks = get_input(task, batch)
                     input = input.half()
@@ -683,9 +684,16 @@ if __name__ == "__main__":
                 send_tcp_message(host=running_tcp_ip, port=running_tcp_port, message='succeed')
                     
         else:
+            file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
+            while True:
+
+                if os.path.getsize(file_path) == 0:
+                    print("wait for latency")
+                else:
+                    break
+                time.sleep(1)
 
             start_server(host=binary_tcp_ip, port=binary_tcp_port)
-            file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
             latency = None
 
             with open(file_path, 'r') as file:
