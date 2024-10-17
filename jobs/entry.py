@@ -556,6 +556,7 @@ if __name__ == "__main__":
                                 file.write(f"{task} {batch} {config} {percentile_95}\n")
             
         elif running:
+            
             QoS = QoS_map.get(task)
             half_QoS = QoS/2
             if task == 'bert':  

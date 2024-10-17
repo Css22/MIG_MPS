@@ -271,7 +271,6 @@ def objective_feedback(configuration_list):
         file.write('')
 
 
-    # 计算优化函数的值
     if latency:
         result = 0.5 * min(1, half_QoS/ latency)
         print(f"result is {result}")
@@ -283,7 +282,7 @@ def objective_feedback(configuration_list):
         result = 0.5 + 0.5/ 2 * (valid_RPS + RPS) / RPS100
         print(f"RPS IS {valid_RPS + RPS} and result is {result}")
         return result
-
+    time.sleep(1)
 
 def get_task_num(task):
     return 1
@@ -322,8 +321,8 @@ def init_optimizer(num_task):
 
 def init_optimizer_feedback():
     optimizer =BayesianOptimization(
-        wrapped_objective_feedback,{'SM':(1,99),
-            'RPS':(200,1134)
+        wrapped_objective_feedback,{'SM':(30,90),
+            'RPS':(20,200)
         },
         random_state = 1
     )
