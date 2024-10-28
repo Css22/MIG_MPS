@@ -23,6 +23,12 @@ QoS_map = {
     'alexnet': 80,
 }
 
+max_RPS_map = {'resnet50': 1500}
+min_RPS_map = {'resnet50': 500}
+SM_map = {'resnet50': (30, 90)}
+
+
+
 optimizer =  None
 task =None
 
@@ -214,6 +220,7 @@ def objective(configuration_list):
 
 
 def objective_feedback(configuration_list):
+    
     result = 0
 
     SM = configuration_list[0]['SM']
@@ -287,14 +294,25 @@ def objective_feedback(configuration_list):
 def get_task_num(task):
     return 1
 
-
-
-
-def wrapped_objective_feedback(SM, RPS):
-    print(task)
+def wrapped_objective_feedback(**kwargs):
     configuration_list = []
-    configuration_list = [{'SM': int(SM), 'RPS': int(RPS)}] 
+
+    for i in range(len(kwargs) // 2):
+        sm_key = f'SM{i}'
+        rps_key = f'RPS{i}'
+
+        if sm_key in kwargs and rps_key in kwargs:
+            sm_value = int(kwargs[sm_key])
+            rps_value = int(kwargs[rps_key][1]) 
+            configuration_list.append({'SM': sm_value, 'RPS': rps_value})
+
     return objective_feedback(configuration_list)
+
+
+# def wrapped_objective_feedback(SM, RPS):
+#     configuration_list = []
+#     configuration_list = [{'SM': int(SM), 'RPS': int(RPS)}] 
+#     return objective_feedback(configuration_list)
 
 def wrapped_objective(SM1, RPS1, RPS2):
 
@@ -302,11 +320,14 @@ def wrapped_objective(SM1, RPS1, RPS2):
 
     configuration_list = [{'SM':int(SM1), 'RPS':int(RPS1)},{'SM':100-int(SM1), 'RPS':int(RPS2)}]
 
+
     return objective(configuration_list)
 
 
 
-def init_optimizer(num_task):
+def init_optimizer(num_task, task):
+
+    
 
     optimizer =BayesianOptimization(
         wrapped_objective,{'SM1':(10,90),
@@ -319,11 +340,32 @@ def init_optimizer(num_task):
     return optimizer
 
 
-def init_optimizer_feedback():
+def init_optimizer_feedback(server_num, config):
+
+    search_list = {}
+    for i in range(0, server_num):
+        if i != serve_num - 1: 
+            search_list[f'SM{i}'] = SM_map.get(config[i*2])
+
+            max_RPS = max_RPS_map.get(config[i*2])
+            min_RPS = min_RPS_map.get(config[i*2])
+
+            if int(config[i*2+1]) < max_RPS_map.get(config[i*2]):
+                max_RPS = int(config[i*2+1])
+            
+            if int(config[i*2+1]) < min_RPS_map.get(config[i*2]):
+                min_RPS = 0
+
+            search_list[f'RPS{i}'] = (min_RPS, max_RPS)
+
+        else:
+            continue
+
+    print(search_list)
+
     optimizer =BayesianOptimization(
-        wrapped_objective_feedback,{'SM':(30,90),
-            'RPS':(20,200)
-        },
+        wrapped_objective_feedback,
+        search_list,
         random_state = 1
     )
     
@@ -331,44 +373,62 @@ def init_optimizer_feedback():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("--server_num", type=int)
     parser.add_argument("--task", type=str)
     parser.add_argument("--feedback", action='store_true')
     args = parser.parse_args()
 
+
+    serve_num = args.server_num
     task = args.task
     feedback = args.feedback
-    serve_num = get_task_num(task)
 
     task = [s.strip() for s in task.split(',')]
-    task = task[0]
 
     if not feedback:
-
-        optimizer = init_optimizer(1)
-
-        utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
-
-        optimizer.maximize(
-            init_points=30,  
-            n_iter=50,      
-            acquisition_function=utility  
-        )
-
-        print(optimizer.max)
-    
+        pass
     else:
         start = time.time()
-        optimizer = init_optimizer_feedback()
+        optimizer = init_optimizer_feedback(serve_num, task)
         utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
 
-        optimizer.maximize(
-            init_points=5,  
-            n_iter=10,      
-            acquisition_function=utility  
-        )
+        # optimizer.maximize(
+        #     init_points=5,  
+        #     n_iter=10,      
+        #     acquisition_function=utility  
+        # )
 
-        print(optimizer.max)
-        end = time.time()
-        print(end - start)
+        # print(optimizer.max)
+        # end = time.time()
+        # print(end - start)
+
+    # if not feedback:
+
+    #     optimizer = init_optimizer(1)
+
+    #     utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
+
+    #     optimizer.maximize(
+    #         init_points=30,  
+    #         n_iter=50,      
+    #         acquisition_function=utility  
+    #     )
+
+    #     print(optimizer.max)
+    
+    # else:
+    #     start = time.time()
+    #     optimizer = init_optimizer_feedback()
+    #     utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
+
+    #     optimizer.maximize(
+    #         init_points=5,  
+    #         n_iter=10,      
+    #         acquisition_function=utility  
+    #     )
+
+    #     print(optimizer.max)
+    #     end = time.time()
+    #     print(end - start)
 
 
