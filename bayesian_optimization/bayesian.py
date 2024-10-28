@@ -30,7 +30,8 @@ SM_map = {'resnet50': (30, 90)}
 
 
 optimizer =  None
-task =None
+task = None
+request = []
 
 def read_data(file_path):
     data = []
@@ -218,29 +219,37 @@ def objective(configuration_list):
     return result
 
 
+def map_to_range(x, min_val, max_val):
+    return 0.5 + ((x - min_val) / (max_val - min_val)) * (1 - 0.5)
+
 
 def objective_feedback(configuration_list):
-    
+    #暂时只支持两个任务的feedback，未来可以考虑进行进一步的扩展
+
+    num = len(configuration_list)
+
     result = 0
+    task1 = task[0]
+    task2 = task[2]
 
     SM = configuration_list[0]['SM']
     RPS = configuration_list[0]['RPS']
 
     remain_SM = 100  - SM
 
-    half_QoS = QoS_map[task]/2
+    half_QoS = QoS_map[task1]/2
     
     search_SM = (int(remain_SM/10) + 1) * 10
-    max_RPS = get_maxRPSInCurSM(task, search_SM, half_QoS)
+    max_RPS = get_maxRPSInCurSM(task1, search_SM, half_QoS)
 
     batch = math.floor(float(RPS)/1000 * half_QoS)
 
 
-    server_id = 1032554
+    server_id = 3918257
 
     script_path = '/data/zbw/inference_system/MIG_MPS/micro_experiment/script/padding_feedback.sh'
  
-    BO_args= [task, SM, remain_SM, batch, max_RPS, server_id]
+    BO_args= [task1, task2, SM, remain_SM, batch, max_RPS, server_id]
     BO_args = [str(item) for item in BO_args]
     process = subprocess.Popen([script_path] + BO_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
@@ -277,19 +286,31 @@ def objective_feedback(configuration_list):
     with open(file_path, 'w') as file:
         file.write('')
 
+    # latency = 1
+    # valid_RPS = 300
 
     if latency:
+
         result = 0.5 * min(1, half_QoS/ latency)
         print(f"result is {result}")
         return result
         
     elif valid_RPS:
+        # half_QoS2 = QoS_map[task2]/2
+        # RPS100 = get_maxRPSInCurSM(task2, 100, half_QoS2)
+        # result = 0.5 + 0.5/ 2 * (valid_RPS + RPS) / RPS100
+        # 这里需要计算weight权重（可能会涉及到和总global的通讯，以及分布式bayes优化）
+        weight0 = 1
+        weight1 = 1
+        #
 
-        RPS100 = get_maxRPSInCurSM(task, 100, half_QoS)
-        result = 0.5 + 0.5/ 2 * (valid_RPS + RPS) / RPS100
-        print(f"RPS IS {valid_RPS + RPS} and result is {result}")
-        return result
+        result = RPS/request[0] * weight0 + valid_RPS/request[1] * weight1
+        
+        mapped_value = map_to_range(result, 0, num)
+        print(f"RPS IS {valid_RPS + RPS} and result is {mapped_value}")
+        return mapped_value
     time.sleep(1)
+
 
 def get_task_num(task):
     return 1
@@ -303,7 +324,7 @@ def wrapped_objective_feedback(**kwargs):
 
         if sm_key in kwargs and rps_key in kwargs:
             sm_value = int(kwargs[sm_key])
-            rps_value = int(kwargs[rps_key][1]) 
+            rps_value = int(kwargs[rps_key]) 
             configuration_list.append({'SM': sm_value, 'RPS': rps_value})
 
     return objective_feedback(configuration_list)
@@ -385,22 +406,26 @@ if __name__ == "__main__":
 
     task = [s.strip() for s in task.split(',')]
 
+    for i in range(0, serve_num):
+        request.append(int(task[i*2 + 1]))
+
     if not feedback:
         pass
+
     else:
         start = time.time()
         optimizer = init_optimizer_feedback(serve_num, task)
         utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
 
-        # optimizer.maximize(
-        #     init_points=5,  
-        #     n_iter=10,      
-        #     acquisition_function=utility  
-        # )
+        optimizer.maximize(
+            init_points=5,  
+            n_iter=10,      
+            acquisition_function=utility  
+        )
 
-        # print(optimizer.max)
-        # end = time.time()
-        # print(end - start)
+        print(optimizer.max)
+        end = time.time()
+        print(end - start)
 
     # if not feedback:
 
