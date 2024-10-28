@@ -23,15 +23,16 @@ QoS_map = {
     'alexnet': 80,
 }
 
-max_RPS_map = {'resnet50': 1500}
-min_RPS_map = {'resnet50': 500}
-SM_map = {'resnet50': (30, 90)}
+max_RPS_map = {'resnet50': 1500, 'resnet152': 1100}
+min_RPS_map = {'resnet50': 500, 'resnet152': 200}
+SM_map = {'resnet50': (30, 90), 'resnet152': (10, 90)}
 
 
 
 optimizer =  None
 task = None
 request = []
+test = False
 
 def read_data(file_path):
     data = []
@@ -250,6 +251,7 @@ def objective_feedback(configuration_list):
     script_path = '/data/zbw/inference_system/MIG_MPS/micro_experiment/script/padding_feedback.sh'
  
     BO_args= [task1, task2, SM, remain_SM, batch, max_RPS, server_id]
+
     BO_args = [str(item) for item in BO_args]
     process = subprocess.Popen([script_path] + BO_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
@@ -303,12 +305,27 @@ def objective_feedback(configuration_list):
         weight0 = 1
         weight1 = 1
         #
-
-        result = RPS/request[0] * weight0 + valid_RPS/request[1] * weight1
+        if not test:
+            result = RPS/request[0] * weight0 + valid_RPS/request[1] * weight1
+            
+            mapped_value = map_to_range(result, 0, num)
+            print(f"RPS IS {valid_RPS + RPS} and result is {mapped_value}")
+            return mapped_value
         
-        mapped_value = map_to_range(result, 0, num)
-        print(f"RPS IS {valid_RPS + RPS} and result is {mapped_value}")
-        return mapped_value
+        else:   
+            half_QoS2 = QoS_map[task2]/2
+            # RPS100_1 = get_maxRPSInCurSM(task1, 100 ,half_QoS)
+            RPS100_2 = get_maxRPSInCurSM(task2, 100, half_QoS2)
+
+            relationship = request[0]/request[1]
+            unite_RPS = min(RPS * relationship, valid_RPS)
+
+        
+            result = 0.5 + 0.5 * (unite_RPS/RPS100_2)
+
+            print(f"RPS IS {RPS} and {valid_RPS} , {unite_RPS} and result is {result}")
+
+            return result
     time.sleep(1)
 
 
@@ -397,9 +414,11 @@ if __name__ == "__main__":
     parser.add_argument("--server_num", type=int)
     parser.add_argument("--task", type=str)
     parser.add_argument("--feedback", action='store_true')
+    parser.add_argument("--test", action='store_true')
     args = parser.parse_args()
 
 
+    test = args.test
     serve_num = args.server_num
     task = args.task
     feedback = args.feedback

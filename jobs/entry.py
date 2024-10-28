@@ -34,10 +34,10 @@ torch.manual_seed(seed)
 torch.cuda.manual_seed_all(42)  
 
 running_tcp_ip = '127.0.0.1'
-running_tcp_port = 12345
+running_tcp_port = 12335
 
 binary_tcp_ip =  '127.0.0.1'
-binary_tcp_port = 12344
+binary_tcp_port = 12334
 
 model_list = {
     "resnet50": resnet50,

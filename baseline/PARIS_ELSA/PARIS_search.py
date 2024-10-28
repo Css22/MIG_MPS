@@ -6,7 +6,7 @@ import logging
 LOG_FILE = "/data/zbw/inference_system/MIG_MPS/baseline/PARIS_ELSA/PARIS.log"
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filemode='a', filename=LOG_FILE)
 
-
+request = []
 
 class ConfigData:
     def __init__(self, MIG_config, rps, p99):
@@ -89,9 +89,16 @@ def search_solution():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("--server_num", type=int)
     parser.add_argument("--task", type=str)
     args = parser.parse_args()
+    
     task = args.task
+    serve_num = args.server_num
+
+    task = [s.strip() for s in task.split(',')]
+    for i in range(0, serve_num):
+        request.append(int(task[i*2 + 1]))
 
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
