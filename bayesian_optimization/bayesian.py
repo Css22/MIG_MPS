@@ -306,6 +306,7 @@ def objective_feedback(configuration_list):
         weight1 = 1
         #
         if not test:
+            
             result = RPS/request[0] * weight0 + valid_RPS/request[1] * weight1
             
             mapped_value = map_to_range(result, 0, num)
@@ -317,7 +318,7 @@ def objective_feedback(configuration_list):
             # RPS100_1 = get_maxRPSInCurSM(task1, 100 ,half_QoS)
             RPS100_2 = get_maxRPSInCurSM(task2, 100, half_QoS2)
 
-            relationship = request[0]/request[1]
+            relationship = request[1]/request[0]
             unite_RPS = min(RPS * relationship, valid_RPS)
 
         
