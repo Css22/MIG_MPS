@@ -1,3 +1,4 @@
+from itertools import product
 import subprocess
 import numpy as np
 import argparse
@@ -7,7 +8,7 @@ LOG_FILE = "/data/zbw/inference_system/MIG_MPS/baseline/PARIS_ELSA/PARIS.log"
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filemode='a', filename=LOG_FILE)
 
 request = []
-
+task_list = []
 class ConfigData:
     def __init__(self, MIG_config, rps, p99):
         self.MIG_config = str(MIG_config)  # SM值
@@ -24,16 +25,15 @@ def parse_line(line):
     RPS = parts[2].split(": ")[1]
     return ConfigData(MIG_config, RPS, P99)
 
-def read_data_from_file(file_path):
+def read_data_from_file(task, file_path):
+
     config_list = []
     with open(file_path, 'r') as file:
         for line in file:
             config = parse_line(line)
             config_list.append(config)
+    file.close()
 
-    logging.info(f"find valid {len(config_list)} MIG solution")
-
-    logging.info(f"start search best MIG partition")
 
     for i in config_map.keys():
         max_RPS = 0
@@ -41,9 +41,10 @@ def read_data_from_file(file_path):
             if j.MIG_config == i:
                 if j.RPS > max_RPS:
                     max_RPS = j.RPS
-        RPS_map[config_map.get(i)] = max_RPS
-    logging.info(f"finish search best MIG partition")
-    logging.info(f'best MIG partition list: {RPS_map}')
+        RPS_map[task][config_map.get(i)] = max_RPS
+
+    
+
     return config_list
 
 
@@ -65,27 +66,65 @@ RPS_map  = {}
 
 def read_MIG_RPS(task):
     logging.info("start search log file")
-    file_path = log_path + f'{task}_MIG_RPS'
-    read_data_from_file(file_path)
+
+
+    for i in task_list:
+        RPS_map[i] = {}
+        file_path = log_path + f'{i}_MIG_RPS'
+        read_data_from_file(i, file_path)
     logging.info("finish search log file")
+    logging.info(f'best MIG partition list: {RPS_map}')
     return RPS_map
 
 
-def search_solution():
-    max_RPS = 0
-    config = None
+def search_solution(serve_num):
     logging.info("start search best config")
-    for i in possilble_solution:
-        RPS = 0
-        for j in i:
-            RPS = RPS_map.get(j) + RPS
-           
-        if RPS > max_RPS:
-            max_RPS = RPS
-            config = i
+
+    output_RPS = None
+    best_RPS = 0
+    best_config = None
+    best_deployment = None
+
+    if serve_num >= 2:    
+        relationship = request[1]/request[0]
+        for solution in possilble_solution:
+            model_combinations = []
+            for value in solution:
+                possible_values = [(model_map[value], model_name) for model_name, model_map in RPS_map.items()]
+                model_combinations.append(possible_values)
+
+            all_combinations = list(product(*model_combinations))
+
+            for combo in all_combinations:
+                total_task_0 = 0
+                total_task_1 = 0
+                for i in combo:
+                    if i[1] == task_list[0]:
+                        total_task_0 = total_task_0 + int(i[0])
+                    if i[1] == task_list[1]:
+                        total_task_1 = total_task_1 + int(i[0])
+                
+                unite_RPS = min(relationship * total_task_0, total_task_1)
+                if best_RPS < unite_RPS:
+                    best_RPS = unite_RPS
+                    output_RPS = (task_list[0], total_task_0, task_list[1], total_task_1, best_RPS)
+                    best_deployment = [i[1] for i in combo] 
+                    best_config =  solution
+
+        best_RPS = output_RPS
+    else:
+        for solution in possilble_solution:
+            RPS = 0
+            for j in solution:
+                RPS = RPS_map[task_list[0]].get(j) + RPS
+            
+            if RPS > best_RPS:
+                best_RPS = RPS
+                best_config = solution
 
     logging.info("finish search best config")
-    return max_RPS, config
+
+    return best_RPS, best_config, best_deployment
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -99,10 +138,12 @@ if __name__ == "__main__":
     task = [s.strip() for s in task.split(',')]
     for i in range(0, serve_num):
         request.append(int(task[i*2 + 1]))
+        task_list.append(task[i*2])
 
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
     RPS_map = read_MIG_RPS(task)
-    max_RPS, config = search_solution()
+    max_RPS, config, deployment = search_solution(serve_num)
 
-    logging.info(f'PARIS search best config for {task}, best config: {config} and best RPS: {max_RPS}')
+    logging.info(f'PARIS search best config for {task}, best config: {config}, best deployment: {deployment} and best RPS: {max_RPS}')
+    
