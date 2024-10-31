@@ -141,9 +141,9 @@ if __name__ == "__main__":
         task_list.append(task[i*2])
 
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-
     RPS_map = read_MIG_RPS(task)
     max_RPS, config, deployment = search_solution(serve_num)
 
+    logging.info(RPS_map)
     logging.info(f'PARIS search best config for {task}, best config: {config}, best deployment: {deployment} and best RPS: {max_RPS}')
     

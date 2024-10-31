@@ -17,6 +17,7 @@ from transformer import transformer_layer
 import signal
 import math
 import logging
+import re
 from filelock import FileLock
 import os
 import socket
@@ -238,7 +239,7 @@ def binary_search_max_true(task ,min_RPS, max_RPS, max_epoch):
 
     return left  
 
-def feedback_execute_entry(task, RPS):
+def feedback_execute_entry(task, RPS, remote_half_QoS):
 
     QoS = QoS_map.get(task)
     half_QoS = QoS/2
@@ -303,14 +304,14 @@ def feedback_execute_entry(task, RPS):
         percentile_95 = np.percentile(data, 95)
         time.sleep(1)
 
-        if percentile_95 > half_QoS or float(tcp_control.get_latency()) > half_QoS:
+        if percentile_95 > half_QoS or float(tcp_control.get_latency()) > remote_half_QoS:
             # print(f"batch is {batch} latency: {percentile_95}, remote_latency: {float(tcp_control.get_latency())}" )
             return False
         else:
             # print(f"batch is {batch} latency: {percentile_95}, remote_latency: {float(tcp_control.get_latency())}" )
             return True
 
-def feedback_search_max_true(task, RPS):
+def feedback_search_max_true(task, RPS, remote_half_QoS):
     min_RPS = 1
     max_RPS = RPS
 
@@ -319,7 +320,7 @@ def feedback_search_max_true(task, RPS):
 
     while left < right:
         mid = (left + right + 1) // 2
-        if feedback_execute_entry(task=task, RPS=mid):
+        if feedback_execute_entry(task=task, RPS=mid, remote_half_QoS=remote_half_QoS):
             left = mid  
         else:
             right = mid - 1  
@@ -619,7 +620,7 @@ if __name__ == "__main__":
 
             with lock:
                 with open(file_path, 'a+') as file:
-                    file.write(f"latency: {percentile_95}\n")
+                    file.write(f"model: {task} latency: {percentile_95}\n")
                     
             if percentile_95 <= half_QoS:
                 with torch.no_grad():
@@ -699,19 +700,23 @@ if __name__ == "__main__":
 
             with open(file_path, 'r') as file:
                 line = file.readline().strip()
+                match = re.search(r"model:\s*(\S+)\s+latency:\s*([\d.]+)", line)
 
-                if line.startswith('latency:'):
-                    value = float(line.split(':')[1].strip())  # 提取 latency 的值
-                    latency = float(value)
+                if match:
+                    model = match.group(1)
+                    latency = float(match.group(2))
+                    print("Model:", model)
+                    print("Latency:", latency)
 
                 else:
                     print("error!")
 
-            QoS = QoS_map.get(task)
+            QoS = QoS_map.get(model)
             half_QoS = QoS/2
 
+            print()
             if float(latency) < half_QoS:
-                vaild_RPS = feedback_search_max_true(task=task, RPS=RPS)
+                vaild_RPS = feedback_search_max_true(task=task, RPS=RPS, remote_half_QoS=half_QoS)
 
                 send_tcp_message(host=running_tcp_ip, port=running_tcp_port, message='succeed')
 

@@ -8,6 +8,7 @@ import re
 import math
 import subprocess
 import time
+
 from collections import defaultdict
 
 QoS_map = {
@@ -23,9 +24,9 @@ QoS_map = {
     'alexnet': 80,
 }
 
-max_RPS_map = {'resnet50': 1500, 'resnet152': 1100}
-min_RPS_map = {'resnet50': 500, 'resnet152': 200}
-SM_map = {'resnet50': (30, 90), 'resnet152': (10, 90)}
+max_RPS_map = {'resnet50': 1500, 'resnet152': 1100, 'vgg16':1300, 'bert': 200, 'mobilenet_v2': 3200}
+min_RPS_map = {'resnet50': 500, 'resnet152': 200, 'vgg16': 150, 'bert': 40, "mobilenet_v2": 600}
+SM_map = {'resnet50': (30, 90), 'resnet152': (10, 90), 'vgg16': (10, 90), 'bert': (10, 90), "mobilenet_v2": (10,50)}
 
 
 
@@ -100,7 +101,6 @@ def read_RPS(file_path):
 
 
 def get_maxRPSInCurSM(serve, sm, halfQoS):
-
 
     file_path = '/data/zbw/inference_system/MIG_MPS/log/'+serve+'_MPS_RPS'
     data_list = read_RPS(file_path)
@@ -232,16 +232,17 @@ def objective_feedback(configuration_list):
     result = 0
     task1 = task[0]
     task2 = task[2]
-
+    
     SM = configuration_list[0]['SM']
     RPS = configuration_list[0]['RPS']
 
     remain_SM = 100  - SM
 
     half_QoS = QoS_map[task1]/2
-    
+    half_QoS2 = QoS_map[task2]/2
+
     search_SM = (int(remain_SM/10) + 1) * 10
-    max_RPS = get_maxRPSInCurSM(task1, search_SM, half_QoS)
+    max_RPS = get_maxRPSInCurSM(task2, search_SM, half_QoS2)
 
     batch = math.floor(float(RPS)/1000 * half_QoS)
 
@@ -249,9 +250,8 @@ def objective_feedback(configuration_list):
     server_id = 3918257
 
     script_path = '/data/zbw/inference_system/MIG_MPS/micro_experiment/script/padding_feedback.sh'
- 
+    
     BO_args= [task1, task2, SM, remain_SM, batch, max_RPS, server_id]
-
     BO_args = [str(item) for item in BO_args]
     process = subprocess.Popen([script_path] + BO_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
@@ -270,10 +270,14 @@ def objective_feedback(configuration_list):
 
     with open(file_path, 'r') as file:
         line = file.readline().strip()
+        match = re.search(r"model:\s*(\S+)\s+latency:\s*([\d.]+)", line)
 
-        if line.startswith('latency:'):
-            value = float(line.split(':')[1].strip())  # 提取 latency 的值
-            latency = float(value)
+        if match:
+            model = match.group(1)
+            latency = float(match.group(2))
+        # if line.startswith('latency:'):
+        #     value = float(line.split(':')[1].strip())  # 提取 latency 的值
+        #     latency = float(value)
         
         elif line.startswith('valid_RPS:'):
             value = float(line.split(':')[1].strip()) 
@@ -317,12 +321,14 @@ def objective_feedback(configuration_list):
             half_QoS2 = QoS_map[task2]/2
             # RPS100_1 = get_maxRPSInCurSM(task1, 100 ,half_QoS)
             RPS100_2 = get_maxRPSInCurSM(task2, 100, half_QoS2)
+            RPS100_1 = get_maxRPSInCurSM(task1, 100, half_QoS)
 
+            RPS100_baseline = min(RPS100_1, RPS100_2)
             relationship = request[1]/request[0]
             unite_RPS = min(RPS * relationship, valid_RPS)
 
         
-            result = 0.5 + 0.5 * (unite_RPS/RPS100_2)
+            result = 0.5 + 0.5 * (unite_RPS/RPS100_baseline)
 
             print(f"RPS IS {RPS} and {valid_RPS} , {unite_RPS} and result is {result}")
 
@@ -405,7 +411,7 @@ def init_optimizer_feedback(server_num, config):
     optimizer =BayesianOptimization(
         wrapped_objective_feedback,
         search_list,
-        random_state = 1
+        random_state = 2
     )
     
     return optimizer
@@ -438,8 +444,8 @@ if __name__ == "__main__":
         utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
 
         optimizer.maximize(
-            init_points=5,  
-            n_iter=10,      
+            init_points=20,  
+            n_iter=50,      
             acquisition_function=utility  
         )
 
