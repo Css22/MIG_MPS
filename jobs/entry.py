@@ -24,6 +24,7 @@ import socket
 import threading
 
 # logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+os.environ['TORCH_HOME'] = '/data/zbw/'
 path = "/data/zbw/inference_system/MIG_MPS/jobs/"
 sys.path.append(path)
 flag_path = "/data/zbw/MIG/MIG/MIG_Schedule/flag"

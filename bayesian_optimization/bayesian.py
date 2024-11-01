@@ -151,7 +151,7 @@ def objective(configuration_list):
             m2 = task[1]
         
         print(f"start executor, the task {m1} {SM1} {batch1} {m2} {SM2} {batch2}")
-        server_id = 4076752
+        server_id = 279703
         script_path = '/data/zbw/inference_system/MIG_MPS/micro_experiment/script/padding.sh'
 
         if SM1 < SM2:
@@ -247,7 +247,7 @@ def objective_feedback(configuration_list):
     batch = math.floor(float(RPS)/1000 * half_QoS)
 
 
-    server_id = 3918257
+    server_id = 279703
 
     script_path = '/data/zbw/inference_system/MIG_MPS/micro_experiment/script/padding_feedback.sh'
     
@@ -441,7 +441,7 @@ if __name__ == "__main__":
     else:
         start = time.time()
         optimizer = init_optimizer_feedback(serve_num, task)
-        utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
+        utility = UtilityFunction(kind="ei", kappa=5, xi=0.2)
 
         optimizer.maximize(
             init_points=20,  
