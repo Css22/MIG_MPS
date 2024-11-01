@@ -1,15 +1,14 @@
 import numpy as np
-from skopt import gp_minimize
-from bayes_opt import BayesianOptimization
-from bayes_opt.util import UtilityFunction
+from openbox import Observation, History, Advisor, space as sp, logger
+from openbox import Optimizer
 import argparse
 import logging
 import re
 import math
 import subprocess
 import time
-
 from collections import defaultdict
+import pickle
 
 padding_dir = '/data/wyh/MIG_MPS/micro_experiment/script/padding.sh'
 paddingFeedback_dir = '/data/wyh/MIG_MPS/micro_experiment/script/padding_feedback.sh'
@@ -29,16 +28,10 @@ QoS_map = {
     'alexnet': 80,
 }
 
-max_RPS_map = {'resnet50': 1500, 'resnet152': 1100, 'vgg16':1300, 'bert': 200, 'mobilenet_v2': 3200}
-min_RPS_map = {'resnet50': 500, 'resnet152': 200, 'vgg16': 150, 'bert': 40, "mobilenet_v2": 600}
-SM_map = {'resnet50': (30, 90), 'resnet152': (10, 90), 'vgg16': (10, 90), 'bert': (10, 90), "mobilenet_v2": (10,50)}
-
-
-
 optimizer =  None
-task = None
-request = []
-test = False
+task =None
+
+transfer_learning_history = list()  
 
 def read_data(file_path):
     data = []
@@ -107,6 +100,7 @@ def read_RPS(file_path):
 
 def get_maxRPSInCurSM(serve, sm, halfQoS):
 
+
     file_path = '/data/zbw/inference_system/MIG_MPS/log/'+serve+'_MPS_RPS'
     data_list = read_RPS(file_path)
     filtered_data = [item for item in data_list if item['config'] == sm]
@@ -128,14 +122,14 @@ def get_maxRPSInCurSM(serve, sm, halfQoS):
 
 def objective(configuration_list):
     result = 0
+    RPS1 = configuration_list['RPS1']
+    RPS2 = configuration_list['RPS2']
+    SM1 = configuration_list['SM1']
+    SM2 = 100-SM1
 
-    RPS1 = configuration_list[0]['RPS']
-    RPS2 = configuration_list[1]['RPS']
-    SM1 = configuration_list[0]['SM']
-    SM2 = configuration_list[1]['SM']
-
+    tmp_config=[{'RPS':RPS1,'SM':SM1},{'RPS':RPS2,'SM':SM2}]
     # open history log
-    tmp = get_configuration_result(configuration_list, args.task)
+    tmp = get_configuration_result(tmp_config, args.task)
     #tmp = None
 
     if tmp is None:
@@ -171,9 +165,9 @@ def objective(configuration_list):
             BO_args = [str(item) for item in BO_args]
             result = subprocess.run([script_path] + BO_args, capture_output=True, text=True)
 
-        print(result.stdout)
+        # print(result.stdout)
 
-        print(result.stderr)
+        # print(result.stderr)
 
 
         file_path = logdir
@@ -221,42 +215,32 @@ def objective(configuration_list):
             RPS1_alone = get_maxRPSInCurSM(task[0], SM1, QoS1)
             RPS2_alone = get_maxRPSInCurSM(task[1], SM2, QoS2)
             result = 0.5 + 0.5 * math.sqrt(RPS1/RPS1_alone*RPS2/RPS2_alone)
-        
-    return result
 
+    return -result
 
-def map_to_range(x, min_val, max_val):
-    return 0.5 + ((x - min_val) / (max_val - min_val)) * (1 - 0.5)
 
 
 def objective_feedback(configuration_list):
-    #暂时只支持两个任务的feedback，未来可以考虑进行进一步的扩展
-
-    num = len(configuration_list)
-
     result = 0
-    task1 = task[0]
-    task2 = task[2]
-    
-    SM = configuration_list[0]['SM']
-    RPS = configuration_list[0]['RPS']
+
+    SM = configuration_list['SM']
+    RPS = configuration_list['RPS']
 
     remain_SM = 100  - SM
 
-    half_QoS = QoS_map[task1]/2
-    half_QoS2 = QoS_map[task2]/2
-
+    half_QoS = QoS_map[task]/2
+    
     search_SM = (int(remain_SM/10) + 1) * 10
-    max_RPS = get_maxRPSInCurSM(task2, search_SM, half_QoS2)
+    max_RPS = get_maxRPSInCurSM(task, search_SM, half_QoS)
 
     batch = math.floor(float(RPS)/1000 * half_QoS)
 
 
-    server_id = 2789338
+    server_id = MPS_PID
 
     script_path = paddingFeedback_dir
-    
-    BO_args= [task1, task2, SM, remain_SM, batch, max_RPS, server_id]
+ 
+    BO_args= [task, SM, remain_SM, batch, max_RPS, server_id]
     BO_args = [str(item) for item in BO_args]
     process = subprocess.Popen([script_path] + BO_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
@@ -275,14 +259,10 @@ def objective_feedback(configuration_list):
 
     with open(file_path, 'r') as file:
         line = file.readline().strip()
-        match = re.search(r"model:\s*(\S+)\s+latency:\s*([\d.]+)", line)
 
-        if match:
-            model = match.group(1)
-            latency = float(match.group(2))
-        # if line.startswith('latency:'):
-        #     value = float(line.split(':')[1].strip())  # 提取 latency 的值
-        #     latency = float(value)
+        if line.startswith('latency:'):
+            value = float(line.split(':')[1].strip())  # 提取 latency 的值
+            latency = float(value)
         
         elif line.startswith('valid_RPS:'):
             value = float(line.split(':')[1].strip()) 
@@ -297,72 +277,31 @@ def objective_feedback(configuration_list):
     with open(file_path, 'w') as file:
         file.write('')
 
-    # latency = 1
-    # valid_RPS = 300
 
     if latency:
-
         result = 0.5 * min(1, half_QoS/ latency)
         print(f"result is {result}")
         return result
         
     elif valid_RPS:
-        # half_QoS2 = QoS_map[task2]/2
-        # RPS100 = get_maxRPSInCurSM(task2, 100, half_QoS2)
-        # result = 0.5 + 0.5/ 2 * (valid_RPS + RPS) / RPS100
-        # 这里需要计算weight权重（可能会涉及到和总global的通讯，以及分布式bayes优化）
-        weight0 = 1
-        weight1 = 1
-        #
-        if not test:
-            
-            result = RPS/request[0] * weight0 + valid_RPS/request[1] * weight1
-            
-            mapped_value = map_to_range(result, 0, num)
-            print(f"RPS IS {valid_RPS + RPS} and result is {mapped_value}")
-            return mapped_value
-        
-        else:   
-            half_QoS2 = QoS_map[task2]/2
-            # RPS100_1 = get_maxRPSInCurSM(task1, 100 ,half_QoS)
-            RPS100_2 = get_maxRPSInCurSM(task2, 100, half_QoS2)
-            RPS100_1 = get_maxRPSInCurSM(task1, 100, half_QoS)
 
-            RPS100_baseline = min(RPS100_1, RPS100_2)
-            relationship = request[1]/request[0]
-            unite_RPS = min(RPS * relationship, valid_RPS)
-
-        
-            result = 0.5 + 0.5 * (unite_RPS/RPS100_baseline)
-
-            print(f"RPS IS {RPS} and {valid_RPS} , {unite_RPS} and result is {result}")
-
-            return result
+        RPS100 = get_maxRPSInCurSM(task, 100, half_QoS)
+        result = 0.5 + 0.5/ 2 * (valid_RPS + RPS) / RPS100
+        print(f"RPS IS {valid_RPS + RPS} and result is {result}")
+        return result
     time.sleep(1)
-
 
 def get_task_num(task):
     return 1
 
-def wrapped_objective_feedback(**kwargs):
+
+
+
+def wrapped_objective_feedback(SM, RPS):
+    print(task)
     configuration_list = []
-
-    for i in range(len(kwargs) // 2):
-        sm_key = f'SM{i}'
-        rps_key = f'RPS{i}'
-
-        if sm_key in kwargs and rps_key in kwargs:
-            sm_value = int(kwargs[sm_key])
-            rps_value = int(kwargs[rps_key]) 
-            configuration_list.append({'SM': sm_value, 'RPS': rps_value})
-
+    configuration_list = [{'SM': int(SM), 'RPS': int(RPS)}] 
     return objective_feedback(configuration_list)
-
-
-# def wrapped_objective_feedback(SM, RPS):
-#     configuration_list = []
-#     configuration_list = [{'SM': int(SM), 'RPS': int(RPS)}] 
-#     return objective_feedback(configuration_list)
 
 def wrapped_objective(SM1, RPS1, RPS2):
 
@@ -370,121 +309,124 @@ def wrapped_objective(SM1, RPS1, RPS2):
 
     configuration_list = [{'SM':int(SM1), 'RPS':int(RPS1)},{'SM':100-int(SM1), 'RPS':int(RPS2)}]
 
-
     return objective(configuration_list)
 
+space =sp.Space()
+SM1= sp.Int("SM1",20,80)
+RPS1 = sp.Int("RPS1",300,600) 
+RPS2 = sp.Int("RPS2",300,600)
+space.add_variables([SM1,RPS1,RPS2])
 
-
-def init_optimizer(num_task, task):
-
-    
-
-    optimizer =BayesianOptimization(
-        wrapped_objective,{'SM1':(10,90),
-            'RPS1':(300,600),
-            'RPS2':(300,600)
-        },
-        random_state = 1
-    )
-    
-    return optimizer
-
-
-def init_optimizer_feedback(server_num, config):
-
-    search_list = {}
-    for i in range(0, server_num):
-        if i != serve_num - 1: 
-            search_list[f'SM{i}'] = SM_map.get(config[i*2])
-
-            max_RPS = max_RPS_map.get(config[i*2])
-            min_RPS = min_RPS_map.get(config[i*2])
-
-            if int(config[i*2+1]) < max_RPS_map.get(config[i*2]):
-                max_RPS = int(config[i*2+1])
-            
-            if int(config[i*2+1]) < min_RPS_map.get(config[i*2]):
-                min_RPS = 0
-
-            search_list[f'RPS{i}'] = (min_RPS, max_RPS)
-
-        else:
-            continue
-
-    print(search_list)
-
-    optimizer =BayesianOptimization(
-        wrapped_objective_feedback,
-        search_list,
-        random_state = 2
-    )
-    
-    return optimizer
+space_feedback = sp.Space()
+SM1_feedback = sp.Int("SM",20,80)
+RPS1_feedback = sp.Int("RPS",300,800)
+space_feedback.add_variables([SM1_feedback,RPS1_feedback])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--server_num", type=int)
     parser.add_argument("--task", type=str)
     parser.add_argument("--feedback", action='store_true')
-    parser.add_argument("--test", action='store_true')
     args = parser.parse_args()
 
-
-    test = args.test
-    serve_num = args.server_num
     task = args.task
     feedback = args.feedback
+    serve_num = get_task_num(task)
 
     task = [s.strip() for s in task.split(',')]
+    #task = task[0]
 
-    for i in range(0, serve_num):
-        request.append(int(task[i*2 + 1]))
+    # # Generate history data for transfer learning. transfer_learning_history requires a list of History.
+    # transfer_learning_history = list()  # type: List[History]
+    # # 3 source tasks with 50 evaluations of random configurations each
+    # # one task is relevant to the target task, the other two are irrelevant
+    # num_history_tasks, num_results_per_task = 5, 20
+    # for task_idx in range(num_history_tasks):
+    #     # Build a History class for each source task based on previous observations.
+    #     # If source tasks are also optimized by Openbox, you can get the History by
+    #     # using the APIs from Optimizer or Advisor. E.g., history = advisor.get_history()
+    #     history = History(task_id=f'history{task_idx}', config_space=space)
+
+    #     for _ in range(num_results_per_task):
+    #         print("task_index={},_={}".format(task_idx,_))
+    #         config = space.sample_configuration()
+    #         if task_idx == 0:  # relevant task
+    #             y = objective(config)+0.01
+    #         elif task_idx == 1:  # relevant task
+    #             y = objective(config)-0.01
+    #         elif task_idx == 2:
+    #             y = objective(config) 
+    #         elif task_idx == 3:
+    #             y = objective(config)* 0.5
+    #         else: # irrelevant tasks
+    #             y = np.random.random()-1
+    #         # build and update observation
+    #         observation = Observation(config=config, objectives=[y])
+    #         history.update_observation(observation)
+
+    #     transfer_learning_history.append(history)
+
+    # with open('../tmp/my_list_5_20_o.pkl', 'wb') as file:
+    #     pickle.dump(transfer_learning_history, file)
+
+    with open('../tmp/my_list_5_20_o.pkl', 'rb') as file:
+        TLH = pickle.load(file)
+
+    # Run
+    opt = Optimizer(
+        objective,
+        space,
+        max_runs=20,
+        surrogate_type='gp',          # try using 'auto'!
+        task_id='quick_start',
+    )
+
+    opt_feedback = Optimizer(
+        objective_feedback,
+        space_feedback,
+        max_runs=20,
+        surrogate_type='gp',          # try using 'auto'!
+        task_id='quick_start',
+    )
+
+    tlbo_advisor = Advisor(
+        config_space=space,
+        num_objectives=1,
+        num_constraints=0,
+        initial_trials=5,
+        transfer_learning_history=TLH,  # type: List[History]
+        surrogate_type='tlbo_rgpe_gp',
+        acq_type='ei',
+        acq_optimizer_type='random_scipy',
+        task_id='TLBO',
+    )
 
     if not feedback:
-        pass
 
+        starttime = time.time()
+        for i in range(15):
+            config = tlbo_advisor.get_suggestion()
+            res = objective(config)
+            logger.info(f'Iteration {i+1}, result: {res}')
+            observation = Observation(config=config, objectives=[res])
+            tlbo_advisor.update_observation(observation)
+
+        history = tlbo_advisor.get_history()
+        print(history)
+
+        # history = opt.run()
+        # print(type(opt.get_history()))
+        # print(history)
+        print("time is {}ms".format((time.time()-starttime)*1000))
+    
     else:
         start = time.time()
-        optimizer = init_optimizer_feedback(serve_num, task)
-        utility = UtilityFunction(kind="ei", kappa=5, xi=0.2)
 
-        optimizer.maximize(
-            init_points=20,  
-            n_iter=50,      
-            acquisition_function=utility  
-        )
+        history = opt_feedback.run()
+        print(type(opt_feedback.get_history()))
+        print(history)
+        print("time is {}ms".format((time.time()-start)*1000))
 
-        print(optimizer.max)
         end = time.time()
         print(end - start)
-
-    # if not feedback:
-
-    #     optimizer = init_optimizer(1)
-
-    #     utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
-
-    #     optimizer.maximize(
-    #         init_points=30,  
-    #         n_iter=50,      
-    #         acquisition_function=utility  
-    #     )
-
-    #     print(optimizer.max)
-    
-    # else:
-    #     start = time.time()
-    #     optimizer = init_optimizer_feedback()
-    #     utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
-
-    #     optimizer.maximize(
-    #         init_points=5,  
-    #         n_iter=10,      
-    #         acquisition_function=utility  
-    #     )
-
-    #     print(optimizer.max)
-    #     end = time.time()
-    #     print(end - start)
 
 

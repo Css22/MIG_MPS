@@ -1,7 +1,8 @@
+import numpy as np
 import torch
 import torch.nn as nn
 import time
-import numpy as np
+
 # 模拟大规模嵌入表
 num_users = 10000000
 num_items = 10000000

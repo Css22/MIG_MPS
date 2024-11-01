@@ -1,7 +1,7 @@
+import numpy as np
 import torch
 import torch.nn as nn
 import time
-import numpy as np
 def get_p99(data):
     data = np.array(data)
     percentile_99 = np.percentile(data, 99)

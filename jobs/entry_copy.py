@@ -1,8 +1,8 @@
+import numpy as np
 import sys
 import torch
 import time
 import pandas as pd 
-import numpy as np
 import argparse
 from bert import BertModel
 from alexnet import alexnet

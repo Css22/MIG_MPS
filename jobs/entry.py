@@ -1,8 +1,8 @@
+import numpy as np
 import sys
 import torch
 import time
 import pandas as pd 
-import numpy as np
 import argparse
 from bert import BertModel
 from alexnet import alexnet
@@ -29,6 +29,7 @@ path = "/data/zbw/inference_system/MIG_MPS/jobs/"
 sys.path.append(path)
 flag_path = "/data/zbw/MIG/MIG/MIG_Schedule/flag"
 result_path = "/data/zbw/inference_system/MIG_MPS/log/"
+bayesTmp_path = '/data/wyh/MIG_MPS/tmp/bayesian_tmp.txt'
 
 seed = 42
 np.random.seed(seed)
@@ -57,7 +58,7 @@ model_list = {
     'transformer': transformer_layer,
 }
 
-input_list = {
+input_tensor_list = {
     "resnet50": [3, 244, 244],
     "resnet101": [3, 244, 244],
     "resnet152": [3, 244, 244],
@@ -117,22 +118,22 @@ def handle_terminate(signum, frame):
 def get_model(model_name):
     return  model_list.get(model_name)
 
-def get_input(model_name, k):
-    input = input_list.get(model_name)
+def get_input_tensor(model_name, k):
+    input_tensor = input_tensor_list.get(model_name)
     if model_name == 'bert':
-        input = torch.FloatTensor(np.random.rand(k, 1024, 768))
+        input_tensor = torch.FloatTensor(np.random.rand(k, 1024, 768))
         masks = torch.FloatTensor(np.zeros((k, 1, 1, 1024)))
-        return input,masks
+        return input_tensor,masks
     
     if model_name == 'transformer':
-        input = torch.randn(512, k, 768)
+        input_tensor = torch.randn(512, k, 768)
         masks = torch.ones(512, 512)
 
-        return input,masks
-    if len(input) == 3:
-        return torch.randn(k, input[0], input[1], input[2])
+        return input_tensor,masks
+    if len(input_tensor) == 3:
+        return torch.randn(k, input_tensor[0], input_tensor[1], input_tensor[2])
     else:
-        return torch.randn(k, input[0], input[1])
+        return torch.randn(k, input_tensor[0], input_tensor[1])
 
 def handle_concurrent_valid_data(valid_list, task, config, batch):
 
@@ -183,35 +184,35 @@ def execute_entry(task, RPS, max_epoch):
     with torch.no_grad():
         for i in range(0, max_epoch):
             if task == 'bert':
-                input,masks = get_input(task, batch)
-                input = input.half()
+                input_tensor,masks = get_input_tensor(task, batch)
+                input_tensor = input_tensor.half()
                 masks = masks.half()
                 
             elif task == 'transformer':
-                input,masks = get_input(task, batch)
+                input_tensor,masks = get_input_tensor(task, batch)
             else:
-                input = get_input(task, batch)
+                input_tensor = get_input_tensor(task, batch)
 
             start_time = time.time()
             if task == 'bert':
-                input = input.cuda(0)
+                input_tensor = input_tensor.cuda(0)
                 masks = masks.cuda(0)
             elif task == 'transformer':
-                input = input.cuda(0)
+                input_tensor = input_tensor.cuda(0)
                 masks = masks.cuda(0)
             else:
-                input = input.cuda(0)
+                input_tensor = input_tensor.cuda(0)
 
             if task == 'bert':
-                output= model.run(input,masks,0,12).cpu()
+                output= model.run(input_tensor,masks,0,12).cpu()
             elif task == 'transformer':
 
-                outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                outputs = model(input_tensor, input_tensor, src_mask=masks, tgt_mask=masks).cpu()
                 
             elif task == 'deeplabv3':
-                output= model(input)['out'].cpu()
+                output= model(input_tensor)['out'].cpu()
             else:
-                output=model(input).cpu()
+                output=model(input_tensor).cpu()
             end_time = time.time()
 
             valid_list.append((end_time - start_time) * 1000)
@@ -259,37 +260,37 @@ def feedback_execute_entry(task, RPS, remote_half_QoS):
     with torch.no_grad():
         for i in range(0, 50):
             if task == 'bert':
-                input,masks = get_input(task, batch)
-                input = input.half()
+                input_tensor,masks = get_input_tensor(task, batch)
+                input_tensor = input_tensor.half()
                 masks = masks.half()
 
             elif task == 'transformer':
-                input,masks = get_input(task, batch)
+                input_tensor,masks = get_input_tensor(task, batch)
 
             else:
-                input = get_input(task, batch)
+                input_tensor = get_input_tensor(task, batch)
 
             start_time = time.time()
             
             if task == 'bert':
-                input = input.cuda(0)
+                input_tensor = input_tensor.cuda(0)
                 masks = masks.cuda(0)
             elif task == 'transformer':
-                input = input.cuda(0)
+                input_tensor = input_tensor.cuda(0)
                 masks = masks.cuda(0)
             else:
-                input = input.cuda(0)
+                input_tensor = input_tensor.cuda(0)
 
             if task == 'bert':
-                output= model.run(input,masks,0,12).cpu()
+                output= model.run(input_tensor,masks,0,12).cpu()
             elif task == 'transformer':
 
-                outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                outputs = model(input_tensor, input_tensor, src_mask=masks, tgt_mask=masks).cpu()
                 
             elif task == 'deeplabv3':
-                output= model(input)['out'].cpu()
+                output= model(input_tensor)['out'].cpu()
             else:
-                output=model(input).cpu()
+                output=model(input_tensor).cpu()
 
             end_time = time.time()
 
@@ -458,35 +459,35 @@ if __name__ == "__main__":
                 valid_list = []
                 for i in range(0, 100):
                     if task == 'bert':
-                        input,masks = get_input(task, batch)
-                        input = input.half()
+                        input_tensor,masks = get_input_tensor(task, batch)
+                        input_tensor = input_tensor.half()
                         masks = masks.half()
                     elif task == 'transformer':
-                        input,masks = get_input(task, batch)
+                        input_tensor,masks = get_input_tensor(task, batch)
                     else:
-                        input = get_input(task, batch)
+                        input_tensor = get_input_tensor(task, batch)
 
                     start_time = time.time()
 
                     if task == 'bert':
-                        input = input.cuda(0)
+                        input_tensor = input_tensor.cuda(0)
                         masks = masks.cuda(0)
                     elif task == 'transformer':
-                        input = input.cuda(0)
+                        input_tensor = input_tensor.cuda(0)
                         masks = masks.cuda(0)
                     else:
-                        input = input.cuda(0)
+                        input_tensor = input_tensor.cuda(0)
 
                     if task == 'bert':
-                        output= model.run(input,masks,0,12).cpu()
+                        output= model.run(input_tensor,masks,0,12).cpu()
                     elif task == 'transformer':
 
-                        outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                        outputs = model(input_tensor, input_tensor, src_mask=masks, tgt_mask=masks).cpu()
                         
                     elif task == 'deeplabv3':
-                        output= model(input)['out'].cpu()
+                        output= model(input_tensor)['out'].cpu()
                     else:
-                        output=model(input).cpu()
+                        output=model(input_tensor).cpu()
 
                     end_time = time.time()
                     print((end_time - start_time) * 1000)
@@ -514,48 +515,57 @@ if __name__ == "__main__":
                 
                 for i in range(0, 500):
                     
+                    if task == 'bert':
+                        input_tensor,masks = get_input_tensor(task, batch)
+                        input_tensor = input_tensor.half()
+                        masks = masks.half()
+                    elif task == 'transformer':
+                        input_tensor,masks = get_input_tensor(task, batch)
+                    else:
+                        input_tensor = get_input_tensor(task, batch)
+
 
                     start_time = time.time()
                     
                     if task == 'bert':
-                        input = input.cuda(0)
+                        input_tensor = input_tensor.cuda(0)
                         masks = masks.cuda(0)
                     elif task == 'transformer':
-                        input = input.cuda(0)
+                        input_tensor = input_tensor.cuda(0)
                         masks = masks.cuda(0)
                     else:
-                        input = input.cuda(0)
+                        input_tensor = input_tensor.cuda(0)
 
                     if task == 'bert':
-                        output= model.run(input,masks,0,12).cpu()
+                        output= model.run(input_tensor,masks,0,12).cpu()
                     elif task == 'transformer':
 
-                        outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                        outputs = model(input_tensor, input_tensor, src_mask=masks, tgt_mask=masks).cpu()
                         
                     elif task == 'deeplabv3':
-                        output= model(input)['out'].cpu()
+                        output= model(input_tensor)['out'].cpu()
                     else:
-                        output=model(input).cpu()
+                        output=model(input_tensor).cpu()
 
                     end_time = time.time()
 
                     valid_list.append((end_time - start_time) * 1000)
 
-                    if not bayes:
-                        handle_concurrent_valid_data(valid_list[200:], task, config, batch)
+                if not bayes:
+                    handle_concurrent_valid_data(valid_list[200:], task, config, batch)
 
-                    else:
-                        data = np.array(valid_list[200:])
-                        percentile_95 = np.percentile(data, 95)
-                        file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
-                        lock_path = file_path + '.lock'  
+                else:
+                    data = np.array(valid_list[200:])
+                    percentile_95 = np.percentile(data, 95)
+                    file_path = bayesTmp_path
+                    lock_path = file_path + '.lock'  
 
-        
-                        lock = FileLock(lock_path)
+    
+                    lock = FileLock(lock_path)
 
-                        with lock:
-                            with open(file_path, 'a+') as file:
-                                file.write(f"{task} {batch} {config} {percentile_95}\n")
+                    with lock:
+                        with open(file_path, 'a+') as file:
+                            file.write(f"{task} {batch} {config} {percentile_95}\n")
             
         elif running:
             
@@ -574,39 +584,39 @@ if __name__ == "__main__":
 
             for i in range(0, 20):
                 if task == 'bert':
-                    input,masks = get_input(task, batch)
-                    input = input.half()
+                    input_tensor,masks = get_input_tensor(task, batch)
+                    input_tensor = input_tensor.half()
                     masks = masks.half()
 
                 elif task == 'transformer':
-                    input,masks = get_input(task, batch)
+                    input_tensor,masks = get_input_tensor(task, batch)
                 else:
-                    input = get_input(task, batch)
+                    input_tensor = get_input_tensor(task, batch)
 
                 
             
                 start_time = time.time()
                 
                 if task == 'bert':
-                    input = input.cuda(0)
+                    input_tensor = input_tensor.cuda(0)
                     masks = masks.cuda(0)
                 elif task == 'transformer':
-                    input = input.cuda(0)
+                    input_tensor = input_tensor.cuda(0)
                     masks = masks.cuda(0)
                 else:
-                    input = input.cuda(0)
+                    input_tensor = input_tensor.cuda(0)
 
                 if task == 'bert':
-                    output= model.run(input,masks,0,12).cpu()
+                    output= model.run(input_tensor,masks,0,12).cpu()
 
                 elif task == 'transformer':
 
-                    outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                    outputs = model(input_tensor, input_tensor, src_mask=masks, tgt_mask=masks).cpu()
                     
                 elif task == 'deeplabv3':
-                    output= model(input)['out'].cpu()
+                    output= model(input_tensor)['out'].cpu()
                 else:
-                    output=model(input).cpu()
+                    output=model(input_tensor).cpu()
 
                 end_time = time.time()
                 tmp_list.append((end_time - start_time) * 1000)
@@ -614,8 +624,7 @@ if __name__ == "__main__":
             
             data = np.array(tmp_list[5:])
             percentile_95 = np.percentile(data, 95)
-            file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
-
+            file_path = bayesTmp_path
             lock_path = file_path + '.lock'  
             lock = FileLock(lock_path)
 
@@ -628,37 +637,37 @@ if __name__ == "__main__":
                     valid_list = []
                     while True:
                         if task == 'bert':
-                            input,masks = get_input(task, batch)
-                            input = input.half()
+                            input_tensor,masks = get_input_tensor(task, batch)
+                            input_tensor = input_tensor.half()
                             masks = masks.half()
 
                         elif task == 'transformer':
-                            input,masks = get_input(task, batch)
+                            input_tensor,masks = get_input_tensor(task, batch)
                         else:
-                            input = get_input(task, batch)
+                            input_tensor = get_input_tensor(task, batch)
                         
 
                         start_time = time.time()
                         
                         if task == 'bert':
-                            input = input.cuda(0)
+                            input_tensor = input_tensor.cuda(0)
                             masks = masks.cuda(0)
                         elif task == 'transformer':
-                            input = input.cuda(0)
+                            input_tensor = input_tensor.cuda(0)
                             masks = masks.cuda(0)
                         else:
-                            input = input.cuda(0)
+                            input_tensor = input_tensor.cuda(0)
 
                         if task == 'bert':
-                            output= model.run(input,masks,0,12).cpu()
+                            output= model.run(input_tensor,masks,0,12).cpu()
                         elif task == 'transformer':
 
-                            outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                            outputs = model(input_tensor, input_tensor, src_mask=masks, tgt_mask=masks).cpu()
                             
                         elif task == 'deeplabv3':
-                            output= model(input)['out'].cpu()
+                            output= model(input_tensor)['out'].cpu()
                         else:
-                            output=model(input).cpu()
+                            output=model(input_tensor).cpu()
 
                         end_time = time.time()
                         
@@ -687,7 +696,7 @@ if __name__ == "__main__":
                 send_tcp_message(host=running_tcp_ip, port=running_tcp_port, message='succeed')
                     
         else:
-            file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
+            file_path = bayesTmp_path
             while True:
 
                 if os.path.getsize(file_path) == 0:
@@ -722,7 +731,7 @@ if __name__ == "__main__":
                 send_tcp_message(host=running_tcp_ip, port=running_tcp_port, message='succeed')
 
                 print(f"find largest valid RPS: {vaild_RPS}" )
-                file_path = '/data/zbw/inference_system/MIG_MPS/tmp/bayesian_tmp.txt'
+                file_path = bayesTmp_path
                 lock_path = file_path + '.lock'  
 
 
@@ -761,33 +770,33 @@ if __name__ == "__main__":
                 valid_list = []
                 for i in range(0, 200):
                     if task == 'bert':
-                        input,masks = get_input(task, batch)
+                        input_tensor,masks = get_input_tensor(task, batch)
                     elif task == 'transformer':
-                        input,masks = get_input(task, batch)
+                        input_tensor,masks = get_input_tensor(task, batch)
                     else:
-                        input = get_input(task, batch)
+                        input_tensor = get_input_tensor(task, batch)
 
                     start_time = time.time()
 
                     if task == 'bert':
-                        input = input.half().cuda(0)
+                        input_tensor = input_tensor.half().cuda(0)
                         masks = masks.half().cuda(0)
                     elif task == 'transformer':
-                        input = input.cuda(0)
+                        input_tensor = input_tensor.cuda(0)
                         masks = masks.cuda(0)
                     else:
-                        input = input.cuda(0)
+                        input_tensor = input_tensor.cuda(0)
 
                     if task == 'bert':
-                        output= model.run(input,masks,0,12).cpu()
+                        output= model.run(input_tensor,masks,0,12).cpu()
                     elif task == 'transformer':
 
-                        outputs = model(input, input, src_mask=masks, tgt_mask=masks).cpu()
+                        outputs = model(input_tensor, input_tensor, src_mask=masks, tgt_mask=masks).cpu()
                         
                     elif task == 'deeplabv3':
-                        output= model(input)['out'].cpu()
+                        output= model(input_tensor)['out'].cpu()
                     else:
-                        output=model(input).cpu()
+                        output=model(input_tensor).cpu()
                     end_time = time.time()
                     valid_list.append((end_time - start_time) * 1000)
 

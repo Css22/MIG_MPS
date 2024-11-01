@@ -1,6 +1,6 @@
+import numpy as np
 import threading
 import subprocess
-import numpy as np
 import argparse
 import logging
 import time

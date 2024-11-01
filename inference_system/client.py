@@ -3,7 +3,6 @@ import numpy as np
 import time
 import threading
 import math
-import numpy as np
 import argparse
 import random
 from PIL import Image

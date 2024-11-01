@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 
 # 尝试加载模型
@@ -20,7 +21,6 @@ print(model)
 input_tensor = torch.randn(1, 3, 224, 224).cuda()
 output = model(input_tensor)
 print("Model output:", output)
-import numpy as np
 
 data = [1,2,3,4,5,6,7,8,9,10,11]
 print(np.array(data)[2:])

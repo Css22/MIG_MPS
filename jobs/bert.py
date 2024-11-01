@@ -15,7 +15,7 @@
 # limitations under the License.
 """PyTorch BERT model. """
 
-
+import numpy as np
 import math
 import os
 import warnings
@@ -94,7 +94,6 @@ def load_tf_weights_in_bert(model, config, tf_checkpoint_path):
     try:
         import re
 
-        import numpy as np
         import tensorflow as tf
     except ImportError:
         logger.error(

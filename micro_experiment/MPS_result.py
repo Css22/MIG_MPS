@@ -77,6 +77,7 @@ def objective_feedback(SM, RPS):
 
     batch = math.floor(float(RPS)/1000 * half_QoS)
 
+    print("MPSSERVER!")
 
     server_id = 3146149
 

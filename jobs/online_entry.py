@@ -1,3 +1,4 @@
+import numpy as np
 from alexnet import alexnet
 from bert import BertModel
 from deeplabv3 import deeplabv3
@@ -8,7 +9,6 @@ from jobs.online.Unet import unet
 from vgg_splited import vgg16,vgg19
 import time
 import argparse
-import numpy as np
 import torch
 
 model_list = {

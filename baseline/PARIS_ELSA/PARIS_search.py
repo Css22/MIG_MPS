@@ -1,6 +1,7 @@
 from itertools import product
 import subprocess
 import numpy as np
+import subprocess
 import argparse
 import logging
 
