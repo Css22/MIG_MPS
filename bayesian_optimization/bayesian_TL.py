@@ -371,6 +371,8 @@ if __name__ == "__main__":
     with open('../tmp/my_list_5_20_o.pkl', 'rb') as file:
         TLH = pickle.load(file)
 
+    print(TLH)
+    
     # Run
     opt = Optimizer(
         objective,
@@ -394,7 +396,7 @@ if __name__ == "__main__":
         num_constraints=0,
         initial_trials=5,
         transfer_learning_history=TLH,  # type: List[History]
-        surrogate_type='tlbo_rgpe_gp',
+        surrogate_type='tlbo_topov3_prf',
         acq_type='ei',
         acq_optimizer_type='random_scipy',
         task_id='TLBO',
@@ -406,6 +408,7 @@ if __name__ == "__main__":
         for i in range(15):
             config = tlbo_advisor.get_suggestion()
             res = objective(config)
+            logger.info(f'Iteration {i+1}, config: {config}')
             logger.info(f'Iteration {i+1}, result: {res}')
             observation = Observation(config=config, objectives=[res])
             tlbo_advisor.update_observation(observation)

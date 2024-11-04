@@ -252,7 +252,7 @@ def objective_feedback(configuration_list):
     batch = math.floor(float(RPS)/1000 * half_QoS)
 
 
-    server_id = 2789338
+    server_id = MPS_PID
 
     script_path = paddingFeedback_dir
     
