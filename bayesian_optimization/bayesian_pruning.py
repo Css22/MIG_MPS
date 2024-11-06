@@ -2,6 +2,9 @@ import numpy as np
 from skopt import gp_minimize
 from bayes_opt import BayesianOptimization
 from bayes_opt.util import UtilityFunction
+from bayes_opt.logger import JSONLogger
+from bayes_opt.event import Events
+from bayes_opt.util import load_logs
 import argparse
 import logging
 import re
@@ -10,6 +13,7 @@ import subprocess
 import time
 import pickle
 from collections import defaultdict
+import json
 
 padding_dir = '/data/wyh/MIG_MPS/micro_experiment/script/padding.sh'
 paddingFeedback_dir = '/data/wyh/MIG_MPS/micro_experiment/script/padding_feedback.sh'
@@ -29,9 +33,9 @@ QoS_map = {
     'alexnet': 80,
 }
 
-max_RPS_map = {'resnet50': 1500, 'resnet152': 1100, 'vgg16':1300, 'bert': 200, 'mobilenet_v2': 3200}
-min_RPS_map = {'resnet50': 500, 'resnet152': 200, 'vgg16': 150, 'bert': 40, "mobilenet_v2": 600}
-SM_map = {'resnet50': (30, 90), 'resnet152': (10, 90), 'vgg16': (10, 90), 'bert': (10, 90), "mobilenet_v2": (10,50)}
+max_RPS_map = {'resnet50': 1500, 'resnet152': 1100, 'vgg16':1300, 'bert': 200, 'mobilenet_v2': 3200,'resnet101':1300}
+min_RPS_map = {'resnet50': 500, 'resnet152': 200, 'vgg16': 150, 'bert': 40, "mobilenet_v2": 600,'resnet101':150}
+SM_map = {'resnet50': (30, 90), 'resnet152': (10, 90), 'vgg16': (10, 90), 'bert': (10, 90), "mobilenet_v2": (10,50),'resnet101':(10,90)}
 
 
 
@@ -416,30 +420,44 @@ def init_optimizer_feedback(server_num, config):
     optimizer =BayesianOptimization(
         wrapped_objective_feedback,
         search_list,
+        verbose = 2,
     )
     
     return optimizer
 
 
 def pruningByHistory(historyFile):
-    #{'target': 1.0270000000000001, 'params': {'RPS0': 314.36846711090175, 'SM0': 33.244359265825736}}
-    #{'target': 1.042, 'params': {'RPS0': 698.0847392884298, 'SM0': 66.32660892016011}}
     ConfigList_RPS = []
     ConfigList_SM = []
     for fileName in historyFile:
-        with open(fileName, 'rb') as file:
-            max_Config = pickle.load(file)
-            print(max_Config)
-            RPS_t = max_Config['params']['RPS0']
-            SM_t = max_Config['params']['SM0']
+        with open(fileName, 'r') as file:
+            data = json.load(file)
+            max_target_entry = max(data, key=lambda x: x['target'])
+            print(max_target_entry)
+            RPS_t =  max_target_entry ['params']['RPS0']
+            SM_t =  max_target_entry ['params']['SM0']
             ConfigList_RPS.append(RPS_t)
             ConfigList_SM.append(SM_t)
     min_RPS = min(ConfigList_RPS)
     max_RPS = max(ConfigList_RPS)
     min_SM = min(ConfigList_SM)
     max_SM = max(ConfigList_SM)
+    print("bound")
+    print([min_SM,max_SM,min_RPS,max_RPS])
     return [min_SM,max_SM,min_RPS,max_RPS]
 
+def changeFileFormat(filepath):
+    # 打开原始文件进行处理
+    with open(filepath, 'r') as file:
+        # 读取文件内容并分割每一行
+        lines = file.readlines()
+
+    # 去除每行的换行符并添加逗号
+    formatted_data = '[\n' + ',\n'.join(line.strip() for line in lines) + '\n]'
+
+    # 保存成JSON格式文件
+    with open(filepath, 'w') as json_file:
+        json_file.write(formatted_data)
 
 
 if __name__ == "__main__":
@@ -472,12 +490,18 @@ if __name__ == "__main__":
         optimizer = init_optimizer_feedback(serve_num, task)
         utility = UtilityFunction(kind="ei", kappa=5, xi=0.2)
         
-        # file_prefix = '../tmp/resnet152_1000_resnet152_1000_'
-        # relatedTaskNum = 4
-        # file_list = [file_prefix+str(i)+'.pkl' for i in range(2,relatedTaskNum+1)]
-        # print(file_list)
+        file_prefix = '../tmp/resnet152_1000_resnet152_1000_'
+        relatedTaskNum = 4
+        file_list = [file_prefix+str(i)+'.json' for i in range(1,relatedTaskNum+1)]
+        print(file_list)
+
         # his = pruningByHistory(file_list)
         # optimizer.set_bounds(new_bounds={"SM0":(his[0],his[1]),"RPS0":(his[2],his[3])})
+
+        #load_logs(optimizer, logs=["../tmp/resnet152_1000_resnet152_1000_1.log.json"]) 
+
+        logger = JSONLogger(path="../tmp/resnet101_1000_vgg16_1000_1")
+        optimizer.subscribe(Events.OPTIMIZATION_STEP, logger)
 
         optimizer.maximize(
             init_points=5,  
@@ -486,11 +510,8 @@ if __name__ == "__main__":
         )
 
         print(optimizer.max)
-        with open('../tmp/resnet152_1000_vgg16_1000_res_1.pkl', 'wb') as file:
-            pickle.dump(optimizer.max, file)
 
-        # with open('./tmp/my_list_5_20_o.pkl', 'rb') as file:
-        #     TLH = pickle.load(file)
+        changeFileFormat("../tmp/resnet101_1000_vgg16_1000_1.json")
         end = time.time()
         print(end - start)
 
