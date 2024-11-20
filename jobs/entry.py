@@ -418,6 +418,8 @@ if __name__ == "__main__":
     parser.add_argument("--bayes", action='store_true')
     parser.add_argument("--feedback", action='store_true')
     parser.add_argument("--running", action="store_true")
+    parser.add_argument("--port", default=12334, type = int)
+    parser.add_argument("--GI",default=None, type =str)
     args = parser.parse_args()
 
     task = args.task
@@ -431,6 +433,12 @@ if __name__ == "__main__":
     bayes = args.bayes
     feedback = args.feedback
     running = args.running
+
+    binary_tcp_port = args.port
+    running_tcp_port = args.port + 1
+    if args.GI is not None:
+        bayesTmp_path = bayesTmp_path.replace('.txt', f'_{args.GI}.txt')
+
 
 
     max_epoch = 1000

@@ -4,6 +4,7 @@ from bayes_opt import BayesianOptimization
 from bayes_opt.util import UtilityFunction
 from bayes_opt.logger import JSONLogger
 from bayes_opt.event import Events
+from bayes_opt import SequentialDomainReductionTransformer
 from bayes_opt.util import load_logs
 import argparse
 import logging
@@ -14,10 +15,11 @@ import time
 import pickle
 from collections import defaultdict
 import json
+import os
 
 padding_dir = '/data/wyh/MIG_MPS/micro_experiment/script/padding.sh'
 paddingFeedback_dir = '/data/wyh/MIG_MPS/micro_experiment/script/padding_feedback.sh'
-MPS_PID = 2272851
+MPS_PID = 354993
 logdir = '/data/wyh/MIG_MPS/tmp/bayesian_tmp.txt'
 
 QoS_map = {
@@ -260,7 +262,7 @@ def objective_feedback(configuration_list):
 
     script_path = paddingFeedback_dir
     
-    BO_args= [task1, task2, SM, remain_SM, batch, max_RPS, server_id]
+    BO_args= [task1, task2, SM, remain_SM, batch, max_RPS, server_id, args.device, args.port]
     BO_args = [str(item) for item in BO_args]
     process = subprocess.Popen([script_path] + BO_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
@@ -317,12 +319,14 @@ def objective_feedback(configuration_list):
         # 这里需要计算weight权重（可能会涉及到和总global的通讯，以及分布式bayes优化）
         weight0 = 1
         weight1 = 1
-        #
+        
         if not test:
             
-            result = RPS/request[0] * weight0 + valid_RPS/request[1] * weight1
-            
-            mapped_value = map_to_range(result, 0, num)
+            result = 0.5+ 0.5*(RPS/request[0] * weight0 + valid_RPS/request[1] * weight1)
+            #优化的初始阶段，要求两个任务的RPS和尽量的大
+
+            #mapped_value = map_to_range(result, 0, num)
+            mapped_value = result
             print(f"RPS IS {valid_RPS + RPS} and result is {mapped_value}")
             return mapped_value
         
@@ -417,10 +421,12 @@ def init_optimizer_feedback(server_num, config):
 
     print(search_list)
 
+    bounds_transformer = SequentialDomainReductionTransformer(minimum_window=10)
     optimizer =BayesianOptimization(
         wrapped_objective_feedback,
         search_list,
         verbose = 2,
+        #bounds_transformer=bounds_transformer
     )
     
     return optimizer
@@ -460,12 +466,90 @@ def changeFileFormat(filepath):
         json_file.write(formatted_data)
 
 
+def start_mps_daemon(gpu_id):
+    """
+    启动 MPS 守护进程,并返回其 PID
+    """
+    pipe_dir = f"/tmp/nvidia-mps-{gpu_id}"
+    log_dir = f"/tmp/nvidia-log-{gpu_id}"
+
+    # 设置环境变量
+    os.environ["CUDA_MPS_PIPE_DIRECTORY"] = pipe_dir
+    os.environ["CUDA_MPS_LOG_DIRECTORY"] = log_dir
+    os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
+
+    # 创建 MPS 守护进程
+    process = subprocess.Popen(
+        ["nvidia-cuda-mps-control", "-d"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+    print(f"MPS Daemon started for GPU {gpu_id}. Waiting for initialization...")
+    time.sleep(1)  # 等待守护进程初始化
+
+    # 获取 MPS 守护进程的 PID
+    ps_output = subprocess.run(["ps", "-ef"], stdout=subprocess.PIPE, text=True).stdout
+    for line in ps_output.splitlines():
+        if "nvidia-cuda-mps-control" in line:
+            parts = line.split()
+            pid = parts[1]
+            # 检查环境变量
+            with open(f"/proc/{pid}/environ", "r") as env_file:
+                environ = env_file.read()
+                if pipe_dir in environ:
+                    print(f"Found MPS Daemon PID for {pipe_dir}: {pid}")
+                    return pid
+
+
+def run_simple_cuda_program(cuda_script_path, pipe_dir):
+    """
+    运行一个简单的 CUDA 程序
+    """
+    os.environ["CUDA_MPS_PIPE_DIRECTORY"] = pipe_dir
+
+    try:
+        # 调用简单的 Python CUDA 脚本
+        process = subprocess.run(
+            ["python", cuda_script_path],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=True,
+        )
+        print("CUDA Program Output:")
+        print(process.stdout)
+        if process.stderr:
+            print("CUDA Program Errors:")
+            print(process.stderr)
+    except subprocess.CalledProcessError as e:
+        print(f"Error while running CUDA program: {e.stderr}")
+
+
+def get_mps_server_pid(mps_pid):
+    """
+    根据 MPS 守护进程的 PID,获取对应 MPS Server 的 PID
+    """
+    ps_output = subprocess.run(["ps", "-ef"], stdout=subprocess.PIPE, text=True).stdout
+    for line in ps_output.splitlines():
+        if "nvidia-cuda-mps-server" in line and f" {mps_pid} " in line:
+            parts = line.split()
+            server_pid = parts[1]
+            print(f"Found MPS Server PID for MPS Daemon {mps_pid}: {server_pid}")
+            return server_pid
+
+    print(f"Error: Could not find MPS Server PID for MPS Daemon {mps_pid}.")
+    return None
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--server_num", type=int)
     parser.add_argument("--task", type=str)
     parser.add_argument("--feedback", action='store_true')
     parser.add_argument("--test", action='store_true')
+    parser.add_argument("--device",type = str)
+    parser.add_argument("--port",type = int)
     args = parser.parse_args()
 
 
@@ -473,9 +557,23 @@ if __name__ == "__main__":
     serve_num = args.server_num
     task = args.task
     feedback = args.feedback
+    logdir = logdir.replace('.txt', f'_{args.device}.txt')
 
     task = [s.strip() for s in task.split(',')]
 
+    #创建这个优化器的mps守护进程，mps_server
+    mps_pid = start_mps_daemon(args.device)
+    server_id = None
+    run_simple_cuda_program("./start_mps.py","/tmp/nvidia-mps-"+args.device)
+    if mps_pid:
+        # 获取 MPS Server 的 PID
+        server_id = get_mps_server_pid(mps_pid)
+        MPS_PID = server_id
+
+    ## 根据传入的参数设定任务的rps搜索范围，覆盖初始值,例如传入vgg16，500，表示希望这个实例负载500的rps，搜索范围为+-200.
+    for i in range(len(task)):
+        max_RPS_map[task[0]] = min(int(task[1])+200,max_RPS_map[task[0]])
+        min_RPS_map[task[0]] = max(int(task[1])-200,0)
     for i in range(0, serve_num):
         request.append(int(task[i*2 + 1]))
 
@@ -487,31 +585,32 @@ if __name__ == "__main__":
 
     else:
         start = time.time()
-        optimizer = init_optimizer_feedback(serve_num, task)
-        utility = UtilityFunction(kind="ei", kappa=5, xi=0.2)
-        
-        file_prefix = '../tmp/resnet152_1000_resnet152_1000_'
-        relatedTaskNum = 4
-        file_list = [file_prefix+str(i)+'.json' for i in range(1,relatedTaskNum+1)]
-        print(file_list)
 
-        # his = pruningByHistory(file_list)
-        # optimizer.set_bounds(new_bounds={"SM0":(his[0],his[1]),"RPS0":(his[2],his[3])})
+        for idx in range(0,1):
+            optimizer = init_optimizer_feedback(serve_num, task)
+            utility = UtilityFunction(kind="ei", kappa=5, xi=0.2)
+            
+            # file_prefix = '../tmp/resnet101_1000_resnet101_1000_'
+            # relatedTaskNum = 4
+            # file_list = [file_prefix+str(i)+'.json' for i in range(6,6+relatedTaskNum)]
+            # print(file_list)
 
-        #load_logs(optimizer, logs=["../tmp/resnet152_1000_resnet152_1000_1.log.json"]) 
+            # his = pruningByHistory(file_list)
+            # optimizer.set_bounds(new_bounds={"SM0":(his[0],his[1]),"RPS0":(his[2],his[3])})
 
-        logger = JSONLogger(path="../tmp/resnet101_1000_vgg16_1000_1")
-        optimizer.subscribe(Events.OPTIMIZATION_STEP, logger)
+            #load_logs(optimizer, logs=["../tmp/resnet152_1000_resnet152_1000_1.log.json"]) 
 
-        optimizer.maximize(
-            init_points=5,  
-            n_iter=5,      
-            acquisition_function=utility  
-        )
+            logger = JSONLogger(path="../tmp/"+args.task+"-"+args.device)
 
-        print(optimizer.max)
+            optimizer.subscribe(Events.OPTIMIZATION_STEP, logger)
 
-        changeFileFormat("../tmp/resnet101_1000_vgg16_1000_1.json")
+            optimizer.maximize(
+                init_points=3,  
+                n_iter=5,      
+                acquisition_function=utility  
+            )
+            print(optimizer.max)
+            changeFileFormat("../tmp/"+args.task+"-"+args.device+".json")
         end = time.time()
         print(end - start)
 
