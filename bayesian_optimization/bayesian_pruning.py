@@ -16,6 +16,7 @@ import pickle
 from collections import defaultdict
 import json
 import os
+import sys
 
 padding_dir = '/data/wyh/MIG_MPS/micro_experiment/script/padding.sh'
 paddingFeedback_dir = '/data/wyh/MIG_MPS/micro_experiment/script/padding_feedback.sh'
@@ -46,6 +47,11 @@ task = None
 request = []
 test = False
 
+dict_list = []
+changeFlag = False
+changeParams = None
+changeRes = 0
+
 def read_data(file_path):
     data = []
     with open(file_path, 'r') as file:
@@ -60,13 +66,6 @@ def read_data(file_path):
     return data
 
 def get_configuration_result(configuration_list, serve):
-    # print(len(configuration_list))
-    # print("cur SM and RPS are")
-    # print(configuration_list[0]['SM'])
-    # print(configuration_list[0]['RPS'])
-    # print(configuration_list[1]['SM'])
-    # print(configuration_list[1]['RPS'])
-    # print()
     if serve_num == 1:
         QoS = QoS_map.get(task[0])
         half_QoS = [QoS/2,QoS/2]
@@ -161,7 +160,7 @@ def objective(configuration_list):
         if serve_num == 2:
             m2 = task[1]
         
-        print(f"start executor, the task {m1} {SM1} {batch1} {m2} {SM2} {batch2}")
+        #print(f"start executor, the task {m1} {SM1} {batch1} {m2} {SM2} {batch2}")
         server_id = MPS_PID
         script_path = padding_dir
 
@@ -177,9 +176,9 @@ def objective(configuration_list):
             BO_args = [str(item) for item in BO_args]
             result = subprocess.run([script_path] + BO_args, capture_output=True, text=True)
 
-        print(result.stdout)
+        #print(result.stdout)
 
-        print(result.stderr)
+        #print(result.stderr)
 
 
         file_path = logdir
@@ -188,8 +187,8 @@ def objective(configuration_list):
 
         with open(file_path, 'r') as file:
             lines = file.readlines()
-            print("content of tmp.txt")
-            print(lines)
+            #print("content of tmp.txt")
+            #print(lines)
             for line in lines:
                 context = line.strip().split(" ")
                 if m1 == context[0] and int(batch1) == int(context[1]) and int(SM1) == int(context[2]):
@@ -209,12 +208,12 @@ def objective(configuration_list):
         QoS = QoS_map[task[0]]/2
         if latency1 > QoS or latency2 > QoS:
             result = 0.5 * math.sqrt(min(1,QoS/latency1)*min(1,QoS/latency2))
-            print(f"QoS Violation latency1: {latency1} latency2: {latency2}")
+            #print(f"QoS Violation latency1: {latency1} latency2: {latency2}")
 
         else:
             RPS100 = get_maxRPSInCurSM(task[0], 100, QoS)
             result = 0.5 + 0.5/ 2 * (RPS1+RPS2) / RPS100
-            print("RPS1+RPS2={}".format(RPS1+RPS2))
+            #print("RPS1+RPS2={}".format(RPS1+RPS2))
 
     else:
         QoS1 = QoS_map[task[0]]/2
@@ -237,7 +236,6 @@ def map_to_range(x, min_val, max_val):
 
 def objective_feedback(configuration_list):
     #暂时只支持两个任务的feedback，未来可以考虑进行进一步的扩展
-
     num = len(configuration_list)
 
     result = 0
@@ -257,20 +255,32 @@ def objective_feedback(configuration_list):
 
     batch = math.floor(float(RPS)/1000 * half_QoS)
 
+    global dict_list
+    global changeFlag
+    global changeRes
+    if changeFlag:
+        if changeParams[2]==0:
+                changeRes = 3
+                return 3
+        else:
+            changeRes = 0.5 * min(1, half_QoS/ changeParams[2])
+            return 0.5 * min(1, half_QoS/ changeParams[2])
 
     server_id = MPS_PID
+
 
     script_path = paddingFeedback_dir
     
     BO_args= [task1, task2, SM, remain_SM, batch, max_RPS, server_id, args.device, args.port]
     BO_args = [str(item) for item in BO_args]
+
     process = subprocess.Popen([script_path] + BO_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-    for line in process.stdout:
-        print(line, end='')  
+    # for line in process.stdout:
+    #     print(line, end='')  
 
-    for line in process.stderr:
-        print(line, end='') 
+    # for line in process.stderr:
+    #     print(line, end='') 
 
     process.wait()
 
@@ -297,19 +307,24 @@ def objective_feedback(configuration_list):
         else:
             print("no result!")
 
-
-
-
     with open(file_path, 'w') as file:
         file.write('')
 
-    # latency = 1
-    # valid_RPS = 300
+    stepDir = dict()
+    tmpParams = dict()
+    tmpParams["RPS0"] = RPS
+    tmpParams["RPS1"] = valid_RPS if not latency else 0
+    tmpParams["SM0"] = SM
+    tmpParams["SM1"] = remain_SM
+    tmpParams["lc0"] = latency if latency else 0
+    stepDir["params"] = tmpParams
 
     if latency:
 
         result = 0.5 * min(1, half_QoS/ latency)
-        print(f"result is {result}")
+        #print(f"result is {result}")
+        stepDir["target"] = result
+        dict_list.append(stepDir)
         return result
         
     elif valid_RPS:
@@ -319,7 +334,6 @@ def objective_feedback(configuration_list):
         # 这里需要计算weight权重（可能会涉及到和总global的通讯，以及分布式bayes优化）
         weight0 = 1
         weight1 = 1
-        
         if not test:
             
             result = 0.5+ 0.5*(RPS/request[0] * weight0 + valid_RPS/request[1] * weight1)
@@ -327,7 +341,9 @@ def objective_feedback(configuration_list):
 
             #mapped_value = map_to_range(result, 0, num)
             mapped_value = result
-            print(f"RPS IS {valid_RPS + RPS} and result is {mapped_value}")
+            #print(f"RPS IS {valid_RPS + RPS} and result is {mapped_value}")
+            stepDir["target"] = mapped_value
+            dict_list.append(stepDir)
             return mapped_value
         
         else:   
@@ -343,8 +359,9 @@ def objective_feedback(configuration_list):
         
             result = 0.5 + 0.5 * (unite_RPS/RPS100_baseline)
 
-            print(f"RPS IS {RPS} and {valid_RPS} , {unite_RPS} and result is {result}")
-
+            #print(f"RPS IS {RPS} and {valid_RPS} , {unite_RPS} and result is {result}")
+            stepDir["target"] = result
+            dict_list.append(stepDir)
             return result
     time.sleep(1)
 
@@ -366,11 +383,6 @@ def wrapped_objective_feedback(**kwargs):
 
     return objective_feedback(configuration_list)
 
-
-# def wrapped_objective_feedback(SM, RPS):
-#     configuration_list = []
-#     configuration_list = [{'SM': int(SM), 'RPS': int(RPS)}] 
-#     return objective_feedback(configuration_list)
 
 def wrapped_objective(SM1, RPS1, RPS2):
 
@@ -403,7 +415,9 @@ def init_optimizer_feedback(server_num, config):
     search_list = {}
     for i in range(0, server_num):
         if i != serve_num - 1: 
-            search_list[f'SM{i}'] = SM_map.get(config[i*2])
+            SM_box = SM_map.get(config[i*2])
+            interval = (SM_box[1]-SM_box[0])/numOfGI
+            search_list[f'SM{i}'] = (SM_box[0]+idxGI*interval,SM_box[0]+(idxGI+1)*interval)
 
             max_RPS = max_RPS_map.get(config[i*2])
             min_RPS = min_RPS_map.get(config[i*2])
@@ -419,12 +433,11 @@ def init_optimizer_feedback(server_num, config):
         else:
             continue
 
-    print(search_list)
 
     bounds_transformer = SequentialDomainReductionTransformer(minimum_window=10)
     optimizer =BayesianOptimization(
-        wrapped_objective_feedback,
-        search_list,
+        f=wrapped_objective_feedback,
+        pbounds=search_list,
         verbose = 2,
         #bounds_transformer=bounds_transformer
     )
@@ -464,6 +477,8 @@ def changeFileFormat(filepath):
     # 保存成JSON格式文件
     with open(filepath, 'w') as json_file:
         json_file.write(formatted_data)
+
+
 
 
 def start_mps_daemon(gpu_id):
@@ -541,6 +556,25 @@ def get_mps_server_pid(mps_pid):
     print(f"Error: Could not find MPS Server PID for MPS Daemon {mps_pid}.")
     return None
 
+def changeSurface(bo):
+    new_dict_list = []
+    global dict_list
+    global changeParams 
+    global changeRes
+    for dic in dict_list:
+        dic_copy = dic
+        changeParams = [dic["params"]["RPS0"],dic["params"]["RPS1"],dic["params"]["lc0"]]
+        bo.probe(
+            params={"SM0": dic["params"]["SM0"], "RPS0":dic["params"]["RPS0"]},
+            lazy=True,
+        )
+        bo.maximize(init_points=0, n_iter=0)
+        dic_copy["target"]=changeRes
+
+        new_dict_list.append(dic_copy)
+    dict_list = new_dict_list
+
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -550,6 +584,8 @@ if __name__ == "__main__":
     parser.add_argument("--test", action='store_true')
     parser.add_argument("--device",type = str)
     parser.add_argument("--port",type = int)
+    parser.add_argument("--idxGI",type = int, default=0)
+    parser.add_argument("--numOfGI",type =int,default=1)
     args = parser.parse_args()
 
 
@@ -558,7 +594,11 @@ if __name__ == "__main__":
     task = args.task
     feedback = args.feedback
     logdir = logdir.replace('.txt', f'_{args.device}.txt')
-
+    idxGI = int(args.idxGI)
+    numOfGI = int(args.numOfGI)
+    changeFlag = False
+    changeParams = None
+    changeRes = 0
     task = [s.strip() for s in task.split(',')]
 
     #创建这个优化器的mps守护进程，mps_server
@@ -577,8 +617,6 @@ if __name__ == "__main__":
     for i in range(0, serve_num):
         request.append(int(task[i*2 + 1]))
 
-    print(task)
-    print(request)
 
     if not feedback:
         pass
@@ -589,58 +627,47 @@ if __name__ == "__main__":
         for idx in range(0,1):
             optimizer = init_optimizer_feedback(serve_num, task)
             utility = UtilityFunction(kind="ei", kappa=5, xi=0.2)
-            
-            # file_prefix = '../tmp/resnet101_1000_resnet101_1000_'
-            # relatedTaskNum = 4
-            # file_list = [file_prefix+str(i)+'.json' for i in range(6,6+relatedTaskNum)]
-            # print(file_list)
-
-            # his = pruningByHistory(file_list)
-            # optimizer.set_bounds(new_bounds={"SM0":(his[0],his[1]),"RPS0":(his[2],his[3])})
-
-            #load_logs(optimizer, logs=["../tmp/resnet152_1000_resnet152_1000_1.log.json"]) 
-
-            logger = JSONLogger(path="../tmp/"+args.task+"-"+args.device)
-
-            optimizer.subscribe(Events.OPTIMIZATION_STEP, logger)
+        
+            stepLogDir = "../tmp/"+args.task+"-"+args.device+".json"
+            dict_list = []
 
             optimizer.maximize(
                 init_points=3,  
-                n_iter=5,      
+                n_iter=3,      
                 acquisition_function=utility  
             )
             print(optimizer.max)
-            changeFileFormat("../tmp/"+args.task+"-"+args.device+".json")
+
+            print("checkpoint reached")  # 向主进程发送信号
+            time.sleep(1)
+            sys.stdout.flush()  # 确保信号立即发送
+
+            #等待主进程的继续信号
+            print("[Worker] Waiting for continue signal...")
+            while True:
+                line = sys.stdin.readline().strip()  # 阻塞等待主进程输入
+                if line == "continue":
+                    print("[Worker] Received continue signal. Resuming task...")
+                    break  # 退出等待，继续运行任务
+                else:
+                    print(f"[Worker] Received unknown signal: {line}. Waiting again.")
+
+            optimizer = init_optimizer_feedback(serve_num, task)
+            changeFlag = True
+            changeSurface(optimizer)
+            changeFlag = False
+            optimizer.maximize(
+                init_points=0,  
+                n_iter=1,      
+                acquisition_function=utility  
+            )
+
+            print(optimizer.max)
+
+            with open(stepLogDir, "w") as json_file:
+                json.dump(dict_list, json_file, indent=4)
+
+
         end = time.time()
         print(end - start)
-
-    # if not feedback:
-
-    #     optimizer = init_optimizer(1)
-
-    #     utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
-
-    #     optimizer.maximize(
-    #         init_points=30,  
-    #         n_iter=50,      
-    #         acquisition_function=utility  
-    #     )
-
-    #     print(optimizer.max)
-    
-    # else:
-    #     start = time.time()
-    #     optimizer = init_optimizer_feedback()
-    #     utility = UtilityFunction(kind="ei", kappa=2.5, xi=0.0)
-
-    #     optimizer.maximize(
-    #         init_points=5,  
-    #         n_iter=10,      
-    #         acquisition_function=utility  
-    #     )
-
-    #     print(optimizer.max)
-    #     end = time.time()
-    #     print(end - start)
-
 
