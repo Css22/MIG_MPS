@@ -93,7 +93,8 @@ class bo_communicator:
                 maxPointList.append([v,RPS_t,SM_t])
         return maxPointList
 
-
+    def calMIG2SM(self):
+        return
 
 
     def mapData(self):

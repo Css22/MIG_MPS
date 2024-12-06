@@ -17,6 +17,7 @@ from collections import defaultdict
 import json
 import os
 import sys
+from scipy.stats import linregress
 
 padding_dir = '/data/wyh/MIG_MPS/micro_experiment/script/padding.sh'
 paddingFeedback_dir = '/data/wyh/MIG_MPS/micro_experiment/script/padding_feedback.sh'
@@ -51,6 +52,8 @@ dict_list = []
 changeFlag = False
 changeParams = None
 changeRes = 0
+slope = 0
+intercept = 0
 
 def read_data(file_path):
     data = []
@@ -244,6 +247,10 @@ def objective_feedback(configuration_list):
     
     SM = configuration_list[0]['SM']
     RPS = configuration_list[0]['RPS']
+    global slope
+    global intercept
+    if RPS > SM * slope + intercept:
+        return 0
 
     remain_SM = 100  - SM
 
@@ -415,13 +422,16 @@ def init_optimizer_feedback(server_num, config):
     search_list = {}
     for i in range(0, server_num):
         if i != serve_num - 1: 
-            SM_box = SM_map.get(config[i*2])
-            interval = (SM_box[1]-SM_box[0])/numOfGI
-            search_list[f'SM{i}'] = (SM_box[0]+idxGI*interval,SM_box[0]+(idxGI+1)*interval)
+            # 这是之前配置完全相同的优化器并行搜索的代码，已废弃
+            # SM_box = SM_map.get(config[i*2])
+            # interval = (SM_box[1]-SM_box[0])/numOfGI
+            # search_list[f'SM{i}'] = (SM_box[0]+idxGI*interval,SM_box[0]+(idxGI+1)*interval)
+
+            search_list[f'SM{i}'] = SM_map.get(config[i*2])
 
             max_RPS = max_RPS_map.get(config[i*2])
             min_RPS = min_RPS_map.get(config[i*2])
-
+            
             if int(config[i*2+1]) < max_RPS_map.get(config[i*2]):
                 max_RPS = int(config[i*2+1])
             
@@ -429,7 +439,7 @@ def init_optimizer_feedback(server_num, config):
                 min_RPS = 0
 
             search_list[f'RPS{i}'] = (min_RPS, max_RPS)
-
+            print(search_list)
         else:
             continue
 
@@ -576,6 +586,34 @@ def changeSurface(bo):
 
 
 
+def staticPruning():
+    task0 = task[0]
+    # MIG2SM的值待定，需要通过MISO的方法来估计
+    MIG2SM=max(10,35)
+    SM_idx = MIG2SM//10+1
+    # 读取 JSON 文件
+    with open("/data/wyh/MIG_MPS/log/SM2RPS.json", "r") as file:
+        data = json.load(file)
+
+    # 打印内容
+    SM2RPS = data[task0][:SM_idx]
+    print(SM2RPS)
+    SM2RPS = [0]+SM2RPS
+    print(SM2RPS)
+    x_axis = [i*10 for i in range(len(SM2RPS))]
+    print(x_axis)
+
+    x = np.array(x_axis,dtype=float)
+    y = np.array(SM2RPS,dtype=float)
+
+    s, i, r_value, p_value, std_err = linregress(x, y)
+    print("res is y={}x+{}".format(s,i))
+    global slope
+    global intercept
+    slope = s
+    intercept = i
+    return
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--server_num", type=int)
@@ -610,10 +648,10 @@ if __name__ == "__main__":
         server_id = get_mps_server_pid(mps_pid)
         MPS_PID = server_id
 
-    ## 根据传入的参数设定任务的rps搜索范围，覆盖初始值,例如传入vgg16，500，表示希望这个实例负载500的rps，搜索范围为+-200.
-    for i in range(len(task)):
-        max_RPS_map[task[0]] = min(int(task[1])+200,max_RPS_map[task[0]])
-        min_RPS_map[task[0]] = max(int(task[1])-200,0)
+    # ## 根据传入的参数设定任务的rps搜索范围，覆盖初始值,例如传入vgg16，500，表示希望这个实例负载500的rps，搜索范围为+-200.
+    # for i in range(len(task)):
+    #     max_RPS_map[task[0]] = min(int(task[1])+200,max_RPS_map[task[0]])
+    #     min_RPS_map[task[0]] = max(int(task[1])-200,0)
     for i in range(0, serve_num):
         request.append(int(task[i*2 + 1]))
 
@@ -625,15 +663,16 @@ if __name__ == "__main__":
         start = time.time()
 
         for idx in range(0,1):
+            staticPruning()
             optimizer = init_optimizer_feedback(serve_num, task)
             utility = UtilityFunction(kind="ei", kappa=5, xi=0.2)
         
-            stepLogDir = "../tmp/"+args.task+"-"+args.device+".json"
+            stepLogDir = "../tmp/"+args.task+"-"+args.device+"_3.json"
             dict_list = []
 
             optimizer.maximize(
-                init_points=3,  
-                n_iter=3,      
+                init_points=5,  
+                n_iter=10,      
                 acquisition_function=utility  
             )
             print(optimizer.max)
