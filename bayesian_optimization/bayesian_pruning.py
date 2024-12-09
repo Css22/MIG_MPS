@@ -48,12 +48,57 @@ task = None
 request = []
 test = False
 
-dict_list = []
-changeFlag = False
-changeParams = None
-changeRes = 0
-slope = 0
-intercept = 0
+class Pruning:
+    static_constraint = dict()
+    dynamic_constraint = []
+    
+    @staticmethod
+    def set_static_constraint(slope,intercept):
+        Pruning.static_constraint["slope"] = slope
+        Pruning.static_constraint["intercept"] = intercept
+
+    @staticmethod
+    def get_static_constraint(SM,RPS):
+        return RPS < SM * Pruning.static_constraint["slope"] + Pruning.static_constraint["intercept"]
+
+    @staticmethod
+    def set_dynamic_constraint(SM,RPS):
+        Pruning.dynamic_constraint.append([SM,RPS])
+    
+    @staticmethod
+    def get_dynamic_constraint(SM,RPS):
+        for SM_RPS_pair in Pruning.dynamic_constraint:
+            if SM<=SM_RPS_pair[0] and RPS>=SM_RPS_pair[1]:
+                return False
+        return True
+
+class SurfaceHis:
+    dict_list = []
+    changeFlag = False
+    changeParams = None
+    changeRes = 0
+
+    @staticmethod
+    def changeSuface(bo):
+        new_dict_list = []
+        dict_list_copy = SurfaceHis.dict_list.copy()
+        for dic in dict_list_copy:
+            dic_copy = dic
+            SurfaceHis.changeParams = [dic["params"]["RPS0"],dic["params"]["RPS1"],dic["params"]["lc0"]]
+            bo.probe(
+                params={"SM0": dic["params"]["SM0"], "RPS0":dic["params"]["RPS0"]},
+                lazy=True,
+            )
+            print(SurfaceHis.changeParams)
+            print()
+            bo.maximize(init_points=0, n_iter=0)
+            dic_copy["target"]=SurfaceHis.changeRes
+
+            new_dict_list.append(dic_copy)
+        SurfaceHis.dict_list = new_dict_list
+
+
+
 
 def read_data(file_path):
     data = []
@@ -247,12 +292,26 @@ def objective_feedback(configuration_list):
     
     SM = configuration_list[0]['SM']
     RPS = configuration_list[0]['RPS']
-    global slope
-    global intercept
-    if RPS > SM * slope + intercept:
+    remain_SM = 100  - SM
+
+    stepDir = dict()
+    tmpParams = dict()
+    tmpParams["RPS0"] = RPS
+    tmpParams["RPS1"] = 0
+    tmpParams["SM0"] = SM
+    tmpParams["SM1"] = remain_SM
+    tmpParams["lc0"] = 1000
+    stepDir["params"] = tmpParams
+    if not Pruning.get_static_constraint(SM,RPS):
+        stepDir["target"] = 0
+        SurfaceHis.dict_list.append(stepDir)
+        return 0
+    if not Pruning.get_dynamic_constraint(SM,RPS):
+        stepDir["target"] = 0
+        SurfaceHis.dict_list.append(stepDir)
         return 0
 
-    remain_SM = 100  - SM
+
 
     half_QoS = QoS_map[task1]/2
     half_QoS2 = QoS_map[task2]/2
@@ -262,16 +321,13 @@ def objective_feedback(configuration_list):
 
     batch = math.floor(float(RPS)/1000 * half_QoS)
 
-    global dict_list
-    global changeFlag
-    global changeRes
-    if changeFlag:
-        if changeParams[2]==0:
-                changeRes = 3
+    if SurfaceHis.changeFlag:
+        if SurfaceHis.changeParams[2]==0:
+                SurfaceHis.changeRes = 3
                 return 3
         else:
-            changeRes = 0.5 * min(1, half_QoS/ changeParams[2])
-            return 0.5 * min(1, half_QoS/ changeParams[2])
+            SurfaceHis.changeRes = 0.5 * min(1, half_QoS/ SurfaceHis.changeParams[2])
+            return 0.5 * min(1, half_QoS/ SurfaceHis.changeParams[2])
 
     server_id = MPS_PID
 
@@ -283,11 +339,6 @@ def objective_feedback(configuration_list):
 
     process = subprocess.Popen([script_path] + BO_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-    # for line in process.stdout:
-    #     print(line, end='')  
-
-    # for line in process.stderr:
-    #     print(line, end='') 
 
     process.wait()
 
@@ -303,9 +354,6 @@ def objective_feedback(configuration_list):
         if match:
             model = match.group(1)
             latency = float(match.group(2))
-        # if line.startswith('latency:'):
-        #     value = float(line.split(':')[1].strip())  # 提取 latency 的值
-        #     latency = float(value)
         
         elif line.startswith('valid_RPS:'):
             value = float(line.split(':')[1].strip()) 
@@ -329,9 +377,10 @@ def objective_feedback(configuration_list):
     if latency:
 
         result = 0.5 * min(1, half_QoS/ latency)
-        #print(f"result is {result}")
         stepDir["target"] = result
-        dict_list.append(stepDir)
+        SurfaceHis.dict_list.append(stepDir)
+
+        Pruning.set_dynamic_constraint(SM,RPS)
         return result
         
     elif valid_RPS:
@@ -350,7 +399,7 @@ def objective_feedback(configuration_list):
             mapped_value = result
             #print(f"RPS IS {valid_RPS + RPS} and result is {mapped_value}")
             stepDir["target"] = mapped_value
-            dict_list.append(stepDir)
+            SurfaceHis.dict_list.append(stepDir)
             return mapped_value
         
         else:   
@@ -368,7 +417,7 @@ def objective_feedback(configuration_list):
 
             #print(f"RPS IS {RPS} and {valid_RPS} , {unite_RPS} and result is {result}")
             stepDir["target"] = result
-            dict_list.append(stepDir)
+            SurfaceHis.dict_list.append(stepDir)
             return result
     time.sleep(1)
 
@@ -566,24 +615,6 @@ def get_mps_server_pid(mps_pid):
     print(f"Error: Could not find MPS Server PID for MPS Daemon {mps_pid}.")
     return None
 
-def changeSurface(bo):
-    new_dict_list = []
-    global dict_list
-    global changeParams 
-    global changeRes
-    for dic in dict_list:
-        dic_copy = dic
-        changeParams = [dic["params"]["RPS0"],dic["params"]["RPS1"],dic["params"]["lc0"]]
-        bo.probe(
-            params={"SM0": dic["params"]["SM0"], "RPS0":dic["params"]["RPS0"]},
-            lazy=True,
-        )
-        bo.maximize(init_points=0, n_iter=0)
-        dic_copy["target"]=changeRes
-
-        new_dict_list.append(dic_copy)
-    dict_list = new_dict_list
-
 
 
 def staticPruning():
@@ -608,10 +639,7 @@ def staticPruning():
 
     s, i, r_value, p_value, std_err = linregress(x, y)
     print("res is y={}x+{}".format(s,i))
-    global slope
-    global intercept
-    slope = s
-    intercept = i
+    Pruning.set_static_constraint(s,i)
     return
 
 if __name__ == "__main__":
@@ -624,6 +652,7 @@ if __name__ == "__main__":
     parser.add_argument("--port",type = int)
     parser.add_argument("--idxGI",type = int, default=0)
     parser.add_argument("--numOfGI",type =int,default=1)
+    parser.add_argument("--point",type = int, default=5)
     args = parser.parse_args()
 
 
@@ -634,9 +663,6 @@ if __name__ == "__main__":
     logdir = logdir.replace('.txt', f'_{args.device}.txt')
     idxGI = int(args.idxGI)
     numOfGI = int(args.numOfGI)
-    changeFlag = False
-    changeParams = None
-    changeRes = 0
     task = [s.strip() for s in task.split(',')]
 
     #创建这个优化器的mps守护进程，mps_server
@@ -667,46 +693,85 @@ if __name__ == "__main__":
             optimizer = init_optimizer_feedback(serve_num, task)
             utility = UtilityFunction(kind="ei", kappa=5, xi=0.2)
         
-            stepLogDir = "../tmp/"+args.task+"-"+args.device+"_3.json"
-            dict_list = []
+            stepLogDir = "../tmp/"+args.task+"-"+args.device+"_2s"+str(args.point)+".json"
 
+            # optimizer.maximize(
+            #     init_points=5,  
+            #     n_iter=15,      
+            #     acquisition_function=utility  
+            # )
+            # print(optimizer.max)
+
+            tmpMax = 0
+            count = 0
             optimizer.maximize(
-                init_points=5,  
-                n_iter=10,      
+                init_points=args.point,  
+                n_iter=0,      
                 acquisition_function=utility  
             )
-            print(optimizer.max)
+            tmpMax = optimizer.max['target']
 
-            print("checkpoint reached")  # 向主进程发送信号
-            time.sleep(1)
-            sys.stdout.flush()  # 确保信号立即发送
-
-            #等待主进程的继续信号
-            print("[Worker] Waiting for continue signal...")
-            while True:
-                line = sys.stdin.readline().strip()  # 阻塞等待主进程输入
-                if line == "continue":
-                    print("[Worker] Received continue signal. Resuming task...")
-                    break  # 退出等待，继续运行任务
+            for stepIndx in range(args.point+1,20+1):
+                optimizer.maximize(
+                    init_points=0,
+                    n_iter=1
+                )
+                if optimizer.res[-1]['target']<=tmpMax:
+                    count += 1
                 else:
-                    print(f"[Worker] Received unknown signal: {line}. Waiting again.")
+                    tmpMax = optimizer.res[-1]['target']
+                    count = 0
 
-            optimizer = init_optimizer_feedback(serve_num, task)
-            changeFlag = True
-            changeSurface(optimizer)
-            changeFlag = False
-            optimizer.maximize(
-                init_points=0,  
-                n_iter=1,      
-                acquisition_function=utility  
-            )
+                if count == 5:
+                    break
+                
+            
 
-            print(optimizer.max)
+            # print("checkpoint reached")  # 向主进程发送信号
+            # time.sleep(1)
+            # sys.stdout.flush()  # 确保信号立即发送
+
+            # #等待主进程的继续信号
+            # print("[Worker] Waiting for continue signal...")
+            # while True:
+            #     line = sys.stdin.readline().strip()  # 阻塞等待主进程输入
+            #     if line == "continue":
+            #         print("[Worker] Received continue signal. Resuming task...")
+            #         break  # 退出等待，继续运行任务
+            #     else:
+            #         print(f"[Worker] Received unknown signal: {line}. Waiting again.")
+
+            # optimizer = init_optimizer_feedback(serve_num, task)
+            # SurfaceHis.changeFlag = True
+            # print(len(SurfaceHis.dict_list))
+            # print(SurfaceHis.dict_list)
+            # SurfaceHis.changeSuface(optimizer)
+            # SurfaceHis.changeFlag = False
+            # optimizer.maximize(
+            #     init_points=0,  
+            #     n_iter=1,      
+            #     acquisition_function=utility  
+            # )
+
+            # print(optimizer.max)
+
+            end = time.time()
+            print(end - start)
 
             with open(stepLogDir, "w") as json_file:
-                json.dump(dict_list, json_file, indent=4)
+                json.dump(SurfaceHis.dict_list, json_file, indent=4)
+            
+            with open(stepLogDir, "r") as json_file:
+                original_data = json.load(json_file)
 
+            # 在原数据后附加新的时间数组
+            updated_data = {
+                "original_data": original_data,
+                "elapsed_times": [{"elapsed_time": end - start}]
+            }
 
-        end = time.time()
-        print(end - start)
+            # 写入更新后的数据
+            with open(stepLogDir, "w") as json_file:
+                json.dump(updated_data, json_file, indent=4)
+
 
